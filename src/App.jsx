@@ -8,6 +8,9 @@ import Dashboard, { dashboardLoader } from "./pages/Dashboard";
 import Error from "./pages/Error";
 import Main, { mainLoader } from "./layouts/Main";
 
+//Actions
+import { logoutAction } from "./actions/logout";
+
 function App() {
   const router = createBrowserRouter([
     {
@@ -23,6 +26,10 @@ function App() {
           loader: dashboardLoader,
           errorElement: <Error />
         },
+        {
+          path: "logout",
+          action: logoutAction
+        }
       ]
     },
   ]);
