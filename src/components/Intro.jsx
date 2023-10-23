@@ -22,14 +22,14 @@ const Intro = () => {
             placeholder="What is your name?" aria-label="Your Name" 
             autoComplete="given-name"
             required />
+          <button
+            type="submit"
+            className="btn btn--dark"
+          >
+            <span>Create Account</span>
+            <UserPlusIcon width={20} />
+          </button>
         </Form>
-        <button
-          type="submit"
-          className="btn btn--dark"
-        >
-          <span>Create Account</span>
-          <UserPlusIcon width={20} />
-        </button>
       </div>
       <img src={illustration} alt="Person with money" width={600}/>
     </div>
