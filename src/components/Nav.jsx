@@ -5,7 +5,9 @@ import { Form, NavLink} from "react-router-dom"
 import { TrashIcon } from '@heroicons/react/24/solid'
 
 //asets
-import logomark from "../assets/logomark.svg"
+import threefriends from "../assets/three-friends.svg"
+
+
 
 const Nav = ({ userName }) => {
   return (
@@ -14,8 +16,8 @@ const Nav = ({ userName }) => {
         to="/"
         aria-label="Home"
       >
-        <img src={logomark} alt="" height={30} />
-        <span>HomeBudget</span>
+        <img src={threefriends} alt="" height={50} />
+        <span>Budget Buddy</span>
       </NavLink>
       {
         userName && (
