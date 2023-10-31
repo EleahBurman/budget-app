@@ -1,18 +1,19 @@
 import express from 'express'
-import { Budget } from '../models/index.js';
+import { Expense } from '../models/index.js';
 
-const budgetRouter =  express.Router();
+const expenseRouter =  express.Router();
 
-budgetRouter
-  .route("/budgets")
+expenseRouter
+  .route("/expenses")
   .post( async (req, res)=>{
   console.log(req.body)
   const {name, amount} = req.body
   try{
 
-      const result = await Budget.create({
+      const result = await Expense.create({
         name,
         amount,
+        category,
       })
       res.json(result)
 
@@ -24,4 +25,4 @@ budgetRouter
   }
 })
 
-export { budgetRouter }
+export { expenseRouter }

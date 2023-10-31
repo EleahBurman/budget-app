@@ -1,22 +1,16 @@
 import mongoose from "mongoose";
-let Schema = mongoose.Schema;
 
-let expenseSchema = new Schema({
-  name: String,
-  amount:  {
-    type: mongoose.Decimal128,
-    get: (v) => new mongoose.Types.Decimal128((+v.toString()).toFixed(2)),
-  },
-  category: String,
-})
+let Schema = mongoose.Schema;
 
 let budgetSchema = new Schema({
   name: String,
-  amount:  {
-    type: mongoose.Decimal128,
-    get: (v) => new mongoose.Types.Decimal128((+v.toString()).toFixed(2)),
-  },
-  expenses: [expenseSchema]
+  amount:  Number,
+  expenses: [
+    { 
+      type: Schema.Types.ObjectId, 
+      ref: 'Expense' 
+    }
+  ]
 })
 
 // budgetSchema.pre("save", (next)=>{
@@ -24,7 +18,7 @@ let budgetSchema = new Schema({
 
 //   if(budget.isModified('amount')){
 //     //convert here
-   
+
 //     budget.amount = (Math.round(budget.amount * 100) / 100).toFixed(2);
 
   // }
@@ -33,6 +27,6 @@ let budgetSchema = new Schema({
 // })
 
 
-let Budget = mongoose.model('budget',budgetSchema);
+let Budget = mongoose.model('Budget', budgetSchema);
 
 export {Budget};

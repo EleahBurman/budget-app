@@ -2,21 +2,21 @@
 import express from 'express';
 import mongoose from 'mongoose';
 
-import cors from 'cors';
+// import cors from 'cors';
 import 'dotenv/config';
 import axios from 'axios';
-
 import { budgetRouter } from './routes/budgetRoutes.js'
 
 const PORT = 4000;
 
 const app = express();
 
-app.use(express.json()); //converts string to json from POST requests
-
+app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 app.use(express.static('dist'));
+
+app.use("/api", budgetRouter)
 //server your build files
 //for production
 
@@ -47,8 +47,6 @@ async function main(){
 }
 
 main().catch(console.error);
-
-app.use("/api",budgetRouter);
 
 app.listen(PORT, ()=>{
   console.log("listening on port ", PORT)
