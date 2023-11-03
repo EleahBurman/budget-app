@@ -5,7 +5,7 @@ import mongoose from 'mongoose';
 // import cors from 'cors';
 import 'dotenv/config';
 import axios from 'axios';
-import { budgetRouter } from './routes/budgetRoutes.js'
+import router from './routes/index.js';
 
 const PORT = 4000;
 
@@ -16,7 +16,7 @@ app.use(express.urlencoded({extended: true}));
 
 app.use(express.static('dist'));
 
-app.use("/api", budgetRouter)
+app.use("/api", router)
 //server your build files
 //for production
 

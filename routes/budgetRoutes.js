@@ -1,12 +1,16 @@
 import express from 'express'
 import { Budget } from '../models/index.js';
 
-const budgetRouter =  express.Router();
+const budgetRouter = express.Router();
 
 budgetRouter
-  .route("/budgets")
+  .route("/")
+  .get(async (req, res)=>{
+    const budgets = await Budget.find()
+    res.json(budgets)
+  })
   .post( async (req, res)=>{
-  console.log(req.body)
+  console.log('This is our body', req.body)
   const {name, amount} = req.body
   try{
 
@@ -24,4 +28,4 @@ budgetRouter
   }
 })
 
-export { budgetRouter }
+export default budgetRouter
