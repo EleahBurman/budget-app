@@ -6,7 +6,10 @@ const budgetRouter = express.Router();
 budgetRouter
   .route("/")
   .get(async (req, res)=>{
-    const budgets = await Budget.find()
+    const budgets = await Budget.find().populate({
+      path: 'expenses',
+      model: 'Expense'
+  })
     res.json(budgets)
   })
   .post( async (req, res)=>{

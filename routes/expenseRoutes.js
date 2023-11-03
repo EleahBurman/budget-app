@@ -12,11 +12,12 @@ expenseRouter
   })
   .post( async (req, res)=>{
     console.log('this is the expenses body', req.body)
-    const {name, amount, budgetId} = req.body
+    const {name, amount, category, budgetId} = req.body
     try{
         const expense = await Expense.create({
           name,
           amount,
+          category
         })
         console.log(expense, 'expense')
         Budget.findByIdAndUpdate(budgetId, {
