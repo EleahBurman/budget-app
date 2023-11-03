@@ -33,6 +33,19 @@ expenseRouter
         message: err
     })
   }
-})
+
+  })
+  expenseRouter.route("/:expenseId")
+  .delete(async (req, res)=>{
+    const expenseId = req.params.expenseId;
+
+    Expense.deleteOne({_id:expenseId})
+    .then( () => {
+      res.end()
+    })
+
+  })
+
+  
 
 export default expenseRouter
