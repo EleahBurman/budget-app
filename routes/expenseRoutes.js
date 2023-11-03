@@ -18,10 +18,10 @@ expenseRouter
           name,
           amount,
         })
-
+        console.log(expense, 'expense')
         Budget.findByIdAndUpdate(budgetId, {
           $push: { expenses: expense._id },
-        })
+        }, { new:true })
           .then ((response) =>{
           res.json(response)
           }
