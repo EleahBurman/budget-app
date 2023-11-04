@@ -13,22 +13,32 @@ budgetRouter
     res.json(budgets)
   })
   .post( async (req, res)=>{
-  console.log('This is our body', req.body)
-  const {name, amount} = req.body
-  try{
+    console.log('This is our body', req.body)
+    const {name, amount} = req.body
+    try{
 
-      const result = await Budget.create({
-        name,
-        amount,
+        const result = await Budget.create({
+          name,
+          amount,
+        })
+        res.json(result)
+
+    } catch (err){
+      console.log(err);
+      res.json({
+          message: err
       })
-      res.json(result)
+    }
+  })
+  budgetRouter.route("/:budgetId")
+  .delete(async (req, res)=>{
+    const budgetId = req.params.budgetId;
 
-  } catch (err){
-    console.log(err);
-    res.json({
-        message: err
+    Budget.deleteOne({_id:budgetId})
+    .then( () => {
+      res.end()
     })
-  }
-})
+
+  })
 
 export default budgetRouter
