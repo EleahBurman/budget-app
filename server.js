@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 
 // import cors from 'cors';
 import 'dotenv/config';
-import axios from 'axios';
+// import axios from 'axios';
 import router from './routes/index.js';
 
 const PORT = 4000;
@@ -20,20 +20,20 @@ app.use("/api", router)
 //server your build files
 //for production
 
-app.post('/currency-converter', async (req , res)=>{
-  const apiUrl = `https://api.fastforex.io/fetch-all?api_key=${process.env.API_KEY}`;
+// app.post('/currency-converter', async (req , res)=>{
+//   const apiUrl = `https://api.fastforex.io/fetch-all?api_key=${process.env.API_KEY}`;
 
-  try {
+//   try {
 
-    const response = await axios.get(apiUrl);
-    res.json(response.data.rates)
+//     const response = await axios.get(apiUrl);
+//     res.json(response.data.rates)
 
-  } catch(err){
+//   } catch(err){
 
-    console.error('Error fetching exchange rates:', error);
-  }
+//     console.error('Error fetching exchange rates:', error);
+//   }
 
-});
+// });
 
 app.get("/hello", (req,res)=>{
   res.json({

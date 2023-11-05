@@ -6,8 +6,36 @@ const generateRandomColor = () => {
 }
 
 //Local storage functions
-export const fetchData = (key) => {
-  return JSON.parse(localStorage.getItem(key));
+export const fetchData = async (key) => {
+  if (key === "budgets") {
+    try {
+      const response = await fetch("/api/budgets");
+      if (response.ok) {
+        const data = await response.json();
+        return data;
+      } else {
+        console.error("Error fetching data:", response.status);
+        return null;
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      return null;
+    }
+  } if (key === "expenses") {
+    try {
+      const response = await fetch("/api/expenses");
+      if (response.ok) {
+        const data = await response.json();
+        return data;
+      } else {
+        console.error("Error fetching data:", response.status);
+        return null;
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      return null;
+    }
+  }
 }
 
 //get all items from local storage
@@ -16,19 +44,32 @@ export const getAllMatchingItems = ({category, key, value}) =>{
   return data.filter((item) => item[key] === value)
 }
 
-//delete item from local storage
-export const deleteItem = ({key, id}) => {
-  const existingData = fetchData(key);
-  if(id){
-    const newData = existingData.filter((item) => item.id !== id)
-    return localStorage.setItem(key,JSON.stringify(newData))
+//delete item
+export const deleteItem = async ({ key, id }) => {
+  if (id) {
+    try {
+      const response = await fetch(`/api/${key}/${id}`, {
+        method: "DELETE",
+      });
+
+      if (response.ok) {
+        // The item was successfully deleted on the server
+        // You can handle any additional logic here
+        return true;
+      } else {
+        console.error(`Error deleting item (${key}) with ID ${id}:`, response.status);
+        return false;
+      }
+    } catch (error) {
+      console.error(`Error deleting item (${key}) with ID ${id}:`, error);
+      return false;
+    }
   }
-  return localStorage.removeItem(key)
-}
+  return false;
+};
+
 //create budget
-export const createBudget = ({
-  name, amount
-}) => {
+export const createBudget = async ({ name, amount }) => {
   const newItem = {
     id: crypto.randomUUID(),
     name: name,
@@ -36,13 +77,30 @@ export const createBudget = ({
     amount: +amount,
     color: generateRandomColor()
   }
+
   const existingBudgets = fetchData("budgets") ?? [];
-  return localStorage.setItem("budgets",
-  JSON.stringify([...existingBudgets, newItem]))
+
+  try {
+    const response = await fetch("/api/budgets", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify([...existingBudgets, newItem]), // Include all properties
+    });
+
+    if (response.ok) {
+      return response.json();
+    } else {
+      console.error("Error creating budget:", response.status);
+    }
+  } catch (error) {
+    console.error("Error creating budget:", error);
+  }
 }
 
 //create expense
-export const createExpense = ({
+export const createExpense = async ({
   name, amount, budgetId
 }) => {
   const newItem = {
@@ -53,8 +111,26 @@ export const createExpense = ({
     budgetId: budgetId
   }
   const existingExpenses = fetchData("expenses") ?? [];
-  return localStorage.setItem("expenses",
-  JSON.stringify([...existingExpenses, newItem]))
+  // return localStorage.setItem("expenses",
+  // JSON.stringify([...existingExpenses, newItem]))
+
+  try {
+    const response = await fetch("/api/expenses", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify([...existingExpenses, newItem]), // Include all properties
+    });
+
+    if (response.ok) {
+      return response.json();
+    } else {
+      console.error("Error creating budget:", response.status);
+    }
+  } catch (error) {
+    console.error("Error creating budget:", error);
+  }
 }
 
 //total spend by budget
