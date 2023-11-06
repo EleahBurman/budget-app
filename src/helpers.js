@@ -5,11 +5,11 @@ const generateRandomColor = () => {
   return `${existingBudgetLength *34} 65% 50%`
 }
 
-//Local storage functions
+// Local storage functions
 export const fetchData = async (key) => {
   if (key === "budgets") {
     try {
-      const response = await fetch("/api/budgets");
+      const response = await fetch("http://localhost:4000/api/budgets");
       if (response.ok) {
         const data = await response.json();
         return data;
@@ -21,9 +21,9 @@ export const fetchData = async (key) => {
       console.error("Error fetching data:", error);
       return null;
     }
-  } if (key === "expenses") {
+  } else if (key === "expenses") {
     try {
-      const response = await fetch("/api/expenses");
+      const response = await fetch("http://localhost:4000/api/expenses");
       if (response.ok) {
         const data = await response.json();
         return data;
@@ -35,8 +35,12 @@ export const fetchData = async (key) => {
       console.error("Error fetching data:", error);
       return null;
     }
+  } else if (key === "userName") {
+    return Promise.resolve("Example Username");
   }
-}
+  // Handle other cases or return a default value
+};
+
 
 //get all items from local storage
 export const getAllMatchingItems = ({category, key, value}) =>{

@@ -1,22 +1,28 @@
-
+//npm packages
 import express from 'express';
 import mongoose from 'mongoose';
-
-// import cors from 'cors';
+import cors from 'cors';
 import 'dotenv/config';
 // import axios from 'axios';
-import router from './routes/index.js';
+
+// import routes
+import { router as indexRouter } from './routes/index.js';
 
 const PORT = 4000;
 
+// create the express app
 const app = express();
 
+// basic middleware
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 app.use(express.static('dist'));
 
-app.use("/api", router)
+
+// mount imported routes
+app.use("/api", indexRouter)
 //server your build files
 //for production
 
@@ -51,6 +57,4 @@ main().catch(console.error);
 app.listen(PORT, ()=>{
   console.log("listening on port ", PORT)
 })
-
-
 
