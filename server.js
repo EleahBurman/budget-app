@@ -6,7 +6,7 @@ import 'dotenv/config';
 // import axios from 'axios';
 
 // import routes
-import { router as indexRouter } from './routes/index.js';
+import router from './routes/index.js';
 
 const PORT = 4000;
 
@@ -22,7 +22,7 @@ app.use(express.static('dist'));
 
 
 // mount imported routes
-app.use("/api", indexRouter)
+app.use("/api", router)
 //server your build files
 //for production
 
