@@ -39,8 +39,8 @@ export const fetchData = async (key) => {
     }
   } else if (key === "userName") {
     //figure out this route and why it is not working 
-    const response = await fetch(`/api/users/${name}`)
-    const data = await response.json();
+    //const response = await fetch(`/api/users/${name}`)
+    //const data = await response.json();
     //The route should give data that looks like this
     return {_id: 123, name: "mary"}
   }
@@ -94,7 +94,7 @@ export const deleteItem = async ({ key, id }) => {
 };
 
 //create budget
-export const createBudget = async ({ name, amount }) => {
+export const createBudget = async ({ name, amount, }) => {
   const newItem = {
     id: crypto.randomUUID(),
     name: name,

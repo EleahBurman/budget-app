@@ -14,12 +14,13 @@ budgetRouter
   })
   .post( async (req, res)=>{
     console.log('This is our body', req.body)
-    const {name, amount} = req.body
+    const {name, amount, color} = req.body
     try{
 
         const result = await Budget.create({
           name,
           amount,
+          color
         })
         res.json(result)
 

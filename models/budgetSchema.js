@@ -10,7 +10,10 @@ let budgetSchema = new Schema({
       type: Schema.Types.ObjectId, 
       ref: 'Expense' 
     }
-  ]
+  ],
+  color: String
+}, {
+  timestamps: true
 })
 
 // budgetSchema.pre("save", (next)=>{
