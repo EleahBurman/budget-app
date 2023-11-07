@@ -9,9 +9,11 @@ const generateRandomColor = () => {
 export const fetchData = async (key) => {
   if (key === "budgets") {
     try {
-      const response = await fetch("http://localhost:4000/api/budgets");
+      const response = await fetch("/api/budgets");
+
       if (response.ok) {
         const data = await response.json();
+        console.log("budget", data);
         return data;
       } else {
         console.error("Error fetching data:", response.status);
@@ -23,7 +25,7 @@ export const fetchData = async (key) => {
     }
   } else if (key === "expenses") {
     try {
-      const response = await fetch("http://localhost:4000/api/expenses");
+      const response = await fetch("/api/expenses");
       if (response.ok) {
         const data = await response.json();
         return data;
@@ -41,10 +43,25 @@ export const fetchData = async (key) => {
   // Handle other cases or return a default value
 };
 
+export const createUser = async (obj) =>{
+  
+  const response = await fetch("/api/users", {
+    method: "POST", 
+    headers: {
+      "Content-Type": "application/json",
+      // 'Content-Type': 'application/x-www-form-urlencoded',
+    },
+     body: JSON.stringify(obj), // body data type must match "Content-Type" header
+  });
+  const data = await response.json();
+  return data;
+} 
+
 
 //get all items from local storage
-export const getAllMatchingItems = ({category, key, value}) =>{
-  const data = fetchData(category) ?? [];
+export const getAllMatchingItems = async ({category, key, value}) =>{
+  const data = await fetchData(category) ?? [];
+
   return data.filter((item) => item[key] === value)
 }
 

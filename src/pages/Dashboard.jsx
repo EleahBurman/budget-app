@@ -13,12 +13,14 @@ import AddBudgetForm from "../components/AddBudgetForm";
 import AddExpenseForm from "../components/AddExpenseForm";
 import BudgetItem from "../components/BudgetItem";
 import Table from "../components/Table";
+//helpers
+import { createUser } from "../helpers";
 
 //loaders
-export function dashboardLoader(){
-  const userName = fetchData("userName");
-  const budgets = fetchData("budgets");
-  const expenses = fetchData("expenses")
+export async function dashboardLoader(){
+  const userName = await createUser({name:"userName"});
+  const budgets = await fetchData("budgets");
+  const expenses = await fetchData("expenses")
   return { userName, budgets, expenses }
 }
 
@@ -30,8 +32,13 @@ export async function dashboardAction({request}){
   //new user submission
   if(_action === "newUser"){
     try{
-      localStorage.setItem("userName", JSON.stringify(values.userName))
-      return toast.success(`Welcome, ${values.userName}`)
+
+      const response = await createUser({
+        name: values.userName});
+
+        console.log("res",response);
+
+      return toast.success(`Welcome, ${response.name}`)
     }catch(e){
       throw new Error("There was a problem creating your account.")
     }
@@ -39,7 +46,7 @@ export async function dashboardAction({request}){
   if(_action === "createBudget"){
     try{
       //create budget
-      createBudget({
+      await createBudget({
         name: values.newBudget,
         amount: values.newBudgetAmount,
       })
@@ -51,7 +58,7 @@ export async function dashboardAction({request}){
   if(_action === "createExpense"){
     try{
       //create an expense
-      createExpense({
+      await createExpense({
         name: values.newExpense,
         amount: values.newExpenseAmount,
         budgetId: values.newExpenseBudget
@@ -79,7 +86,7 @@ export async function dashboardAction({request}){
 
 const Dashboard = () => {
   const { userName, budgets, expenses } = useLoaderData()
-
+  console.log("???", userName, budgets, expenses);
   return (
     <div>
       {userName ? (
