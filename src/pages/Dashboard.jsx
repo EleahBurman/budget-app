@@ -18,7 +18,7 @@ import { createUser } from "../helpers";
 
 //loaders
 export async function dashboardLoader(){
-  const userName = await createUser({name:"userName"});
+  const userName = await fetchData("userName");
   const budgets = await fetchData("budgets");
   const expenses = await fetchData("expenses")
   return { userName, budgets, expenses }
@@ -36,7 +36,7 @@ export async function dashboardAction({request}){
       const response = await createUser({
         name: values.userName});
 
-        console.log("res",response);
+      
 
       return toast.success(`Welcome, ${response.name}`)
     }catch(e){
@@ -91,7 +91,7 @@ const Dashboard = () => {
     <div>
       {userName ? (
         <div className="dashboard">
-          <h1>Welcome back, <span className="accent">{userName}</span>
+          <h1>Welcome back, <span className="accent">{userName.name}</span>
           </h1>
           <div className="grid-sm">
           </div>
@@ -106,12 +106,12 @@ const Dashboard = () => {
             <h2>Existing Budgets</h2>
             <div className="budgets">
               {
-                budgets.map((budget) => (
-                  <BudgetItem 
-                    key={budget.id} 
-                    budget={budget}
-                  />
-                ))
+                budgets.map((budget) => {
+           
+                  
+                  return <BudgetItem key={budget._id} budget={budget} />
+                
+                })
               }
             </div>
             {expenses && expenses.length > 0 && (

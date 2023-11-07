@@ -23,7 +23,7 @@ export function deleteBudget({params}){
     associatedExpenses.forEach((expense) => {
       deleteItem({
         key: "expenses",
-        id: expense.id,
+        id: expense._id,
       })
     })
     toast.success("Budget deleted successfully")

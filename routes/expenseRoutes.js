@@ -19,7 +19,7 @@ expenseRouter
           amount,
           category
         })
-        console.log(expense, 'expense')
+ 
         Budget.findByIdAndUpdate(budgetId, {
           $push: { expenses: expense._id },
         }, { new:true })
