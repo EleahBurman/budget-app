@@ -42,7 +42,7 @@ export const fetchData = async (key) => {
     //const response = await fetch(`/api/users/${name}`)
     //const data = await response.json();
     //The route should give data that looks like this
-    return {_id: 123, name: "mary"}
+    return {_id: 222, name: "Eleah"}
   }
   // Handle other cases or return a default value
 };
@@ -103,15 +103,13 @@ export const createBudget = async ({ name, amount, }) => {
     color: generateRandomColor()
   }
 
-  const existingBudgets = fetchData("budgets") ?? [];
-
   try {
     const response = await fetch("/api/budgets", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify([...existingBudgets, newItem]), // Include all properties
+      body: JSON.stringify(newItem),
     });
 
     if (response.ok) {
@@ -126,26 +124,23 @@ export const createBudget = async ({ name, amount, }) => {
 
 //create expense
 export const createExpense = async ({
-  name, amount, budgetId
+  name, amount, budgetId, category
 }) => {
   const newItem = {
     id: crypto.randomUUID(),
     name: name,
     createdAt: Date.now(),
     amount: +amount,
-    budgetId: budgetId
+    budgetId: budgetId,
+    category: category
   }
-  const existingExpenses = fetchData("expenses") ?? [];
-  // return localStorage.setItem("expenses",
-  // JSON.stringify([...existingExpenses, newItem]))
-
   try {
     const response = await fetch("/api/expenses", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify([...existingExpenses, newItem]), // Include all properties
+      body: JSON.stringify(newItem), // Include all properties
     });
 
     if (response.ok) {

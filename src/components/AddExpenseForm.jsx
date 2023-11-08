@@ -1,5 +1,5 @@
 //react imports
-import { useEffect, useRef } from "react"
+import { useEffect, useState, useRef } from "react"
 
 //rrd imports
 import { useFetcher } from "react-router-dom"
@@ -12,6 +12,7 @@ const AddExpenseForm = ({ budgets }) => {
   const isSubmitting = fetcher.state === "submitting";
   const formRef = useRef()
   const focusRef = useRef()
+  const [category, setCategory] = useState("")
 
   useEffect(()=>{
     if(!isSubmitting){
@@ -68,9 +69,15 @@ const AddExpenseForm = ({ budgets }) => {
         </div>
         <div className="grid-xs" hidden={budgets.length === 1}>
           <label htmlFor="newExpenseBudget">Budget Category</label>
+          <input 
+            type="hidden"
+            name="category"
+            value={category}
+          />
           <select 
+            onChange={(evt)=>{setCategory(evt.target.value)}}
             name="newExpenseBudget" 
-            id="newExpenseBudget" 
+            id="newExpenseBudget"
             required
           >{
             budgets
@@ -78,8 +85,8 @@ const AddExpenseForm = ({ budgets }) => {
               .map((budget) =>{
                 return(
                   <option 
-                    key={budget.id} 
-                    value={budget.id}
+                    key={budget._id} 
+                    value={budget._id}
                   >
                     {budget.name}
                   </option>

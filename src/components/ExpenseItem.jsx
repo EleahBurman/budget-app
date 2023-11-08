@@ -37,7 +37,7 @@ const ExpenseItem = ({ expense, showBudget }) => {
   useEffect(()=>{
     getBudget();
   },[])
- 
+
 
   console.log("bb",budget);
 
