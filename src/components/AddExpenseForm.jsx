@@ -6,6 +6,7 @@ import { useFetcher } from "react-router-dom"
 
 //library imports
 import { PlusCircleIcon } from "@heroicons/react/24/solid"
+import { set } from "mongoose"
 
 const AddExpenseForm = ({ budgets }) => {
   const fetcher = useFetcher()
@@ -24,6 +25,16 @@ const AddExpenseForm = ({ budgets }) => {
 
   }, [isSubmitting])
 
+  const setCategoryName=(evt)=>{
+    const options = Array.from(evt.target.children)
+    console.log("THIS IS WHAT WE WANT TO SEEEEE!!!", options)
+    console.log("INNER TEXT", options[0].innerText, evt.target.value)
+    console.log(options.find((option)=>{return option.value===evt.target.value}))
+    //use find that selected variable
+    //isolate selected.innerText or innerHTML
+    //save that in state
+  }
+  
   return (
     <div className="form-wrapper">
       <h2 className="h3">Add New <span className="accent">
@@ -62,22 +73,27 @@ const AddExpenseForm = ({ budgets }) => {
               inputMode="decimal"
               name="newExpenseAmount"
               id="newExpenseAmount"
-              placeholder="E.x. 3.50"
+              placeholder="E.x. 25.00"
               required
             />
           </div>
         </div>
         <div className="grid-xs" hidden={budgets.length === 1}>
-          <label htmlFor="newExpenseBudget">Budget Category</label>
+          <label 
+            htmlFor="newExpenseCategory" 
+            type="hidden"
+          />
           <input 
             type="hidden"
-            name="category"
+            name="newExpenseCategory"
             value={category}
+            id="newExpenseCategory"
           />
-          <select 
-            onChange={(evt)=>{setCategory(evt.target.value)}}
-            name="newExpenseBudget" 
+          <label htmlFor="newExpenseBudget">Budget Category</label>
+          <select
+            name="newExpenseBudget"
             id="newExpenseBudget"
+            onChange={setCategoryName}
             required
           >{
             budgets
@@ -87,6 +103,7 @@ const AddExpenseForm = ({ budgets }) => {
                   <option 
                     key={budget._id} 
                     value={budget._id}
+                    
                   >
                     {budget.name}
                   </option>
