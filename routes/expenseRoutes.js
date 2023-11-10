@@ -7,17 +7,19 @@ const expenseRouter = express.Router();
 expenseRouter
   .route("/")
   .get(async (req, res)=>{
-    const expenses = await Expense.find()
+    const expenses = await Expense.find().populate({
+      path: 'category',
+      model: 'Budget'
+    })
     res.json(expenses)
   })
   .post( async (req, res)=>{
     console.log('this is the expenses body', req.body)
-    const {name, amount, category, budgetId} = req.body
+    const {name, amount, budgetId} = req.body
     try{
         const expense = await Expense.create({
           name,
-          amount,
-          category
+          amount
         })
 
         Budget.findByIdAndUpdate(budgetId, {

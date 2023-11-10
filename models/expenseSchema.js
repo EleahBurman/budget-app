@@ -4,7 +4,11 @@ let Schema = mongoose.Schema;
 let expenseSchema = new Schema({
   name: String,
   amount:  Number,
-  category: String
+  category:
+    { 
+      type: Schema.Types.ObjectId, 
+      ref: 'Budget' 
+    },
 }, {
   timestamps: true
 })

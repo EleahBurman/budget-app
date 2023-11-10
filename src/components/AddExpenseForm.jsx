@@ -6,7 +6,6 @@ import { useFetcher } from "react-router-dom"
 
 //library imports
 import { PlusCircleIcon } from "@heroicons/react/24/solid"
-import { set } from "mongoose"
 
 const AddExpenseForm = ({ budgets }) => {
   const fetcher = useFetcher()
@@ -34,7 +33,7 @@ const AddExpenseForm = ({ budgets }) => {
     //isolate selected.innerText or innerHTML
     //save that in state
   }
-  
+
   return (
     <div className="form-wrapper">
       <h2 className="h3">Add New <span className="accent">

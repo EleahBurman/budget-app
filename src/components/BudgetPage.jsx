@@ -17,13 +17,13 @@ export async function budgetLoader({ params }) {
   const budget = await getAllMatchingItems({
     category: "budgets",
     key: "id",
-    value: params.id,
+    value: params._id,
   })[0];
 
   const expenses = await getAllMatchingItems({
     category: "expenses",
     key: "budgetId",
-    value: params.id,
+    value: params._id,
   });
 
   if (!budget) {
