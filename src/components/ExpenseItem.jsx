@@ -18,28 +18,24 @@ const ExpenseItem = ({ expense, showBudget }) => {
 
   //fetching
 
-
-  const getBudget = async ()=>{
-    const response = await getAllMatchingItems({
-      category: "budgets",
-      key: "_id",
-      value: expense.budgetId
-    })[0];
-
-    console.log("rr", response);
-    const data = await response.json();
+  useEffect(() => {
+    console.log("value:", expense.category._id);
+    const getBudget = async () => {
+      const responses = await getAllMatchingItems({
+        category: "budgets",
+        key: "_id",
+        value: expense.category._id,
+      });
     
-    setBudget(data);
-  }
+      if (responses && responses.length > 0) {
+        const data = responses[0]
+        setBudget(data);
+      }
+    };
 
-
-
-  useEffect(()=>{
     getBudget();
-  },[])
+  }, [expense.category._id]);
 
-
-  console.log("bb",budget);
 
   return (
     <>
@@ -55,8 +51,8 @@ const ExpenseItem = ({ expense, showBudget }) => {
             "--accent": budget.color,
           }}
           >
-          {budget.name}
-        </Link>
+            {budget.name}
+          </Link>
         </td>
         )
 

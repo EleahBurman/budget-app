@@ -13,7 +13,6 @@ export const fetchData = async (key) => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log("budget", data);
         return data;
       } else {
         console.error("Error fetching data:", response.status);
@@ -156,7 +155,6 @@ export const createExpense = async ({
 //total spend by budget
 export const calculateSpentByBudget = async (budgetId) => {
   const expenses = await fetchData("expenses") ?? [];
-  console.log("?expenses", expenses)
   const budgetSpent = expenses.reduce((acc, expense)=> {
     //check if expense.id === budgetId
     if(expense.budgetId !== budgetId){

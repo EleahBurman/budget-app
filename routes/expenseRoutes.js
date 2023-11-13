@@ -15,7 +15,7 @@ expenseRouter
   })
   .post( async (req, res)=>{
     console.log('this is the expenses body', req.body)
-    const {name, amount, budgetId, category} = req.body
+    const {name, amount, budgetId} = req.body
     try{
         const expense = await Expense.create({
           name,
@@ -39,15 +39,27 @@ expenseRouter
 
   })
   expenseRouter.route("/:expenseId")
-  .delete(async (req, res)=>{
-    const expenseId = req.params.expenseId;
+    .get(async (req, res)=>{
+      const expenseId = req.params.expenseId;
 
-    Expense.deleteOne({_id:expenseId})
-    .then( () => {
-      res.end()
+      Expense.findById(expenseId).populate({
+        path: 'category',
+        model: 'Budget'
+      })
+      .then( (expense) => {
+        res.json(expense)
+      })
+
     })
+    .delete(async (req, res)=>{
+      const expenseId = req.params.expenseId;
 
-  })
+      Expense.deleteOne({_id:expenseId})
+      .then( () => {
+        res.end()
+      })
+
+    })
 
   
 

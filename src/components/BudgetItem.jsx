@@ -67,7 +67,7 @@ const BudgetItem = ({budget, showDelete = false}) => {
             <Link
               to={`/budget/${_id}`}
               className="btn"
-            >
+              >
               <span>View Details</span>
               <BanknotesIcon width={20} />
             </Link>

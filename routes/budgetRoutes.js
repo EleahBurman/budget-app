@@ -32,14 +32,26 @@ budgetRouter
     }
   })
   budgetRouter.route("/:budgetId")
-  .delete(async (req, res)=>{
-    const budgetId = req.params.budgetId;
+    .get(async (req, res)=>{
+      const budgetId = req.params.budgetId;
 
-    Budget.deleteOne({_id:budgetId})
-    .then( () => {
-      res.end()
+      Budget.findById(budgetId).populate({
+        path: 'expenses',
+        model: 'Expense'
+      })
+      .then( (budget) => {
+        res.json(budget)
+      })
+
     })
+    .delete(async (req, res)=>{
+      const budgetId = req.params.budgetId;
 
-  })
+      Budget.deleteOne({_id:budgetId})
+      .then( () => {
+        res.end()
+      })
+
+    })
 
 export default budgetRouter
