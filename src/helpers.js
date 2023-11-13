@@ -183,8 +183,12 @@ export const formatPercentages = (amt) => {
 
 //formatting currency
 export const formatCurrency = (amt) => {
-  return amt.toLocaleString(undefined,{
-    style: "currency",
-    currency: "USD"
-  })
-}
+  if (amt === undefined) {
+    return '';
+  }
+
+  return amt.toLocaleString('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  });
+};
