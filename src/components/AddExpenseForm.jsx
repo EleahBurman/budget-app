@@ -13,6 +13,7 @@ const AddExpenseForm = ({ budgets }) => {
   const formRef = useRef()
   const focusRef = useRef()
   const [category, setCategory] = useState("")
+  const [selectedId, setSelectedId] = useState(null);
 
   useEffect(()=>{
     if(!isSubmitting){
@@ -28,6 +29,8 @@ const AddExpenseForm = ({ budgets }) => {
     const options = Array.from(evt.target.children)
     const selectedOption = options.find((option)=>{return option.value===evt.target.value})
     setCategory(selectedOption.innerText)
+    setSelectedId(evt.target.value) // set the selected id
+
   }
 
   return (

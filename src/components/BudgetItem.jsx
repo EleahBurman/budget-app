@@ -1,6 +1,9 @@
 //rrd imports
 import {Form, Link} from "react-router-dom"
 
+//react imports
+import { useState, useEffect } from 'react';
+
 //library imports
 import { BanknotesIcon, TrashIcon } from "@heroicons/react/24/outline";
 
@@ -9,8 +12,17 @@ import { calculateSpentByBudget, formatCurrency, formatPercentages } from "../he
 
 const BudgetItem = ({budget, showDelete = false}) => {
   const {_id, name, amount} = budget;
+  const [spent, setSpent] = useState(0);
+
   let color ="red";
-  const spent = calculateSpentByBudget(_id)
+  useEffect(() => {
+    const fetchSpent = async () => {
+      const spentByBudget = await calculateSpentByBudget(budget._id);
+      setSpent(spentByBudget);
+    };
+
+    fetchSpent();
+  }, [budget]);
 
   return (
     <div 
