@@ -26,12 +26,8 @@ const AddExpenseForm = ({ budgets }) => {
 
   const setCategoryName=(evt)=>{
     const options = Array.from(evt.target.children)
-    console.log("THIS IS WHAT WE WANT TO SEEEEE!!!", options)
-    console.log("INNER TEXT", options[0].innerText, evt.target.value)
-    console.log(options.find((option)=>{return option.value===evt.target.value}))
-    //use find that selected variable
-    //isolate selected.innerText or innerHTML
-    //save that in state
+    const selectedOption = options.find((option)=>{return option.value===evt.target.value})
+    setCategory(selectedOption.innerText)
   }
 
   return (

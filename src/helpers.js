@@ -124,7 +124,7 @@ export const createBudget = async ({ name, amount, }) => {
 
 //create expense
 export const createExpense = async ({
-  name, amount, budgetId, category
+  name, amount, budgetId
 }) => {
   const newItem = {
     id: crypto.randomUUID(),
@@ -132,7 +132,7 @@ export const createExpense = async ({
     createdAt: Date.now(),
     amount: +amount,
     budgetId: budgetId,
-    category: category
+    category: budgetId
   }
   try {
     const response = await fetch("/api/expenses", {
