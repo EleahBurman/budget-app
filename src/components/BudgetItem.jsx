@@ -14,7 +14,6 @@ const BudgetItem = ({budget, showDelete = false}) => {
   const {_id, name, amount} = budget;
   const [spent, setSpent] = useState(0);
 
-  let color ="red";
   useEffect(() => {
     const fetchSpent = async () => {
       const spentByBudget = await calculateSpentByBudget(budget._id);
@@ -28,7 +27,7 @@ const BudgetItem = ({budget, showDelete = false}) => {
     <div 
       className="budget"
       style={{
-        "--accent": color
+        "--accent": budget.color
       }}
     >
       <div className="progress-text">

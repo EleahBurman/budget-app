@@ -99,7 +99,7 @@ export const createBudget = async ({ name, amount, }) => {
     name: name,
     createdAt: Date.now(),
     amount: +amount,
-    color: generateRandomColor()
+    color: await generateRandomColor()
   }
 
   try {
@@ -155,7 +155,10 @@ export const createExpense = async ({
 //total spend by budget
 export const calculateSpentByBudget = async (budgetId) => {
   const expenses = await fetchData("expenses") ?? [];
+
   const budgetSpent = expenses.reduce((acc, expense)=> {
+    console.log(expense)
+    console.log(expense.category, "as this")
     //check if expense.id === budgetId
     if(expense.budgetId !== budgetId){
       return acc
