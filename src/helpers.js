@@ -1,7 +1,13 @@
 export const waait = () => new Promise(res => setTimeout(res, Math.random() * 800))
 
+const usedColors = new Set();
+
 const generateRandomColor = () => {
-  const hue = Math.floor(Math.random() * 36) * 10;
+  let hue;
+  do {
+    hue = Math.floor(Math.random() * 36) * 10;
+  } while (usedColors.has(hue));
+  usedColors.add(hue);
   return `${hue}, 65%, 50%`;
 }
 
@@ -155,12 +161,13 @@ export const createExpense = async ({
 //total spend by budget
 export const calculateSpentByBudget = async (budgetId) => {
   const expenses = await fetchData("expenses") ?? [];
+  // console.log(expenses, 'is fetch working')
 
   const budgetSpent = expenses.reduce((acc, expense)=> {
-    console.log(expense)
-    console.log(expense.category, "as this")
+    console.log(budgetId, 'is this giving anything')
+    console.log(expense.category._id, "as this")
     //check if expense.id === budgetId
-    if(expense.budgetId !== budgetId){
+    if(expense.category._id !== budgetId){
       return acc
     }
     //add the current amount to my total
