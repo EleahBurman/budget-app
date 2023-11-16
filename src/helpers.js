@@ -161,13 +161,10 @@ export const createExpense = async ({
 //total spend by budget
 export const calculateSpentByBudget = async (budgetId) => {
   const expenses = await fetchData("expenses") ?? [];
-  // console.log(expenses, 'is fetch working')
 
   const budgetSpent = expenses.reduce((acc, expense)=> {
-    console.log(budgetId, 'is this giving anything')
-    console.log(expense.category._id, "as this")
-    //check if expense.id === budgetId
-    if(expense.category._id !== budgetId){
+    const expenseBudgetId = expense.category._id
+    if(expenseBudgetId !== budgetId){
       return acc
     }
     //add the current amount to my total

@@ -11,13 +11,13 @@ export function deleteBudget({params}){
   try{
     deleteItem({
       key:"budgets",
-      id: params.id,
+      id: params._id,
     });
 
     const associatedExpenses = getAllMatchingItems({
       category: "expenses",
       key: "budgetId",
-      value: params.id
+      value: params._id
     })
 
     associatedExpenses.forEach((expense) => {

@@ -10,7 +10,7 @@ import { BanknotesIcon, TrashIcon } from "@heroicons/react/24/outline";
 //helper functions
 import { calculateSpentByBudget, formatCurrency, formatPercentages } from "../helpers";
 
-const BudgetItem = ({budget, showDelete = false}) => {
+const BudgetItem = ({budget, showDelete}) => {
   const {_id, name, amount} = budget;
   const [spent, setSpent] = useState(0);
 
