@@ -47,17 +47,17 @@ function App() {
             {
               path: "delete",
               action: deleteBudget,
-            }
+            },
+            {
+              path: "expenses",
+              element: <ExpensesPage />,
+              action: expensesAction,
+              errorElement: <Error />,
+    
+            },
           ]
         },
-        {
-          path: "expenses",
-          element: <ExpensesPage />,
-          loader: expensesLoader,
-          action: expensesAction,
-          errorElement: <Error />,
-
-        },
+        
         {
           path: "logout",
           action: logoutAction,

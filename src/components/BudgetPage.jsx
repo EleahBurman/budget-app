@@ -3,7 +3,7 @@ import { useLoaderData, useParams } from "react-router-dom";
 
 // library
 import { toast } from "react-toastify";
-
+import { useState } from "react";
 // components
 import AddExpenseForm from "../components/AddExpenseForm";
 import BudgetItem from "../components/BudgetItem";
@@ -15,12 +15,12 @@ import { createExpense, deleteItem, getAllMatchingItems } from "../helpers";
 // loader
 export async function budgetLoader({ params }) {
 
-  console.log("did i get id?",params.id);
+
 
   const response = await fetch(`/api/budgets/${params.id}`);
   const budget = await response.json();
 
-
+  console.log("calling loader", budget);
   // const budget = await getAllMatchingItems({
   //   category: "budgets",
   //   key: "_id",
@@ -47,11 +47,14 @@ export async function budgetAction({ request }) {
 
   if (_action === "createExpense") {
     try {
-      createExpense({
+      await createExpense({
         name: values.newExpense,
         amount: values.newExpenseAmount,
-        budgetId: values.newExpenseBudget,
+        budgetId: values.newExpenseBudget
       });
+
+    
+
       return toast.success(`Expense ${values.newExpense} created!`);
     } catch (e) {
       throw new Error("There was a problem creating your expense.");
@@ -71,9 +74,9 @@ export async function budgetAction({ request }) {
   }
 }
 
-const BudgetPage = ({}) => {
-  const { budget } = useLoaderData();
-
+const BudgetPage = () => {
+  const { budget} = useLoaderData();
+  //const [myBudget, setMyBudget] = useState(budget);
   console.log("info", budget.expenses);
 
 
