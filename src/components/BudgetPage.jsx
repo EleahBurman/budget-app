@@ -75,9 +75,9 @@ export async function budgetAction({ request }) {
 }
 
 const BudgetPage = () => {
-  const { budget} = useLoaderData();
+  const { budget } = useLoaderData();
   //const [myBudget, setMyBudget] = useState(budget);
-  console.log("info", budget.expenses);
+  console.log("info", budget);
 
 
   return (

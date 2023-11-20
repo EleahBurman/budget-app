@@ -7,7 +7,8 @@ let expenseSchema = new Schema({
   category:
     { 
       type: Schema.Types.ObjectId, 
-      ref: 'Budget' 
+      ref: 'Budget',
+      required: true
     },
 }, {
   timestamps: true

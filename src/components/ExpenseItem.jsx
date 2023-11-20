@@ -15,11 +15,10 @@ const ExpenseItem = ({ expense, showBudget }) => {
   const fetcher = useFetcher()
   const [budget, setBudget] = useState([])
 
-
   //fetching
 
   useEffect(() => {
-    console.log("value:", expense.category._id);
+    if(expense && expense.category){
     const getBudget = async () => {
       const responses = await getAllMatchingItems({
         category: "budgets",
@@ -34,7 +33,8 @@ const ExpenseItem = ({ expense, showBudget }) => {
     };
 
     getBudget();
-  }, [expense.category._id]);
+  }
+  }, [expense, expense.category]);
 
 
   return (

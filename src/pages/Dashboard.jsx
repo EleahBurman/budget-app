@@ -107,7 +107,6 @@ const Dashboard = () => {
             <div className="budgets">
               {
                 budgets.map((budget) => {
-           
                   
                   return <BudgetItem key={budget._id} budget={budget} />
                 

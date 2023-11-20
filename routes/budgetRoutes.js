@@ -13,7 +13,6 @@ budgetRouter
     res.json(budgets)
   })
   .post( async (req, res)=>{
-    console.log('This is our body', req.body)
     const {name, amount, color} = req.body
     try{
 
@@ -46,10 +45,14 @@ budgetRouter
     })
     .delete(async (req, res)=>{
       const budgetId = req.params.budgetId;
-
+      console.log("are we deleting anything in here", budgetId)
       Budget.deleteOne({_id:budgetId})
-      .then( () => {
+      .then( (response) => {
+        console.log(response, "whats the response")
         res.end()
+      })
+      .catch((err) => {
+        console.log(err);
       })
 
     })
