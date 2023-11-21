@@ -1,44 +1,14 @@
-import express from 'express'
-import { Budget } from '../models/index.js';
+import express from 'express';
+import { getBudgets, createBudget, getBudgetById, deleteBudget } from '../controllers/budgetControllers.js';
 
 const budgetRouter = express.Router();
 
-budgetRouter
-  .route("/")
-  .get(async (req, res)=>{
-    const budgets = await Budget.find().populate({
-      path: 'expenses',
-      model: 'Expense'
-  })
-    res.json(budgets)
-  })
-  .post( async (req, res)=>{
-    console.log('This is our body', req.body)
-    const {name, amount} = req.body
-    try{
+budgetRouter.route("/")
+  .get(getBudgets)
+  .post(createBudget);
 
-        const result = await Budget.create({
-          name,
-          amount,
-        })
-        res.json(result)
+budgetRouter.route("/:budgetId")
+  .get(getBudgetById)
+  .delete(deleteBudget);
 
-    } catch (err){
-      console.log(err);
-      res.json({
-          message: err
-      })
-    }
-  })
-  budgetRouter.route("/:budgetId")
-  .delete(async (req, res)=>{
-    const budgetId = req.params.budgetId;
-
-    Budget.deleteOne({_id:budgetId})
-    .then( () => {
-      res.end()
-    })
-
-  })
-
-export default budgetRouter
+export default budgetRouter;

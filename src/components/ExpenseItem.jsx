@@ -8,15 +8,34 @@ import { TrashIcon } from "@heroicons/react/24/solid";
 import { 
   formatCurrency, 
   formatDateToLocaleString, getAllMatchingItems } from "../helpers";
+import { useState, useEffect } from "react";
 
 
 const ExpenseItem = ({ expense, showBudget }) => {
   const fetcher = useFetcher()
-  const budget = getAllMatchingItems({
-    category: "budgets",
-    key: "id",
-    value: expense.budgetId
-  })[0];
+  const [budget, setBudget] = useState([])
+
+  //fetching
+
+  useEffect(() => {
+    if(expense && expense.category){
+    const getBudget = async () => {
+      const responses = await getAllMatchingItems({
+        category: "budgets",
+        key: "_id",
+        value: expense.category._id,
+      });
+    
+      if (responses && responses.length > 0) {
+        const data = responses[0]
+        setBudget(data);
+      }
+    };
+
+    getBudget();
+  }
+  }, [expense, expense.category]);
+
 
   return (
     <>
@@ -27,13 +46,13 @@ const ExpenseItem = ({ expense, showBudget }) => {
         showBudget && (
         <td>
           <Link
-          to={`/budget/${budget.id}`}
+          to={`/budget/${budget._id}`}
           style={{
             "--accent": budget.color,
           }}
           >
-          {budget.name}
-        </Link>
+            {budget.name}
+          </Link>
         </td>
         )
 
@@ -51,7 +70,7 @@ const ExpenseItem = ({ expense, showBudget }) => {
           <input
             type="hidden"
             name="expenseId"
-            value={expense.id}
+            value={expense._id}
           />
           <button
             type="submit"

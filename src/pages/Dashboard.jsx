@@ -13,12 +13,14 @@ import AddBudgetForm from "../components/AddBudgetForm";
 import AddExpenseForm from "../components/AddExpenseForm";
 import BudgetItem from "../components/BudgetItem";
 import Table from "../components/Table";
+//helpers
+import { createUser } from "../helpers";
 
 //loaders
-export function dashboardLoader(){
-  const userName = fetchData("userName");
-  const budgets = fetchData("budgets");
-  const expenses = fetchData("expenses")
+export async function dashboardLoader(){
+  const userName = await fetchData("userName");
+  const budgets = await fetchData("budgets");
+  const expenses = await fetchData("expenses")
   return { userName, budgets, expenses }
 }
 
@@ -30,8 +32,13 @@ export async function dashboardAction({request}){
   //new user submission
   if(_action === "newUser"){
     try{
-      localStorage.setItem("userName", JSON.stringify(values.userName))
-      return toast.success(`Welcome, ${values.userName}`)
+
+      const response = await createUser({
+        name: values.userName});
+
+      
+
+      return toast.success(`Welcome, ${response.name}`)
     }catch(e){
       throw new Error("There was a problem creating your account.")
     }
@@ -39,7 +46,7 @@ export async function dashboardAction({request}){
   if(_action === "createBudget"){
     try{
       //create budget
-      createBudget({
+      await createBudget({
         name: values.newBudget,
         amount: values.newBudgetAmount,
       })
@@ -51,14 +58,15 @@ export async function dashboardAction({request}){
   if(_action === "createExpense"){
     try{
       //create an expense
-      createExpense({
+      await createExpense({
         name: values.newExpense,
         amount: values.newExpenseAmount,
-        budgetId: values.newExpenseBudget
+        budgetId: values.newExpenseBudget,
+        category: values.newExpenseCategory
       })
       return toast.success(`Expense ${values.newExpense} created!`)
     } catch(e){
-      throw new Error("There was a problem creating your expense.")
+        throw new Error("There was a problem creating your expense.");
     }
   }
   if(_action === "deleteExpense"){
@@ -79,12 +87,11 @@ export async function dashboardAction({request}){
 
 const Dashboard = () => {
   const { userName, budgets, expenses } = useLoaderData()
-
   return (
     <div>
       {userName ? (
         <div className="dashboard">
-          <h1>Welcome back, <span className="accent">{userName}</span>
+          <h1>Welcome back, <span className="accent">{userName.name}</span>
           </h1>
           <div className="grid-sm">
           </div>
@@ -99,12 +106,11 @@ const Dashboard = () => {
             <h2>Existing Budgets</h2>
             <div className="budgets">
               {
-                budgets.map((budget) => (
-                  <BudgetItem 
-                    key={budget.id} 
-                    budget={budget}
-                  />
-                ))
+                budgets.map((budget) => {
+                  
+                  return <BudgetItem key={budget._id} budget={budget} />
+                
+                })
               }
             </div>
             {expenses && expenses.length > 0 && (

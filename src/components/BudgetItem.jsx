@@ -1,21 +1,33 @@
 //rrd imports
 import {Form, Link} from "react-router-dom"
 
+//react imports
+import { useState, useEffect } from 'react';
+
 //library imports
 import { BanknotesIcon, TrashIcon } from "@heroicons/react/24/outline";
 
 //helper functions
 import { calculateSpentByBudget, formatCurrency, formatPercentages } from "../helpers";
 
-const BudgetItem = ({budget, showDelete = false}) => {
-  const {id, name, amount, color} = budget;
-  const spent = calculateSpentByBudget(id)
+const BudgetItem = ({budget, showDelete}) => {
+  const {_id, name, amount} = budget;
+  const [spent, setSpent] = useState(0);
+
+  useEffect(() => {
+    const fetchSpent = async () => {
+      const spentByBudget = await calculateSpentByBudget(budget._id);
+      setSpent(spentByBudget);
+    };
+
+    fetchSpent();
+  }, [budget]);
 
   return (
     <div 
       className="budget"
       style={{
-        "--accent": color
+        "--accent": budget.color
       }}
     >
       <div className="progress-text">
@@ -52,9 +64,9 @@ const BudgetItem = ({budget, showDelete = false}) => {
         ) : (
           <div className="flex-sm">
             <Link
-              to={`/budget/${id}`}
+              to={`/budget/${_id}`}
               className="btn"
-            >
+              >
               <span>View Details</span>
               <BanknotesIcon width={20} />
             </Link>

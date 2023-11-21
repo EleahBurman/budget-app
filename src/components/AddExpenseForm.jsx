@@ -1,5 +1,5 @@
 //react imports
-import { useEffect, useRef } from "react"
+import { useEffect, useState, useRef } from "react"
 
 //rrd imports
 import { useFetcher } from "react-router-dom"
@@ -12,6 +12,7 @@ const AddExpenseForm = ({ budgets }) => {
   const isSubmitting = fetcher.state === "submitting";
   const formRef = useRef()
   const focusRef = useRef()
+  const [category, setCategory] = useState("")
 
   useEffect(()=>{
     if(!isSubmitting){
@@ -22,6 +23,12 @@ const AddExpenseForm = ({ budgets }) => {
     }
 
   }, [isSubmitting])
+
+  const setCategoryName=(evt)=>{
+    const options = Array.from(evt.target.children)
+    const selectedOption = options.find((option)=>{return option.value===evt.target.value})
+    setCategory(selectedOption.innerText)
+  }
 
   return (
     <div className="form-wrapper">
@@ -61,16 +68,27 @@ const AddExpenseForm = ({ budgets }) => {
               inputMode="decimal"
               name="newExpenseAmount"
               id="newExpenseAmount"
-              placeholder="E.x. 3.50"
+              placeholder="E.x. 25.00"
               required
             />
           </div>
         </div>
         <div className="grid-xs" hidden={budgets.length === 1}>
+          <label 
+            htmlFor="newExpenseCategory" 
+            type="hidden"
+          />
+          <input 
+            type="hidden"
+            name="newExpenseCategory"
+            value={category}
+            id="newExpenseCategory"
+          />
           <label htmlFor="newExpenseBudget">Budget Category</label>
-          <select 
-            name="newExpenseBudget" 
-            id="newExpenseBudget" 
+          <select
+            name="newExpenseBudget"
+            id="newExpenseBudget"
+            onChange={setCategoryName}
             required
           >{
             budgets
@@ -78,8 +96,9 @@ const AddExpenseForm = ({ budgets }) => {
               .map((budget) =>{
                 return(
                   <option 
-                    key={budget.id} 
-                    value={budget.id}
+                    key={budget._id} 
+                    value={budget._id}
+                    
                   >
                     {budget.name}
                   </option>

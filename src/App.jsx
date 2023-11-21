@@ -17,7 +17,7 @@ import { logoutAction } from "./actions/logout";
 import { deleteBudget } from "./actions/deleteBudget";
 
 //Components
-import ExpensesPage, { expensesAction, expensesLoader } from "./components/ExpensesPage";
+import ExpensesPage, { expensesAction } from "./components/ExpensesPage";
 import BudgetPage, { budgetAction, budgetLoader } from "./components/BudgetPage";
 
 
@@ -47,17 +47,18 @@ function App() {
             {
               path: "delete",
               action: deleteBudget,
-            }
+              errorElement: <Error />,
+            },
+            {
+              path: "expenses",
+              element: <ExpensesPage />,
+              action: expensesAction,
+              errorElement: <Error />,
+    
+            },
           ]
         },
-        {
-          path: "expenses",
-          element: <ExpensesPage />,
-          loader: expensesLoader,
-          action: expensesAction,
-          errorElement: <Error />,
-
-        },
+        
         {
           path: "logout",
           action: logoutAction,
