@@ -1,5 +1,5 @@
 import express from 'express'
-import { Budget } from '../models/index.js';
+import { Budget, Expense } from '../models/index.js';
 
 const budgetRouter = express.Router();
 
@@ -45,6 +45,17 @@ budgetRouter
     })
     .delete(async (req, res)=>{
       const budgetId = req.params.budgetId;
+      const associatedExpenses = await Budget.findById(budgetId).populate('expenses')
+      console.log(associatedExpenses, "this is associated expenses")
+      if(associatedExpenses.expenses.length > 1){
+        let deletedExpenses = await Expense.deleteMany({ _id: { $in: associatedExpenses.expenses } })
+        console.log(deletedExpenses, "this is deleted expenses")
+      }else if(associatedExpenses.expenses.length === 1){
+        let deletedExpenses = await Expense.deleteOne({ _id: { $in: associatedExpenses.expenses } })
+        console.log(deletedExpenses, "this is deleted expenses when one expense is left")
+      } else{
+        console.log("no expenses to delete")
+      }
       console.log("are we deleting anything in here", budgetId)
       Budget.deleteOne({_id:budgetId})
       .then( (response) => {
