@@ -1,5 +1,6 @@
 // rrd imports
 import { useLoaderData } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 // library
 import { toast } from "react-toastify";
@@ -75,7 +76,26 @@ export async function budgetAction({ request }) {
 
 const BudgetPage = () => {
   const { budget } = useLoaderData();
-  //const [myBudget, setMyBudget] = useState(budget);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loading || !budget) {
+    return <div
+      className="grid-lg"
+      style={{
+        color: "hsl(var(--accent))",
+        fontWeight: "bold",
+        fontSize: "clamp(1.94rem, calc(1.56rem + 1.92vw), 2.93rem)"
+      }}
+    >Loading...</div>;
+  }
   console.log("info", budget);
 
 
