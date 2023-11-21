@@ -1,3 +1,6 @@
+//library
+import { toast } from "react-toastify";
+
 export const waait = () => new Promise(res => setTimeout(res, Math.random() * 800))
 
 const usedColors = new Set();
@@ -57,10 +60,9 @@ export const createUser = async (obj) =>{
   const response = await fetch("/api/users", {
     method: "POST", 
     headers: {
-      "Content-Type": "application/json",
-      // 'Content-Type': 'application/x-www-form-urlencoded',
+      "Content-Type": "application/json"
     },
-     body: JSON.stringify(obj), // body data type must match "Content-Type" header
+    body: JSON.stringify(obj)
   });
   const data = await response.json();
   return data;
@@ -143,6 +145,16 @@ export const createExpense = async ({
     budgetId: budgetId,
     category: budgetId
   }
+
+  // Calculate the total spent so far
+  const totalSpent = await calculateSpentByBudget(budgetId);
+
+  // Check if the new expense would exceed the total spent
+  if (+amount > totalSpent) {
+    toast.error("Expense exceeds total spent. Try a smaller amount.")
+    throw new Error("Above your total spent");
+  }
+
   try {
     const response = await fetch("/api/expenses", {
       method: "POST",

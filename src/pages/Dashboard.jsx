@@ -66,7 +66,7 @@ export async function dashboardAction({request}){
       })
       return toast.success(`Expense ${values.newExpense} created!`)
     } catch(e){
-      throw new Error("There was a problem creating your expense.")
+        throw new Error("There was a problem creating your expense.");
     }
   }
   if(_action === "deleteExpense"){
