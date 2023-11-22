@@ -4,6 +4,9 @@ import { useState, useEffect } from "react";
 
 // library
 import { toast } from "react-toastify";
+
+import LoadingSpin from '../assets/loading-spin.svg' // Adjust the path to match your file structure
+
 // components
 import AddExpenseForm from "../components/AddExpenseForm";
 import BudgetItem from "../components/BudgetItem";
@@ -93,9 +96,14 @@ const BudgetPage = () => {
       style={{
         color: "hsl(var(--accent))",
         fontWeight: "bold",
-        fontSize: "clamp(1.94rem, calc(1.56rem + 1.92vw), 2.93rem)"
+        fontSize: "clamp(1.94rem, calc(1.56rem + 1.92vw), 2.93rem)",
+        display: "flex",
+        alignItems: "center"
       }}
-    >Loading{dots}</div>;
+    >
+      <img src={LoadingSpin} alt="Loading" width="40px" />
+      Loading{dots}
+    </div>;
   }
 
   return (
