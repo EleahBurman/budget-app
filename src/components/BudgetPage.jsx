@@ -20,18 +20,7 @@ export async function budgetLoader({ params }) {
   const response = await fetch(`/api/budgets/${params.id}`);
   const budget = await response.json();
 
-  console.log("calling loader", budget);
-  // const budget = await getAllMatchingItems({
-  //   category: "budgets",
-  //   key: "_id",
-  //   value: params._id,
-  // })[0];
 
-  // const expenses = await getAllMatchingItems({
-  //   category: "expenses",
-  //   key: "category._id",
-  //   value: params._id,
-  // });
 
   if (!budget) {
     throw new Error("The budget you’re trying to find doesn’t exist");
@@ -77,14 +66,26 @@ export async function budgetAction({ request }) {
 const BudgetPage = () => {
   const { budget } = useLoaderData();
   const [loading, setLoading] = useState(true);
+  const [dots, setDots] = useState('.');
+
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 2000);
+    }, 3000); // Change this to the number of milliseconds you want
 
-    return () => clearTimeout(timer);
+    return () => clearTimeout(timer); // This will clear the timer if the component unmounts before the timer finishes
   }, []);
+
+  useEffect(() => {
+    if (loading) {
+      const dotsTimer = setInterval(() => {
+        setDots((prevDots) => (prevDots.length >= 3 ? '.' : prevDots + '.'));
+      }, 500); // Change this to the number of milliseconds you want
+
+      return () => clearInterval(dotsTimer); // This will clear the timer if the component unmounts before the timer finishes
+    }
+  }, [loading]);
 
   if (loading || !budget) {
     return <div
@@ -94,10 +95,8 @@ const BudgetPage = () => {
         fontWeight: "bold",
         fontSize: "clamp(1.94rem, calc(1.56rem + 1.92vw), 2.93rem)"
       }}
-    >Loading...</div>;
+    >Loading{dots}</div>;
   }
-  console.log("info", budget);
-
 
   return (
     <div
