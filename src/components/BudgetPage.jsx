@@ -112,12 +112,23 @@ const BudgetPage = () => {
         <BudgetItem budget={budget} showDelete={true}/>
         <AddExpenseForm budgets={[budget]} />
       </div>
-      {budget.expenses && budget.expenses.length > 0 && (
-        <div className="grid-md">
-          <h2>
-            <span className="accent">{budget.name}</span> Expenses
-          </h2>
-          <Table expenses={budget.expenses} showBudget={false} />
+      {budget.expenses && budget.expenses.length > 0 ? (
+      <div className="grid-md">
+        <h2>
+          <span className="accent">{budget.name}</span> Expenses
+        </h2>
+        <Table expenses={budget.expenses} showBudget={false} />
+      </div>
+      ) : (
+        <div
+          className="grid-lg"
+          style={{
+            color: "hsl(var(--accent))",
+            fontWeight: "bold",
+            fontSize: "clamp(1.94rem, calc(1.56rem + 1.92vw), 2.93rem)"
+          }}
+        >
+          <p>{budget.name} has no expenses</p>
         </div>
       )}
     </div>

@@ -79,8 +79,6 @@ export const getAllMatchingItems = async ({category, key, value}) =>{
 //delete item
 export const deleteItem = async ({ key, id }) => {
   if (id) {
-    console.log(id, "whats the id")
-    console.log(key, "whats the key")
     try {
       const response = await fetch(`/api/${key}/${id}`, {
         method: "DELETE",
@@ -89,8 +87,6 @@ export const deleteItem = async ({ key, id }) => {
       console.log(response, "are we reaching the delete")
 
       if (response.ok) {
-        // The item was successfully deleted on the server
-        // You can handle any additional logic here
         return true;
       } else {
         console.error(`Error deleting item (${key}) with ID ${id}:`, response.status);
