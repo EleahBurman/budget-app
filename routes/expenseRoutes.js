@@ -1,4 +1,6 @@
 import express from 'express';
+
+//controller functions
 import { getExpenses, createExpense, getExpenseById, deleteExpense } from '../controllers/expenseControllers.js';
 
 const expenseRouter = express.Router();
