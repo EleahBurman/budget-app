@@ -79,8 +79,6 @@ export const getAllMatchingItems = async ({category, key, value}) =>{
 //delete item
 export const deleteItem = async ({ key, id }) => {
   if (id) {
-    console.log(id, "whats the id")
-    console.log(key, "whats the key")
     try {
       const response = await fetch(`/api/${key}/${id}`, {
         method: "DELETE",
@@ -89,8 +87,6 @@ export const deleteItem = async ({ key, id }) => {
       console.log(response, "are we reaching the delete")
 
       if (response.ok) {
-        // The item was successfully deleted on the server
-        // You can handle any additional logic here
         return true;
       } else {
         console.error(`Error deleting item (${key}) with ID ${id}:`, response.status);
@@ -147,10 +143,13 @@ export const createExpense = async ({
   }
 
   // Calculate the total spent so far
-  const totalSpent = await calculateSpentByBudget(budgetId);
-
+  console.log(budgetId, "this is budget id")
+  const budgets = await fetchData("budgets") ?? [];
+  //this needs to be fixed tomorrow
+  const budget = budgets.find((budget) => budget._id === budgetId);
+  const totalBudget = budget.amount;
   // Check if the new expense would exceed the total spent
-  if (+amount > totalSpent) {
+  if (+amount > totalBudget) {
     toast.error("Expense exceeds total spent. Try a smaller amount.")
     throw new Error("Above your total spent");
   }

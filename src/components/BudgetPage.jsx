@@ -1,8 +1,12 @@
 // rrd imports
 import { useLoaderData } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 // library
 import { toast } from "react-toastify";
+
+import LoadingSpin from '../assets/loading-spin.svg' // Adjust the path to match your file structure
+
 // components
 import AddExpenseForm from "../components/AddExpenseForm";
 import BudgetItem from "../components/BudgetItem";
@@ -19,18 +23,7 @@ export async function budgetLoader({ params }) {
   const response = await fetch(`/api/budgets/${params.id}`);
   const budget = await response.json();
 
-  console.log("calling loader", budget);
-  // const budget = await getAllMatchingItems({
-  //   category: "budgets",
-  //   key: "_id",
-  //   value: params._id,
-  // })[0];
 
-  // const expenses = await getAllMatchingItems({
-  //   category: "expenses",
-  //   key: "category._id",
-  //   value: params._id,
-  // });
 
   if (!budget) {
     throw new Error("The budget you’re trying to find doesn’t exist");
@@ -75,9 +68,43 @@ export async function budgetAction({ request }) {
 
 const BudgetPage = () => {
   const { budget } = useLoaderData();
-  //const [myBudget, setMyBudget] = useState(budget);
-  console.log("info", budget);
+  const [loading, setLoading] = useState(true);
+  const [dots, setDots] = useState('.');
 
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 3000); // Change this to the number of milliseconds you want
+
+    return () => clearTimeout(timer); // This will clear the timer if the component unmounts before the timer finishes
+  }, []);
+
+  useEffect(() => {
+    if (loading) {
+      const dotsTimer = setInterval(() => {
+        setDots((prevDots) => (prevDots.length >= 3 ? '.' : prevDots + '.'));
+      }, 500); // Change this to the number of milliseconds you want
+
+      return () => clearInterval(dotsTimer); // This will clear the timer if the component unmounts before the timer finishes
+    }
+  }, [loading]);
+
+  if (loading || !budget) {
+    return <div
+      className="grid-lg"
+      style={{
+        color: "hsl(var(--accent))",
+        fontWeight: "bold",
+        fontSize: "clamp(1.94rem, calc(1.56rem + 1.92vw), 2.93rem)",
+        display: "flex",
+        alignItems: "center"
+      }}
+    >
+      <img src={LoadingSpin} alt="Loading" width="40px" />
+      Loading{dots}
+    </div>;
+  }
 
   return (
     <div
@@ -93,12 +120,23 @@ const BudgetPage = () => {
         <BudgetItem budget={budget} showDelete={true}/>
         <AddExpenseForm budgets={[budget]} />
       </div>
-      {budget.expenses && budget.expenses.length > 0 && (
-        <div className="grid-md">
-          <h2>
-            <span className="accent">{budget.name}</span> Expenses
-          </h2>
-          <Table expenses={budget.expenses} showBudget={false} />
+      {budget.expenses && budget.expenses.length > 0 ? (
+      <div className="grid-md">
+        <h2>
+          <span className="accent">{budget.name}</span> Expenses
+        </h2>
+        <Table expenses={budget.expenses} showBudget={false} />
+      </div>
+      ) : (
+        <div
+          className="grid-lg"
+          style={{
+            color: "hsl(var(--accent))",
+            fontWeight: "bold",
+            fontSize: "clamp(1.94rem, calc(1.56rem + 1.92vw), 2.93rem)"
+          }}
+        >
+          <p>{budget.name} has no expenses</p>
         </div>
       )}
     </div>

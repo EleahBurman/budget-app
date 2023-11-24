@@ -48,7 +48,17 @@ const ExpensesPage = () => {
             <Table expenses={expenses}/>
           </div>
         )
-        : <p>No expenses to show</p>
+        : 
+        <div
+          className="grid-lg"
+          style={{
+            color: "#1bbbc3",
+            fontWeight: "bold",
+            fontSize: "clamp(1.94rem, calc(1.56rem + 1.92vw), 2.93rem)"
+          }}
+        >
+          <p>No expenses to show</p>
+        </div>
       }
     </div>
   )
