@@ -1,14 +1,16 @@
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 
-const SignUpForm = () => {
+const SignUpForm = ({signUpAction}) => {
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [passwordConfirmation, setPasswordConfirmation] = useState('')
+  const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const response = await fetch ('http://localhost:4000/api/user/signup', {
+    const response = await fetch ('http://localhost:4000/api/users/signup', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -28,14 +30,15 @@ const SignUpForm = () => {
     }
 
     const body = await response.json();
-    console.log(body);
-    //todo backend - login as user once signed up
-    //todo redirect to main page once backend is handled
+    console.log(body, "is this line 32");
+    navigate('/')
+    //backend - login as user once signed up
+    //redirect to main page once backend is handled
     //pass the form to the main page and make it so user first sees signup form if not loggedin (going to use current)
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} >
       <label className="singup-label">Username</label>
       <input type="text" className="username-input" onChange={(e)=>{setUsername(e.target.value)}} value={username}></input>
       <label className="singup-label" >Email</label>

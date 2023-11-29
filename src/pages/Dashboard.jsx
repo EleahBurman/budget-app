@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import { createBudget, createExpense, deleteItem, fetchData, waait } from "../helpers"
 
 //components
-import Intro from "../components/Intro";
+import SignUpPage from "../components/SignUpPage";
 import AddBudgetForm from "../components/AddBudgetForm";
 import AddExpenseForm from "../components/AddExpenseForm";
 import BudgetItem from "../components/BudgetItem";
@@ -142,7 +142,7 @@ const Dashboard = () => {
             )
           }
         </div>
-      ): <Intro />}
+      ): <SignUpPage />}
     </div>
   )
 }

@@ -19,11 +19,18 @@ import { deleteBudget } from "./actions/deleteBudget";
 //Components
 import ExpensesPage, { expensesAction } from "./components/ExpensesPage";
 import BudgetPage, { budgetAction, budgetLoader } from "./components/BudgetPage";
-
+import SignUpPage, { signupAction } from "./components/SignUpPage";
 
 function App() {
   const router = createBrowserRouter([
-    {
+    { 
+      //signup page
+      path: "users/signup",
+      element: <SignUpPage />,
+      // loader: signupLoader,
+      action: signupAction,
+      errorElement: <Error />,
+    },{
       path: "/",
       element: <Main />,
       loader: mainLoader,

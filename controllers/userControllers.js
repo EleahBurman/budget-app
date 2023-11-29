@@ -42,6 +42,9 @@ export const signUpUser = (req, res) => {
         res.status(201).json({
           _id: user.id,
           email: user.email,
+          username: user.username,
+          password: user.password,
+          confirmationPassword: user.confirmationPassword,
         });
       } else {
         res.status(400).json({ message: 'Invalid user data' });

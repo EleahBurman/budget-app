@@ -13,8 +13,8 @@ let userSchema = new Schema({
     type: String,
     required: [true, "Please enter an email address"],
     // unique: [true, "Email already exists"],
-    minlength: 5,
-    maxlength: 20
+    minlength: 5
+    // maxlength: 20
   },
   password: {
     type: String,
