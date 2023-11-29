@@ -93,9 +93,7 @@ export const loginUser = (req, res) => {
 //@access private
 export const currentUser = async (req, res) => {
   try {
-    res.json({
-      message: 'Current user information'
-    });
+    res.json(req.user);
   } catch (err) {
     console.log(err);
     res.json({

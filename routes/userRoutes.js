@@ -3,6 +3,9 @@ import express from 'express'
 //controller functions
 import{ registerUser, loginUser, currentUser } from '../controllers/userControllers.js'
 
+//middleware
+import { validateTokenHandler } from '../middleware/validateTokenHandler.js';
+
 const userRouter = express.Router();
 
 // userRouter.route("/")
@@ -18,6 +21,6 @@ userRouter.route("/login")
   .post(loginUser)
 
 userRouter.route("/current")
-  .get(currentUser)
+  .get(validateTokenHandler, currentUser)
 
   export default userRouter
