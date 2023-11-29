@@ -1,7 +1,7 @@
 import express from 'express'
 
 //controller functions
-import{ registerUser, loginUser, currentUser } from '../controllers/userControllers.js'
+import{ signUpUser, loginUser, currentUser } from '../controllers/userControllers.js'
 
 //middleware
 import { validateTokenHandler } from '../middleware/validateTokenHandler.js';
@@ -14,8 +14,8 @@ const userRouter = express.Router();
 //     res.json(user);
 //   })
 
-userRouter.route("/register")
-  .post(registerUser)
+userRouter.route("/signup")
+  .post(signUpUser)
   
 userRouter.route("/login")
   .post(loginUser)

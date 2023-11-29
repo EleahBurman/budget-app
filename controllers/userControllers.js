@@ -6,7 +6,7 @@ import jsonwebtoken from 'jsonwebtoken';
 //@route POST /api/users/register
 //@access Public
 
-export const registerUser = (req, res) => {
+export const signUpUser = (req, res) => {
   console.log("This is req body: ", req.body);
 
   const {username, email, password, passwordConfirmation} = req.body;
