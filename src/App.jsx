@@ -20,6 +20,7 @@ import { deleteBudget } from "./actions/deleteBudget";
 import ExpensesPage, { expensesAction } from "./components/ExpensesPage";
 import BudgetPage, { budgetAction, budgetLoader } from "./components/BudgetPage";
 import SignUpPage, { signupAction } from "./components/SignUpPage";
+import LoginPage from "./components/LoginPage";
 
 function App() {
   const router = createBrowserRouter([
@@ -30,7 +31,17 @@ function App() {
       // loader: signupLoader,
       action: signupAction,
       errorElement: <Error />,
-    },{
+    },
+    { 
+      //signup page
+      path: "users/login",
+      element: <LoginPage />,
+      // loader: signupLoader,
+      // action: loginAction,
+      errorElement: <Error />,
+    },
+    
+    {
       path: "/",
       element: <Main />,
       loader: mainLoader,
