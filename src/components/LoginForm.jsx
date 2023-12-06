@@ -29,6 +29,10 @@ const LoginForm = () => {
 
     const body = await response.json();
     console.log(body, "is this login body");
+
+    //store token in local storage
+    const accessToken = body.accessToken;
+    localStorage.setItem('accessToken', accessToken);
     navigate('/')
   }
 
