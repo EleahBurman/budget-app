@@ -24,29 +24,29 @@ import LoginPage from "./components/LoginPage";
 
 function App() {
   const router = createBrowserRouter([
-    { 
-      //signup page
-      path: "users/signup",
-      element: <SignUpPage />,
-      // loader: signupLoader,
-      action: signupAction,
-      errorElement: <Error />,
-    },
-    { 
-      //signup page
-      path: "users/login",
-      element: <LoginPage />,
-      // loader: loginLoader,
-      // action: loginAction,
-      errorElement: <Error />,
-    },
-    
+
     {
       path: "/",
       element: <Main />,
       loader: mainLoader,
       errorElement: <Error />,
       children:[
+        { 
+          //signup page
+          path: "users/signup",
+          element: <SignUpPage />,
+          // loader: signupLoader,
+          action: signupAction,
+          errorElement: <Error />,
+        },
+        { 
+          //signup page
+          path: "users/login",
+          element: <LoginPage />,
+          // loader: loginLoader,
+          // action: loginAction,
+          errorElement: <Error />,
+        },    
         {
           index: true,
           path: "/",
@@ -55,6 +55,7 @@ function App() {
           action: dashboardAction,
           errorElement: <Error />,
         },
+        
         {
           path: "budget/:id",
           element: <BudgetPage />,
