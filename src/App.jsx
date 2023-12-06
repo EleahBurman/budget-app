@@ -36,7 +36,7 @@ function App() {
       //signup page
       path: "users/login",
       element: <LoginPage />,
-      // loader: signupLoader,
+      // loader: loginLoader,
       // action: loginAction,
       errorElement: <Error />,
     },

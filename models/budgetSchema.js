@@ -12,6 +12,7 @@ let budgetSchema = new Schema({
     }
   ],
   color: String
+  //add reference to user as an author
 }, {
   timestamps: true
 })

@@ -7,9 +7,15 @@ import { TrashIcon } from '@heroicons/react/24/solid'
 //asets
 import threefriends from "../assets/three-friends.svg"
 
+import { useNavigate } from "react-router-dom"
 
 
 const Nav = ({ userName }) => {
+  const navigate = useNavigate()
+  const logOutUser=()=>{
+    localStorage.removeItem('accessToken');
+    navigate('/users/login')
+  }
   return (
     <nav>
       <NavLink
@@ -30,13 +36,21 @@ const Nav = ({ userName }) => {
               }
             }}
           >
-            <button 
+            {/* <button 
               type="submit" 
               className="btn btn--warning">
               <span>Delete User</span>
               <TrashIcon width={20}/>
+            </button> */}
+            <button 
+              type="button"
+              onClick={logOutUser}
+              className="btn btn--warning">
+              <span>Logout</span>
+              <TrashIcon width={20}/>
             </button>
           </Form>
+
         )
       }
     </nav>
