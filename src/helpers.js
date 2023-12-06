@@ -50,14 +50,39 @@ export const fetchData = async (key) => {
     //const response = await fetch(`/api/users/${name}`)
     //const data = await response.json();
     //The route should give data that looks like this
-    return {_id: 222, name: "Eleah"}
+    // return {_id: 222, name: "Eleah"}
+    if(!localStorage.getItem("accessToken")){
+      return;
+    }
+    try {
+        const response = await fetch("/api/users/current", {
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data, "what data are we getting back")
+        return {
+          _id: data.id,
+          name: data.username
+        }
+      } else {
+        console.error("Error fetching data:", response.status);
+        return null;
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      return null;
+    }
   }
-  // Handle other cases or return a default value
 };
 
 export const createUser = async (obj) =>{
   
-  const response = await fetch("/api/users", {
+  const response = await fetch("/api/users/signup", {
     method: "POST", 
     headers: {
       "Content-Type": "application/json"

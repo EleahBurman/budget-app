@@ -1,30 +1,26 @@
 import express from 'express'
-import { User } from '../models/index.js';
+
+//controller functions
+import{ signUpUser, loginUser, currentUser } from '../controllers/userControllers.js'
+
+//middleware
+import { validateTokenHandler } from '../middleware/validateTokenHandler.js';
 
 const userRouter = express.Router();
 
-userRouter
-  .route("/")
-  .get(async (req, res)=>{
-    const user = await User.findAll();
-    res.json(user);
-  })
-  .post( async (req, res)=>{
-    console.log('This is our body', req.body)
-    const {name} = req.body
-    try{
+// userRouter.route("/")
+//   .get(async (req, res)=>{
+//     const user = await User.findAll();
+//     res.json(user);
+//   })
 
-        const result = await User.create({
-          name
-        })
-        res.json(result)
+userRouter.route("/signup")
+  .post(signUpUser)
+  
+userRouter.route("/login")
+  .post(loginUser)
 
-    } catch (err){
-      console.log(err);
-      res.json({
-          message: err
-      })
-    }
-  })
+userRouter.route("/current")
+  .get(validateTokenHandler, currentUser)
 
   export default userRouter
