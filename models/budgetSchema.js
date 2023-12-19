@@ -3,6 +3,13 @@ import mongoose from "mongoose";
 let Schema = mongoose.Schema;
 
 let budgetSchema = new Schema({
+  //have user ids tied to all budgets --- work on get and create budgets
+  user_id: [
+    { 
+      type: Schema.Types.ObjectId, 
+      ref: 'User' 
+    }
+  ],
   name: String,
   amount:  Number,
   expenses: [

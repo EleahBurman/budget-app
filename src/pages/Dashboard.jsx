@@ -15,9 +15,11 @@ import BudgetItem from "../components/BudgetItem";
 import Table from "../components/Table";
 //helpers
 import { createUser } from "../helpers";
-
+import {  useOutletContext } from "react-router-dom"
+import { useEffect } from "react";
 //loaders
 export async function dashboardLoader(){
+ 
   const userName = await fetchData("userName");
   const budgets = await fetchData("budgets");
   const expenses = await fetchData("expenses")
@@ -86,12 +88,21 @@ export async function dashboardAction({request}){
 }
 
 const Dashboard = () => {
+  const [user] =  useOutletContext();
+
+  useEffect(()=>{
+
+    console.log(2);
+    console.log("global state", user)
+  }, [user])
+
   const { userName, budgets, expenses } = useLoaderData()
   return (
     <div>
       {userName ? (
         <div className="dashboard">
-          <h1>Welcome back, <span className="accent">{userName.name}</span>
+          <h1>Welcome back, <span className="accent">
+            {userName.name}</span>
           </h1>
           <div className="grid-sm">
           </div>

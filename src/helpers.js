@@ -51,23 +51,21 @@ export const fetchData = async (key) => {
     //const data = await response.json();
     //The route should give data that looks like this
     // return {_id: 222, name: "Eleah"}
-    if(!localStorage.getItem("accessToken")){
-      return;
-    }
-    try {
-        const response = await fetch("/api/users/current", {
-        method: "GET",
-        headers: {
-          "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
-        },
-      });
+    // if(!localStorage.getItem("accessToken")){
+    //   return;
+    // }
 
+    console.log("getting current user")
+    try {
+        const response = await fetch("/api/users/current");
+        console.log("???",response)
       if (response.ok) {
         const data = await response.json();
         console.log(data, "what data are we getting back")
         return {
           _id: data.id,
-          name: data.username
+          name: data.username,
+          email: data.email,
         }
       } else {
         console.error("Error fetching data:", response.status);

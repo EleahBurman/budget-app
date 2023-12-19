@@ -1,17 +1,26 @@
 import { Budget, Expense } from '../models/index.js';
 
+
 export const getBudgets = async (req, res) => {
-  const budgets = await Budget.find().populate({
+  //use this as a reference for expenses
+  console.log("decode successful for budgets", req.user)
+
+  const budgets = await Budget.find({
+    user_id: req.user.id
+  }).populate({
     path: 'expenses',
     model: 'Expense'
   });
+  console.log("get budget", budgets)
   res.json(budgets);
+
 };
 
 export const createBudget = async (req, res) => {
+  console.log("userdata", req.user)
   const {name, amount, color} = req.body;
   try {
-    const result = await Budget.create({ name, amount, color });
+    const result = await Budget.create({ user_id: req.user.id, name, amount, color });
     res.json(result);
   } catch (err) {
     console.log(err);

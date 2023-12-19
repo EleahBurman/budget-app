@@ -2,6 +2,7 @@ import { User } from '../models/index.js';
 import bcrypt from 'bcryptjs';
 import jsonwebtoken from 'jsonwebtoken';
 
+
 //@desc Register a user
 //@route POST /api/users/register
 //@access Public
@@ -77,7 +78,18 @@ export const loginUser = (req, res) => {
               email: user.email,
               id: user.id
             },
-          }, process.env.ACCESS_TOKEN_SECRET,{expiresIn: '1h'})
+          }, process.env.ACCESS_TOKEN_SECRET,{expiresIn: '1h'});
+
+        const refreshToken = jsonwebtoken.sign(
+            {
+              user: {
+                username: user.username,
+                email:user.email,
+                id: user.id
+              },
+            }, process.env.ACCESS_TOKEN_SECRET,{expiresIn: '1h'});
+
+        res.cookie('refreshToken', refreshToken)
         res.status(200).json({accessToken})
       } else {
         res.status(401).json({ message: 'Invalid email or password' });
@@ -94,13 +106,109 @@ export const loginUser = (req, res) => {
 //@desc Login a user
 //@route POST /api/users/current
 //@access private
-export const currentUser = async (req, res) => {
+
+
+export const deleteUser = async (req, res) => {
   try {
-    res.json(req.user);
+    const user = await User.findByIdAndDelete(req.user.id);
+    res.json(user);
   } catch (err) {
     console.log(err);
     res.json({
       message: err
     });
   }
+}
+
+export const refreshToken = async (req, res) => {
+  //user this fetch for access token only for oauth2.0
+  //res.cookie('accessToken', accessToken, {httpOnly: true})
+  //second fetch for refresh token
+  const {accessToken} = req.body;
+  //let decoded = await jsonwebtoken.verify(accessToken, process.env.ACCESS_TOKEN_SECRET );
+
+  jsonwebtoken.verify(accessToken, 
+    process.env.ACCESS_TOKEN_SECRET, 
+    function(err, decoded) {
+      const {email, id, username} = decoded.user;
+
+      console.log("???",email)
+    try {
+      
+      User.findOne({email})
+      .then(user => {
+        if(user) {
+          const refreshToken = jsonwebtoken.sign(
+            {
+              user: {
+                username: username,
+                email: email,
+                id: id
+              },
+            }, process.env.ACCESS_TOKEN_SECRET,{expiresIn: '1h'});
+          //add to mongo
+          console.log("check",id, refreshToken)
+          User.findByIdAndUpdate(id, {refreshToken: refreshToken}).then(()=>{
+            console.log("cookie created", refreshToken)
+            res.cookie('refreshToken', refreshToken)
+            res.status(200).json({
+              user: {
+                username: username,
+                email: email,
+                id: id
+              },
+              login:true
+            })
+          });
+
+        } else {
+          res.status(401).json({ message: 'Cookie Error' });
+        }
+      })
+      
+
+
+    }catch(err){
+      console.log(err);
+      res.json({
+        message: err
+      });
+  } //end of try catch
+
+    
+}); //end of refresh token
+
+
+}//end of request
+
+
+
+export const currentUser = async (req, res) => {
+    //console.log("current user", req)
+    try {
+    console.log( "COOKIE", req.cookies['refreshToken']); //read cookie
+    //decoded
+
+    //i have the cookie, now i need to decode it 
+    //retrieve the user id email, send that back
+    //res.json(req.user);
+    await jsonwebtoken.verify( 
+      req.cookies['refreshToken'],
+      process.env.ACCESS_TOKEN_SECRET,
+      function(err, decoded) {
+        console.log(err, decoded)
+        res.json(decoded.user);
+      }
+     )
+    
+
+  } catch(err) {
+    console.log(err);
+    res.json({
+      message: err
+    });
+  }
+
+
+
 };

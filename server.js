@@ -1,8 +1,15 @@
 //npm packages
 import express from 'express';
 import mongoose from 'mongoose';
+import cookieParser from 'cookie-parser';
 import cors from 'cors';
+
 import 'dotenv/config';
+
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+
+
 // import axios from 'axios';
 
 // import routes
@@ -14,6 +21,7 @@ const PORT = 4000;
 const app = express();
 
 // basic middleware
+app.use(cookieParser())
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
@@ -45,6 +53,19 @@ app.get("/hello", (req,res)=>{
   res.json({
     message: "hello world"
   })
+})
+
+
+
+//automatically sends files from the build
+app.use(express.static('dist'))
+
+
+//sends everything that doesnt match to the html file (its a catch all errors)
+app.get("*", (req,res)=>{
+
+  const __dirname = dirname(fileURLToPath(import.meta.url));
+  res.sendFile( __dirname +  '/dist/index.html')
 })
 
 async function main(){

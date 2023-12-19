@@ -2,9 +2,11 @@
 import { useEffect, useState, useRef } from "react"
 
 //rrd imports
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useOutletContext } from "react-router-dom"
+
 
 const LoginForm = () => {
+  const [setUser] =  useOutletContext();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const formRef = useRef()
   const focusRef = useRef()
@@ -25,7 +27,7 @@ const LoginForm = () => {
   
     // Delay the form submission by 2 seconds
     setTimeout(async () => {
-      const response = await fetch ('http://localhost:4000/api/users/login', {
+      const response = await fetch ('/api/users/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -38,6 +40,7 @@ const LoginForm = () => {
   
       setIsSubmitting(false);
       if(!response.ok){
+        
         const body = await response.text();
         console.error(body);
         return;
@@ -49,7 +52,24 @@ const LoginForm = () => {
       //store token in local storage
       const accessToken = body.accessToken;
       localStorage.setItem('accessToken', accessToken);
+
+      const responseAccessToken = await fetch('/api/users/refreshtoken', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          accessToken: accessToken,
+        })
+      })
+      const userInfo = await responseAccessToken.json();
+      console.log(userInfo, "is this response")
+
+      setUser(userInfo);
       navigate('/')
+
+
     }, 1500);
   }
 

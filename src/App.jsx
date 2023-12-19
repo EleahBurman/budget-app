@@ -15,6 +15,7 @@ import Main, { mainLoader } from "./layouts/Main";
 //Actions
 import { logoutAction } from "./actions/logout";
 import { deleteBudget } from "./actions/deleteBudget";
+import { deleteUser } from "./actions/deleteUser";
 
 //Components
 import ExpensesPage, { expensesAction } from "./components/ExpensesPage";
@@ -32,6 +33,14 @@ function App() {
       errorElement: <Error />,
       children:[
         { 
+          //login page
+          path: "users/login",
+          element: <LoginPage />,
+          // loader: loginLoader,
+          action: deleteUser,
+          errorElement: <Error />,
+        },  
+        { 
           //signup page
           path: "users/signup",
           element: <SignUpPage />,
@@ -39,14 +48,7 @@ function App() {
           action: signupAction,
           errorElement: <Error />,
         },
-        { 
-          //signup page
-          path: "users/login",
-          element: <LoginPage />,
-          // loader: loginLoader,
-          // action: loginAction,
-          errorElement: <Error />,
-        },    
+  
         {
           index: true,
           path: "/",
