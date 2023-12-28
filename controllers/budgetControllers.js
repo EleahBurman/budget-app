@@ -39,7 +39,7 @@ export const getBudgets = async (req, res) => {
 
 export const createBudget = async (req, res) => {
   console.log("userdata", req.user) 
-  //decoded cookie data is in here -- add decode cookie --- make sure no local host in any fetches
+  //decoded cookie data is in here -- add decode cookie --- make sure no local host in any fetches -- redirects to signup page when I create a budget and its not receiving any budgets currently
   const {name, amount, color} = req.body;
   try {
     const result = await Budget.create({ user_id: req.user.id, name, amount, color });

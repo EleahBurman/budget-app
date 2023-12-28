@@ -41,7 +41,7 @@ import LoginForm from "../components/LoginForm";
 // }
 
 export async function signupAction(userData){
-  fetch('/api/user/signup', {
+  fetch('/api/users/signup', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
