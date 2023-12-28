@@ -9,6 +9,8 @@ import { useState } from "react";
 import SignUpForm from "../components/SignUpForm";
 import LoginForm from "../components/LoginForm";
 
+import { Link } from "react-router-dom";
+
 
 // loader
 // export async function signupLoader(){
@@ -54,26 +56,40 @@ const SignUpPage = () => {
   const [showLogin, setShowLogin] = useState(false)
 
   return (
-    <div>
-      {
-        showLogin?  <><LoginForm />
-        <p>Not a member?</p><button 
-          onClick={()=>setShowLogin(false)}
-          className="btn btn--dark"
-          style={{marginTop: "1rem", opacity: "60%"}}
-        >Sign Up</button></> :
-        <><SignUpForm signupAction={signupAction}/>
-        <p
-          style={{marginTop: "1rem"}}>Already a member?</p><button 
-          onClick={()=>setShowLogin(true)} 
-          className="btn btn--dark"
-          style={{opacity: "60%"}}
-        >Login</button></>
-      }
-      
-      
-    </div>
-  )
+    <>
+      {showLogin ? (
+        <>
+          <LoginForm />
+          <p style={{ marginTop: "1rem", fontSize: "19.2px" }}>Not a member? 
+         </p>
+         <Link
+            
+            onClick={() => setShowLogin(false)}
+            
+            style={{  color: "blue", fontSize: "19.2px" }}
+          >
+            Sign Up
+          </Link>
+          
+        </>
+      ) : (
+        <>
+          <SignUpForm signupAction={signupAction} />
+          <p className="signup-label" style={{ marginTop: "1rem", fontSize: "19.2px" }}>Already a member? 
+          </p>
+          <Link
+            
+            onClick={() => setShowLogin(true)}
+            
+            style={{ color: "blue", fontSize: "19.2px" }}
+          >
+            Login
+          </Link>
+          
+        </>
+      )}
+    </>
+  );
 }
 
 export default SignUpPage
