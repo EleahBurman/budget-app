@@ -5,19 +5,41 @@ export const getBudgets = async (req, res) => {
   //use this as a reference for expenses
   console.log("decode successful for budgets", req.user)
 
-  const budgets = await Budget.find({
-    user_id: req.user.id
-  }).populate({
-    path: 'expenses',
-    model: 'Expense'
-  });
-  console.log("get budget", budgets)
-  res.json(budgets);
+  //come back later --- best practices try catch for async await
+
+  //this is because there is currently no req.user and it is breaking the code when running front end
+  if(!req.user){
+    res.json({
+      message: "Not logged in"
+    })
+  }
+  
+  try{
+
+    const budgets = await Budget.find({
+      user_id: req.user.id
+    }).populate({
+      path: 'expenses',
+      model: 'Expense'
+    });
+    console.log("get budget", budgets)
+    // res.json({
+    //   budgets
+    // });
+
+  } catch (e){
+
+    res.json({
+      message:e
+    })
+  }
+
 
 };
 
 export const createBudget = async (req, res) => {
-  console.log("userdata", req.user)
+  console.log("userdata", req.user) 
+  //decoded cookie data is in here -- add decode cookie --- make sure no local host in any fetches
   const {name, amount, color} = req.body;
   try {
     const result = await Budget.create({ user_id: req.user.id, name, amount, color });

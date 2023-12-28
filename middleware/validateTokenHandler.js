@@ -6,6 +6,7 @@ export const validateTokenHandler = asyncHandler(async (req, res, next) => {
   let authHeader = req.headers.authorization || req.headers.Authorization;
   if (authHeader && authHeader.startsWith('Bearer')) {
       token = authHeader.split(' ')[1];
+      console.log(token, "is there a problem with token?")
       jsonwebtoken.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
         if (err) {
           res.status(401);

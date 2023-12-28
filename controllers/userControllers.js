@@ -39,7 +39,24 @@ export const signUpUser = (req, res) => {
     })
     .then(user => {
       console.log(`User created ${user}`);
+
+      //make cookie
+
       if (user){
+
+
+        const refreshToken = jsonwebtoken.sign(
+          {
+            user: {
+              username: user.username,
+              email:user.email,
+              id: user.id
+            },
+          }, process.env.ACCESS_TOKEN_SECRET,{expiresIn: '1h'});
+
+      res.cookie('refreshToken', refreshToken)
+
+          console.log("sign up made cookie")
         res.status(201).json({
           _id: user.id,
           email: user.email,
@@ -47,9 +64,15 @@ export const signUpUser = (req, res) => {
           password: user.password,
           confirmationPassword: user.confirmationPassword,
         });
+
+
       } else {
         res.status(400).json({ message: 'Invalid user data' });
       }
+
+
+
+
     })
     .catch(err => {
       console.log(err);
@@ -88,7 +111,7 @@ export const loginUser = (req, res) => {
                 id: user.id
               },
             }, process.env.ACCESS_TOKEN_SECRET,{expiresIn: '1h'});
-
+          console.log("login made cookie", refreshToken )
         res.cookie('refreshToken', refreshToken)
         res.status(200).json({accessToken})
       } else {
@@ -186,25 +209,39 @@ export const refreshToken = async (req, res) => {
 export const currentUser = async (req, res) => {
     //console.log("current user", req)
     try {
-    console.log( "COOKIE", req.cookies['refreshToken']); //read cookie
+      console.log( "COOKIE", req.cookies['refreshToken']); //read cookie
     //decoded
 
+    if(!req.cookies['refreshToken'] ){
+      throw Error("Cookie not valid");
+    } else {
+      await jsonwebtoken.verify( 
+        req.cookies['refreshToken'],
+        process.env.ACCESS_TOKEN_SECRET,
+        function(err, decoded) {
+          //console.log("check this",err, decoded)
+  
+          if(err){
+            //console.log(err, "Error with decoding cookie")
+            res.json({err});
+          }
+  
+          res.json(decoded.user);
+           
+          
+        }
+      )
+      
+
+    }
     //i have the cookie, now i need to decode it 
     //retrieve the user id email, send that back
     //res.json(req.user);
-    await jsonwebtoken.verify( 
-      req.cookies['refreshToken'],
-      process.env.ACCESS_TOKEN_SECRET,
-      function(err, decoded) {
-        console.log(err, decoded)
-        res.json(decoded.user);
-      }
-     )
-    
+   
 
   } catch(err) {
-    console.log(err);
-    res.json({
+    console.log(err)
+    res.status(402).json({
       message: err
     });
   }

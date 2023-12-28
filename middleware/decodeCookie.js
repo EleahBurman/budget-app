@@ -24,7 +24,7 @@ export const decodeCookie = async (req, res, next) => {
       message: "access denied"
     })
   }
- 
+
   console.log('Time:', Date.now())
 
 

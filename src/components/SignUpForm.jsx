@@ -24,8 +24,8 @@ const SignUpForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setIsSubmitting(true);
-    setTimeout(async () => {
-      const response = await fetch ('http://localhost:4000/api/users/signup', {
+    // setTimeout(async () => {
+      const response = await fetch ('/api/users/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -50,7 +50,8 @@ const SignUpForm = () => {
       //backend - login as user once signed up
       //redirect to main page once backend is handled
       //pass the form to the main page and make it so user first sees signup form if not loggedin (going to use current)
-    }, 1500)
+    
+    // }, 1500)
   }
 
   return (

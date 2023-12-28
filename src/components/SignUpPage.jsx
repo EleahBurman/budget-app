@@ -1,12 +1,14 @@
 // library
-import { toast } from "react-toastify";
-
+// import { toast } from "react-toastify";
+import { useState } from "react";
 
 //helpers
-import { createUser } from "../helpers";
+// import { createUser } from "../helpers";
 
 //form components
 import SignUpForm from "../components/SignUpForm";
+import LoginForm from "../components/LoginForm";
+
 
 // loader
 // export async function signupLoader(){
@@ -39,7 +41,7 @@ import SignUpForm from "../components/SignUpForm";
 // }
 
 export async function signupAction(userData){
-  fetch('http://localhost:4000/api/user/signup', {
+  fetch('/api/user/signup', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -49,9 +51,27 @@ export async function signupAction(userData){
 }
 
 const SignUpPage = () => {
+  const [showLogin, setShowLogin] = useState(false)
+
   return (
     <div>
-      <SignUpForm signupAction={signupAction}/>
+      {
+        showLogin?  <><LoginForm />
+        <p>Not a member?</p><button 
+          onClick={()=>setShowLogin(false)}
+          className="btn btn--dark"
+          style={{marginTop: "1rem", opacity: "60%"}}
+        >Sign Up</button></> :
+        <><SignUpForm signupAction={signupAction}/>
+        <p
+          style={{marginTop: "1rem"}}>Already a member?</p><button 
+          onClick={()=>setShowLogin(true)} 
+          className="btn btn--dark"
+          style={{opacity: "60%"}}
+        >Login</button></>
+      }
+      
+      
     </div>
   )
 }

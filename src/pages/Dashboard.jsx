@@ -89,14 +89,14 @@ export async function dashboardAction({request}){
 
 const Dashboard = () => {
   const [user] =  useOutletContext();
-
+  const { userName, budgets, expenses } = useLoaderData()
   useEffect(()=>{
 
     console.log(2);
-    console.log("global state", user)
+    console.log("global state", userName)
   }, [user])
 
-  const { userName, budgets, expenses } = useLoaderData()
+ 
   return (
     <div>
       {userName ? (

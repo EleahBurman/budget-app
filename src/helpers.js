@@ -58,7 +58,6 @@ export const fetchData = async (key) => {
     console.log("getting current user")
     try {
         const response = await fetch("/api/users/current");
-        console.log("???",response)
       if (response.ok) {
         const data = await response.json();
         console.log(data, "what data are we getting back")

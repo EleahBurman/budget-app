@@ -6,6 +6,9 @@ import { useNavigate, useOutletContext } from "react-router-dom"
 
 
 const LoginForm = () => {
+  //get rid of global state and rely on cookie
+  //not using setUser
+  //logout button ( why is that missing - - route that deletes cookie)
   const [setUser] =  useOutletContext();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const formRef = useRef()
@@ -26,7 +29,7 @@ const LoginForm = () => {
     setIsSubmitting(true);
   
     // Delay the form submission by 2 seconds
-    setTimeout(async () => {
+    //setTimeout(async () => {
       const response = await fetch ('/api/users/login', {
         method: 'POST',
         headers: {
@@ -66,11 +69,11 @@ const LoginForm = () => {
       const userInfo = await responseAccessToken.json();
       console.log(userInfo, "is this response")
 
-      setUser(userInfo);
+      //setUser(userInfo);
       navigate('/')
 
 
-    }, 1500);
+    //}, 1500);
   }
 
   return (
