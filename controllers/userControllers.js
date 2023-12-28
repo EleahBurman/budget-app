@@ -7,56 +7,46 @@ import jsonwebtoken from 'jsonwebtoken';
 //@route POST /api/users/register
 //@access Public
 
-export const signUpUser = (req, res) => {
+export const signUpUser =  async (req, res) => {
   console.log("This is req body: ", req.body);
 
+
   const {username, email, password, passwordConfirmation} = req.body;
+  try {
 
-  if(password !== passwordConfirmation) {
-    return res.status(400).json({ message: 'Passwords do not match' });
-  }
 
-  if(!username || !email || !password || !passwordConfirmation) {
-    return res.status(400).json({ message: 'Please fill in all fields' });
-  }
+    if (password !== passwordConfirmation) {
+      res.status(400).json({message: 'Passwords do not match'});
+    }
 
-  User.findOne({email})
-    .then(userAvailable => {
-      if (userAvailable) {
-        return res.status(400).json({ message: 'User already exists' });
-      }
+    if (!username || !email || !password || !passwordConfirmation) {
+      res.status(400).json({message: 'Please fill in all fields'});
+    }
 
-      //Hash password
-      return bcrypt.hash(password, 10);
-    })
-    .then(hashedPassword => {
-      console.log("Hashed Password: ", hashedPassword);
-      return User.create({
+    const userAvailable = await User.findOne({email});
+    console.log("userAvailable", userAvailable)
+    if (!userAvailable) {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      console.log("hash success", hashedPassword);
+      const user = await User.create({
         username,
         email,
         password: hashedPassword
       });
-    })
-    .then(user => {
       console.log(`User created ${user}`);
+      if (user) {
+        const refreshToken = await jsonwebtoken.sign(
+            {
+              user: {
+                username: user.username,
+                email: user.email,
+                id: user.id
+              },
+            }, process.env.ACCESS_TOKEN_SECRET, );
 
-      //make cookie
+        res.cookie('refreshToken', refreshToken)
 
-      if (user){
-
-
-        const refreshToken = jsonwebtoken.sign(
-          {
-            user: {
-              username: user.username,
-              email:user.email,
-              id: user.id
-            },
-          }, process.env.ACCESS_TOKEN_SECRET,{expiresIn: '1h'});
-
-      res.cookie('refreshToken', refreshToken)
-
-          console.log("sign up made cookie")
+        console.log("sign up made cookie")
         res.status(201).json({
           _id: user.id,
           email: user.email,
@@ -64,22 +54,24 @@ export const signUpUser = (req, res) => {
           password: user.password,
           confirmationPassword: user.confirmationPassword,
         });
-
-
       } else {
-        res.status(400).json({ message: 'Invalid user data' });
+        res.status(400).json({message: 'Invalid user data'});
       }
 
+    } else {
+      res.status(400).json({message: 'User already exists'});
+    }
 
 
-
-    })
-    .catch(err => {
-      console.log(err);
-      res.status(500).json({
-        message: err.message
-      });
+  } catch (err){
+    console.log(err);
+    res.status(500).json({
+      message: err.message
     });
+  }
+
+
+
 };
 
 //@desc Login a user
@@ -168,7 +160,7 @@ export const refreshToken = async (req, res) => {
                 email: email,
                 id: id
               },
-            }, process.env.ACCESS_TOKEN_SECRET,{expiresIn: '1h'});
+            }, process.env.ACCESS_TOKEN_SECRET);
           //add to mongo
           console.log("check",id, refreshToken)
           User.findByIdAndUpdate(id, {refreshToken: refreshToken}).then(()=>{
@@ -219,14 +211,16 @@ export const currentUser = async (req, res) => {
         req.cookies['refreshToken'],
         process.env.ACCESS_TOKEN_SECRET,
         function(err, decoded) {
-          //console.log("check this",err, decoded)
+          console.log("current user",err, "-------", decoded)
   
-          if(err){
+          if(err || decoded === undefined){
             //console.log(err, "Error with decoding cookie")
             res.json({err});
+          } else {
+            res.json(decoded.user);
           }
   
-          res.json(decoded.user);
+
            
           
         }
@@ -246,6 +240,14 @@ export const currentUser = async (req, res) => {
     });
   }
 
-
-
 };
+
+export const logout = async (req, res)  =>{
+  console.log("logout");
+
+  res.clearCookie("refreshToken");
+  res.json({
+    message: "logout"
+  })
+
+}

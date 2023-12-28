@@ -1,7 +1,7 @@
 import express from 'express'
 
 //controller functions
-import{ signUpUser, loginUser, currentUser, deleteUser, refreshToken } from '../controllers/userControllers.js'
+import{ signUpUser, loginUser, currentUser, deleteUser, refreshToken, logout } from '../controllers/userControllers.js'
 
 //middleware
 // import { validateTokenHandler } from '../middleware/validateTokenHandler.js';
@@ -28,5 +28,8 @@ userRouter.route("/current")
 
 userRouter.route("/:id")
   .delete(deleteUser)
+
+userRouter.route("/logout")
+    .get( logout )
 
   export default userRouter

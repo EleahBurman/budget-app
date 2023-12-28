@@ -8,16 +8,20 @@ import threefriends from "../assets/three-friends.svg"
 
 
 
-const Nav = ({isLoggedIn, setIsLoggedIn}) => {
-  
+const Nav = ({isLoggedIn, setIsLoggedIn, userName}) => {
   const navigate = useNavigate();
 
-  const handleLogout = (event) => {
-    event.preventDefault();
+  const handleLogout = async () => {
+    //event.preventDefault();
     if(confirm("Logout User?")) {
-      setIsLoggedIn(false);
+      //setIsLoggedIn(false);
+
       localStorage.removeItem('accessToken');
-      navigate('/login');
+      const result = await fetch("/api/users/logout");
+      console.log("handle logout",result);
+
+
+      navigate('/');
     }
   };
 
@@ -39,20 +43,27 @@ const Nav = ({isLoggedIn, setIsLoggedIn}) => {
         <img src={threefriends} alt="" height={50} />
         <span>Budget Buddy</span>
       </NavLink>
-      {isLoggedIn && (
+      {userName && (
         <div className="flex-sm">
-          <Form
-            method="post"
-            action="logout"
-            onSubmit={handleLogout}
-          >
-            <button
+          {/*<Form*/}
+          {/*  method="post"*/}
+          {/*  action="logout"*/}
+          {/*  onSubmit={handleLogout}*/}
+          {/*>*/}
+          {/*  <button*/}
+          {/*    type="submit"*/}
+          {/*    className="btn"*/}
+          {/*  >*/}
+          {/*    Logout*/}
+          {/*  </button>*/}
+          {/*</Form>*/}
+          <button
               type="submit"
               className="btn"
-            >
-              Logout
-            </button>
-          </Form>
+              onClick={handleLogout}
+          >
+            Logout
+          </button>
           <Form
             method="post"
             action="delete"

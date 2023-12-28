@@ -8,14 +8,12 @@ export const decodeCookie = async (req, res, next) => {
       req.cookies['refreshToken'],
       process.env.ACCESS_TOKEN_SECRET,
       async function(err, decoded) {
-        console.log( decoded)
         req.user = {
           id: decoded.user.id,
           userName: decoded.user.username,
           email: decoded.user.email
         }
         next();
-    
       }
     )
 
@@ -25,8 +23,4 @@ export const decodeCookie = async (req, res, next) => {
     })
   }
 
-  console.log('Time:', Date.now())
-
-
-  next()
 }
