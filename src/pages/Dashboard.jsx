@@ -96,10 +96,10 @@ const Dashboard = () => {
     console.log("global state", userName)
   }, [user])
 
- 
+
   return (
     <div>
-      {userName ? (
+      {userName.name ? (
         <div className="dashboard">
           <h1>Welcome back, <span className="accent">
             {userName.name}</span>
@@ -146,7 +146,7 @@ const Dashboard = () => {
             </div>
             ) : (
               <div className="grid-sm">
-                <p>Personal budgeting is the secret to financial freedman.</p>
+                <p>Personal budgeting is the secret to financial freedom.</p>
                 <p>Create a budget to get started!</p>
                 <AddBudgetForm />
               </div>

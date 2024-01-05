@@ -65,7 +65,7 @@ const Main = () => {
 
   return (
     <div className="layout">
-      <Nav userName={authuser?.name} isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+      <Nav userName={authuser?.name} user={authuser} isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
       <main>
         <Outlet context={[isLoggedIn, setIsLoggedIn, user, setUser]}/>
       </main>

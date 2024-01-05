@@ -6,9 +6,11 @@ import { TrashIcon } from '@heroicons/react/24/solid'
 //asets
 import threefriends from "../assets/three-friends.svg"
 
+import { deleteItem } from "../helpers"
 
 
-const Nav = ({isLoggedIn, setIsLoggedIn, userName}) => {
+
+const Nav = ({isLoggedIn, setIsLoggedIn, userName, user}) => {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -25,17 +27,30 @@ const Nav = ({isLoggedIn, setIsLoggedIn, userName}) => {
     }
   };
 
-  const handleDelete = (event) => {
+  const handleDelete = async (event) => {
     event.preventDefault();
+
+    console.log("nav user", user)
     if(confirm("Are you sure you want to permanently delete this user?")) {
-      setIsLoggedIn(false);
-      localStorage.removeItem('accessToken');
-      navigate('/login');
+
+      const result = await fetch(`api/users/${user._id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      });
+
+      if(result){
+        //redirect
+        navigate('/');
+      }
     }
   };
 
   return (
     <nav>
+
       <NavLink
         to="/"
         aria-label="Home"
@@ -43,7 +58,8 @@ const Nav = ({isLoggedIn, setIsLoggedIn, userName}) => {
         <img src={threefriends} alt="" height={50} />
         <span>Budget Buddy</span>
       </NavLink>
-      {userName && (
+      
+      {user.email && 
         <div className="flex-sm">
           {/*<Form*/}
           {/*  method="post"*/}
@@ -57,6 +73,9 @@ const Nav = ({isLoggedIn, setIsLoggedIn, userName}) => {
           {/*    Logout*/}
           {/*  </button>*/}
           {/*</Form>*/}
+          
+          
+          
           <button
               type="submit"
               className="btn"
@@ -78,7 +97,8 @@ const Nav = ({isLoggedIn, setIsLoggedIn, userName}) => {
             </button>
           </Form>
         </div>
-      )}
+      }
+        
     </nav>
   )
 }

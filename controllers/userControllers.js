@@ -3,6 +3,17 @@ import bcrypt from 'bcryptjs';
 import jsonwebtoken from 'jsonwebtoken';
 
 
+export const getUsers = async (req, res) => {
+  try {
+    const users = await User.find({}, { password: 0, refreshToken: 0 }); // Exclude password and refreshToken from the response
+    res.status(200).json(users);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      message: "Internal Server Error",
+    });
+  }
+};
 //@desc Register a user
 //@route POST /api/users/register
 //@access Public
@@ -124,8 +135,11 @@ export const loginUser = (req, res) => {
 
 
 export const deleteUser = async (req, res) => {
+  console.log("deleting", req.params.id)
   try {
-    const user = await User.findByIdAndDelete(req.user.id);
+    const user = await User.findByIdAndDelete(req.params.id);
+    //remove cookie when deleting userno
+    res.clearCookie("refreshToken")
     res.json(user);
   } catch (err) {
     console.log(err);
@@ -205,7 +219,10 @@ export const currentUser = async (req, res) => {
     //decoded
 
     if(!req.cookies['refreshToken'] ){
-      throw Error("Cookie not valid");
+      res.json({
+        message: "Please login"
+      })
+      //throw Error("Cookie not valid");
     } else {
       await jsonwebtoken.verify( 
         req.cookies['refreshToken'],
@@ -220,8 +237,6 @@ export const currentUser = async (req, res) => {
             res.json(decoded.user);
           }
   
-
-           
           
         }
       )
@@ -231,11 +246,10 @@ export const currentUser = async (req, res) => {
     //i have the cookie, now i need to decode it 
     //retrieve the user id email, send that back
     //res.json(req.user);
-   
 
   } catch(err) {
     console.log(err)
-    res.status(402).json({
+    res.status(401).json({
       message: err
     });
   }

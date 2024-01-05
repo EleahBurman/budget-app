@@ -100,6 +100,8 @@ export const getAllMatchingItems = async ({category, key, value}) =>{
 
 //delete item
 export const deleteItem = async ({ key, id }) => {
+  console.log("key: ", key)
+  console.log("id: ", id)
   if (id) {
     try {
       const response = await fetch(`/api/${key}/${id}`, {
