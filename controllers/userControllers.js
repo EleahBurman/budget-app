@@ -214,6 +214,7 @@ export const refreshToken = async (req, res) => {
 
 export const currentUser = async (req, res) => {
     //console.log("current user", req)
+    console.log("current user", req.body)
     try {
       console.log( "COOKIE", req.cookies['refreshToken']); //read cookie
     //decoded
@@ -222,7 +223,6 @@ export const currentUser = async (req, res) => {
       res.json({
         message: "Please login"
       })
-      //throw Error("Cookie not valid");
     } else {
       await jsonwebtoken.verify( 
         req.cookies['refreshToken'],
@@ -232,7 +232,8 @@ export const currentUser = async (req, res) => {
   
           if(err || decoded === undefined){
             //console.log(err, "Error with decoding cookie")
-            res.json({err});
+            throw Error(err);
+            //res.json({err});
           } else {
             res.json(decoded.user);
           }

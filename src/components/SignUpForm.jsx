@@ -25,6 +25,9 @@ const SignUpForm = () => {
     e.preventDefault()
     setIsSubmitting(true);
     // setTimeout(async () => {
+
+   
+
       const response = await fetch ('/api/users/signup', {
         method: 'POST',
         headers: {

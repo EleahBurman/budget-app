@@ -15,6 +15,9 @@ import { fetchData } from "../helpers"
 
 //loader
 
+//libraries
+import CookieConsent from "react-cookie-consent";
+
 export async function mainLoader(){
   const user = await fetchData("userName");
   console.log(user, "is this data correctly formed?")
@@ -27,20 +30,8 @@ export async function mainLoader(){
 
 const Main = () => {
   const authuser = useLoaderData()
-
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  const [user, setUser] = useState({}); //global state
-  const navigate = useNavigate()
-
-  useEffect  (() => {
-    console.log("why is this getting lost",authuser)
-    // if(!authuser?.name){
-    //   navigate('users/signup')
-    // }
-  }, [])
-
-  
+  const navigate = useNavigate()  
 
   //see if i need to add back but currently using this call in helpers.js
   // const navigate = useNavigate();
@@ -65,11 +56,22 @@ const Main = () => {
 
   return (
     <div className="layout">
-      <Nav userName={authuser?.name} user={authuser} isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+      <Nav userName={authuser?.name} user={authuser} />
       <main>
-        <Outlet context={[isLoggedIn, setIsLoggedIn, user, setUser]}/>
+        <Outlet context={[]}/>
       </main>
       <img src={wave} alt="" />
+      <CookieConsent
+        location="bottom"
+        buttonText="Accept"
+        cookieName="refreshToken"
+        style={{ background: "#1bbbc3" }}
+        buttonStyle={{ background: "black", color: "white", fontSize: "15px", borderRadius: "8px", padding: "5px"}}
+        expires={150}
+      >
+        This website uses cookies to enhance the user experience.{" "}
+
+      </CookieConsent>
     </div>
   );
 };

@@ -59,7 +59,7 @@ const Nav = ({isLoggedIn, setIsLoggedIn, userName, user}) => {
         <span>Budget Buddy</span>
       </NavLink>
       
-      {user.email && 
+      {user?.email && 
         <div className="flex-sm">
           {/*<Form*/}
           {/*  method="post"*/}
