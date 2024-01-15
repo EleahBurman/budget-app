@@ -213,48 +213,9 @@ export const refreshToken = async (req, res) => {
 
 
 export const currentUser = async (req, res) => {
-    //console.log("current user", req)
-    console.log("current user", req.body)
-    try {
-      console.log( "COOKIE", req.cookies['refreshToken']); //read cookie
-    //decoded
-
-    if(!req.cookies['refreshToken'] ){
-      res.json({
-        message: "Please login"
-      })
-    } else {
-      await jsonwebtoken.verify( 
-        req.cookies['refreshToken'],
-        process.env.ACCESS_TOKEN_SECRET,
-        function(err, decoded) {
-          console.log("current user",err, "-------", decoded)
-  
-          if(err || decoded === undefined){
-            //console.log(err, "Error with decoding cookie")
-            throw Error(err);
-            //res.json({err});
-          } else {
-            res.json(decoded.user);
-          }
-  
-          
-        }
-      )
-      
-
-    }
-    //i have the cookie, now i need to decode it 
-    //retrieve the user id email, send that back
-    //res.json(req.user);
-
-  } catch(err) {
-    console.log(err)
-    res.status(401).json({
-      message: err
-    });
-  }
-
+  //since the middleware was decrypting
+  //we dont need to decrypt here
+  res.json(req.user);
 };
 
 export const logout = async (req, res)  =>{

@@ -38,7 +38,6 @@ export async function dashboardAction({request}){
       const response = await createUser({
         name: values.userName});
 
-      
 
       return toast.success(`Welcome, ${response.name}`)
     }catch(e){
@@ -88,18 +87,24 @@ export async function dashboardAction({request}){
 }
 
 const Dashboard = () => {
-  const [user] =  useOutletContext();
-  const { userName, budgets, expenses } = useLoaderData()
-  useEffect(()=>{
 
-    console.log(2);
-    console.log("global state", userName)
-  }, [user])
+  const { userName, budgets } = useLoaderData()
+
+  console.log("budgets check:", budgets);
+
+  useEffect(()=>{
+      console.log("dashboard", userName)
+  }, [])
+
+  //combines all expenses from all the budgets
+  const expenses = budgets.reduce((acc,cur)=> {
+    return [...acc,...cur.expenses]
+  },[])
 
 
   return (
     <div>
-      {userName.name ? (
+      {userName?.name ? (
         <div className="dashboard">
           <h1>Welcome back, <span className="accent">
             {userName.name}</span>
@@ -118,20 +123,20 @@ const Dashboard = () => {
             <div className="budgets">
               {
                 budgets.map((budget) => {
-                  
+
                   return <BudgetItem key={budget._id} budget={budget} />
-                
+
                 })
               }
             </div>
             {expenses && expenses.length > 0 && (
               <div className="grid-md">
                 <h2>Recent Expenses</h2>
-                <Table 
+                <Table
                   expenses={expenses
                     .sort((a, b) => b.createdAt - a.createdAt)
                     .slice(0, 8)
-                  } 
+                  }
                 />
                 {expenses.length > 8 &&(
                   <Link

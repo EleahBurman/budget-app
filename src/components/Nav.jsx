@@ -7,11 +7,21 @@ import { TrashIcon } from '@heroicons/react/24/solid'
 import threefriends from "../assets/three-friends.svg"
 
 import { deleteItem } from "../helpers"
+import { useEffect } from "react"
 
 
 
-const Nav = ({isLoggedIn, setIsLoggedIn, userName, user}) => {
+const Nav = ({ user}) => {
   const navigate = useNavigate();
+
+
+
+  useEffect(()=>{
+    console.log("redirect check", user)
+    if(!user.email){
+      navigate("/users/signup")
+    }
+  },[])
 
   const handleLogout = async () => {
     //event.preventDefault();

@@ -10,12 +10,14 @@ export const decodeCookie = async (req, res, next) => {
       async function(err, decoded) {
         req.user = {
           id: decoded.user.id,
-          userName: decoded.user.username,
+          username: decoded.user.username, //made userName to username
           email: decoded.user.email
         }
         next();
       }
     )
+
+
 
   } else {
     res.json({

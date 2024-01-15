@@ -3,6 +3,7 @@ import express from 'express'
 //controller functions
 import{ signUpUser, loginUser, currentUser, deleteUser, refreshToken, logout, getUsers } from '../controllers/userControllers.js'
 
+import {decodeCookie} from "../middleware/decodeCookie.js";
 //middleware
 // import { validateTokenHandler } from '../middleware/validateTokenHandler.js';
 
@@ -26,8 +27,11 @@ userRouter.route("/login")
 userRouter.route("/refreshtoken")
   .post(refreshToken)
 
+
 userRouter.route("/current")
-  .get( currentUser)
+    .get(decodeCookie, currentUser)
+
+
 
 userRouter.route("/:id")
   .delete(deleteUser)
