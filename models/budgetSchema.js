@@ -12,6 +12,9 @@ let budgetSchema = new Schema({
   ],
   name: String,
   amount:  Number,
+  currency: {
+    type: String
+  },
   expenses: [
     { 
       type: Schema.Types.ObjectId, 
@@ -23,6 +26,16 @@ let budgetSchema = new Schema({
 }, {
   timestamps: true
 })
+
+
+budgetSchema.set('toJSON', { virtuals: true })
+budgetSchema.virtual('totalSpent').get(function () {
+  let total = 0;
+  this.expenses.map((e)=>{
+      total += e.amount
+  })
+  return total
+});
 
 // budgetSchema.pre("save", (next)=>{
 //   var budget = this;

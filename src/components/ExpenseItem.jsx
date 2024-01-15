@@ -15,17 +15,15 @@ const ExpenseItem = ({ expense, showBudget }) => {
   const fetcher = useFetcher()
   const [budget, setBudget] = useState([])
 
-  //fetching
-
   useEffect(() => {
     if(expense && expense.category){
     const getBudget = async () => {
       const responses = await getAllMatchingItems({
         category: "budgets",
         key: "_id",
-        value: expense.category._id,
+        value: expense.category,
       });
-    
+
       if (responses && responses.length > 0) {
         const data = responses[0]
         setBudget(data);
