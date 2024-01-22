@@ -38,8 +38,8 @@ const BudgetItem = ({budget, showDelete}) => {
         {formatPercentages(totalSpent / amount)}
       </progress>
       <div className="progress-text">
-        <small>{formatCurrency(totalSpent)} totalSpent</small>
-        <small>{formatCurrency(amount - totalSpent)} remaining</small>
+        <small>{formatCurrency(totalSpent)} Total Spent</small>
+        <small>{formatCurrency(amount - totalSpent)} Remaining</small>
       </div>
       {
         showDelete ? (
