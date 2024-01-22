@@ -8,16 +8,18 @@ import { toast } from "react-toastify";
 import { createBudget, createExpense, deleteItem, fetchData, waait } from "../helpers"
 
 //components
-import Intro from "../components/Intro";
+import SignUpPage from "../components/SignUpPage";
 import AddBudgetForm from "../components/AddBudgetForm";
 import AddExpenseForm from "../components/AddExpenseForm";
 import BudgetItem from "../components/BudgetItem";
 import Table from "../components/Table";
 //helpers
 import { createUser } from "../helpers";
-
+import {  useOutletContext } from "react-router-dom"
+import { useEffect } from "react";
 //loaders
 export async function dashboardLoader(){
+ 
   const userName = await fetchData("userName");
   const budgets = await fetchData("budgets");
   const expenses = await fetchData("expenses")
@@ -36,7 +38,6 @@ export async function dashboardAction({request}){
       const response = await createUser({
         name: values.userName});
 
-      
 
       return toast.success(`Welcome, ${response.name}`)
     }catch(e){
@@ -62,7 +63,8 @@ export async function dashboardAction({request}){
         name: values.newExpense,
         amount: values.newExpenseAmount,
         budgetId: values.newExpenseBudget,
-        category: values.newExpenseCategory
+        category: values.newExpenseCategory,
+        currency: values.newExpenseCurrency
       })
       return toast.success(`Expense ${values.newExpense} created!`)
     } catch(e){
@@ -86,12 +88,27 @@ export async function dashboardAction({request}){
 }
 
 const Dashboard = () => {
-  const { userName, budgets, expenses } = useLoaderData()
+
+  const { userName, budgets } = useLoaderData()
+
+  console.log("budgets check:", budgets);
+
+  useEffect(()=>{
+      console.log("dashboard", userName)
+  }, [])
+
+  //combines all expenses from all the budgets
+  const expenses = budgets.reduce((acc,cur)=> {
+    return [...acc,...cur.expenses]
+  },[])
+
+
   return (
     <div>
-      {userName ? (
+      {userName?.name ? (
         <div className="dashboard">
-          <h1>Welcome back, <span className="accent">{userName.name}</span>
+          <h1>Welcome back, <span className="accent">
+            {userName.name}</span>
           </h1>
           <div className="grid-sm">
           </div>
@@ -107,20 +124,20 @@ const Dashboard = () => {
             <div className="budgets">
               {
                 budgets.map((budget) => {
-                  
+
                   return <BudgetItem key={budget._id} budget={budget} />
-                
+
                 })
               }
             </div>
             {expenses && expenses.length > 0 && (
               <div className="grid-md">
                 <h2>Recent Expenses</h2>
-                <Table 
+                <Table
                   expenses={expenses
                     .sort((a, b) => b.createdAt - a.createdAt)
                     .slice(0, 8)
-                  } 
+                  }
                 />
                 {expenses.length > 8 &&(
                   <Link
@@ -135,14 +152,14 @@ const Dashboard = () => {
             </div>
             ) : (
               <div className="grid-sm">
-                <p>Personal budgeting is the secret to financial freedman.</p>
+                <p>Personal budgeting is the secret to financial freedom.</p>
                 <p>Create a budget to get started!</p>
                 <AddBudgetForm />
               </div>
             )
           }
         </div>
-      ): <Intro />}
+      ): <SignUpPage />}
     </div>
   )
 }

@@ -1,30 +1,42 @@
 import express from 'express'
-import { User } from '../models/index.js';
+
+//controller functions
+import{ signUpUser, loginUser, currentUser, deleteUser, refreshToken, logout, getUsers } from '../controllers/userControllers.js'
+
+import {decodeCookie} from "../middleware/decodeCookie.js";
+//middleware
+// import { validateTokenHandler } from '../middleware/validateTokenHandler.js';
 
 const userRouter = express.Router();
 
-userRouter
-  .route("/")
-  .get(async (req, res)=>{
-    const user = await User.findAll();
-    res.json(user);
-  })
-  .post( async (req, res)=>{
-    console.log('This is our body', req.body)
-    const {name} = req.body
-    try{
+// userRouter.route("/")
+//   .get(async (req, res)=>{
+//     const user = await User.findAll();
+//     res.json(user);
+//   })
 
-        const result = await User.create({
-          name
-        })
-        res.json(result)
+userRouter.route("/")
+  .get(getUsers)
+  
+userRouter.route("/signup")
+  .post(signUpUser)
+  
+userRouter.route("/login")
+  .post(loginUser)
 
-    } catch (err){
-      console.log(err);
-      res.json({
-          message: err
-      })
-    }
-  })
+userRouter.route("/refreshtoken")
+  .post(refreshToken)
+
+
+userRouter.route("/current")
+    .get(decodeCookie, currentUser)
+
+
+
+userRouter.route("/:id")
+  .delete(deleteUser)
+
+userRouter.route("/logout")
+    .get( logout )
 
   export default userRouter

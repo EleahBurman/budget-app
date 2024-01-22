@@ -1,17 +1,66 @@
 //assets
-import { Form, NavLink} from "react-router-dom"
-
+import { Form, NavLink, useNavigate} from "react-router-dom"
 //library
 import { TrashIcon } from '@heroicons/react/24/solid'
 
 //asets
 import threefriends from "../assets/three-friends.svg"
 
+import { deleteItem } from "../helpers"
+import { useEffect } from "react"
 
 
-const Nav = ({ userName }) => {
+
+const Nav = ({ user}) => {
+  const navigate = useNavigate();
+
+
+
+  useEffect(()=>{
+    console.log("redirect check", user)
+    if(!user.email){
+      navigate("/users/signup")
+    }
+  },[])
+
+  const handleLogout = async () => {
+    //event.preventDefault();
+    if(confirm("Logout User?")) {
+      //setIsLoggedIn(false);
+
+      localStorage.removeItem('accessToken');
+      const result = await fetch("/api/users/logout");
+      console.log("handle logout",result);
+
+
+      navigate('/');
+    }
+  };
+
+  const handleDelete = async (event) => {
+    event.preventDefault();
+
+    console.log("nav user", user)
+    if(confirm("Are you sure you want to permanently delete this user?")) {
+
+      const result = await fetch(`api/users/${user._id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      });
+
+      if(result){
+        //redirect
+        navigate('/');
+      }
+    }
+  };
+
   return (
     <nav>
+
       <NavLink
         to="/"
         aria-label="Home"
@@ -19,26 +68,47 @@ const Nav = ({ userName }) => {
         <img src={threefriends} alt="" height={50} />
         <span>Budget Buddy</span>
       </NavLink>
-      {
-        userName && (
+      
+      {user?.email && 
+        <div className="flex-sm">
+          {/*<Form*/}
+          {/*  method="post"*/}
+          {/*  action="logout"*/}
+          {/*  onSubmit={handleLogout}*/}
+          {/*>*/}
+          {/*  <button*/}
+          {/*    type="submit"*/}
+          {/*    className="btn"*/}
+          {/*  >*/}
+          {/*    Logout*/}
+          {/*  </button>*/}
+          {/*</Form>*/}
+          
+          
+          
+          <button
+              type="submit"
+              className="btn"
+              onClick={handleLogout}
+          >
+            Logout
+          </button>
           <Form
             method="post"
-            action="logout"
-            onSubmit={(event) =>{
-              if(!confirm("Delete user and all data?")){
-                event.preventDefault()
-              }
-            }}
+            action="delete"
+            onSubmit={handleDelete}
           >
-            <button 
-              type="submit" 
-              className="btn btn--warning">
-              <span>Delete User</span>
-              <TrashIcon width={20}/>
+            <button
+              type="submit"
+              className="btn"
+            >
+              Delete User
+              <TrashIcon width={20} />
             </button>
           </Form>
-        )
+        </div>
       }
+        
     </nav>
   )
 }

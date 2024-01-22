@@ -11,17 +11,17 @@ import { BanknotesIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { calculateSpentByBudget, formatCurrency, formatPercentages } from "../helpers";
 
 const BudgetItem = ({budget, showDelete}) => {
-  const {_id, name, amount} = budget;
-  const [spent, setSpent] = useState(0);
+  const {_id, name, amount, totalSpent} = budget;
 
-  useEffect(() => {
-    const fetchSpent = async () => {
-      const spentByBudget = await calculateSpentByBudget(budget._id);
-      setSpent(spentByBudget);
-    };
 
-    fetchSpent();
-  }, [budget]);
+  // useEffect(() => {
+  //   const fetchSpent = async () => {
+  //     const spentByBudget = await calculateSpentByBudget(budget._id);
+  //     setSpent(spentByBudget);
+  //   };
+  //
+  //   fetchSpent();
+  // }, [budget]);
 
   return (
     <div 
@@ -34,12 +34,12 @@ const BudgetItem = ({budget, showDelete}) => {
         <h3>{name}</h3>
         <p>{ formatCurrency(amount) } Budgeted</p>
       </div>
-      <progress max={amount} value={spent}>
-        {formatPercentages(spent / amount)}
+      <progress max={amount} value={totalSpent}>
+        {formatPercentages(totalSpent / amount)}
       </progress>
       <div className="progress-text">
-        <small>{formatCurrency(spent)} spent</small>
-        <small>{formatCurrency(amount - spent)} remaining</small>
+        <small>{formatCurrency(totalSpent)} totalSpent</small>
+        <small>{formatCurrency(amount - totalSpent)} remaining</small>
       </div>
       {
         showDelete ? (

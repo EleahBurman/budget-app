@@ -4,6 +4,9 @@ let Schema = mongoose.Schema;
 let expenseSchema = new Schema({
   name: String,
   amount:  Number,
+  currency: {
+    type: String
+  },
   category:
     { 
       type: Schema.Types.ObjectId, 

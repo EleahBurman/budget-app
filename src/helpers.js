@@ -50,14 +50,38 @@ export const fetchData = async (key) => {
     //const response = await fetch(`/api/users/${name}`)
     //const data = await response.json();
     //The route should give data that looks like this
-    return {_id: 222, name: "Eleah"}
+    // return {_id: 222, name: "Eleah"}
+    // if(!localStorage.getItem("accessToken")){
+    //   return;
+    // }
+
+    console.log("getting current user")
+    try {
+        const response = await fetch("/api/users/current");
+      if (response.ok) {
+        const data = await response.json();
+
+       
+        console.log(data, "what data are we getting back")
+        return {
+          _id: data.id,
+          name: data.username,
+          email: data.email,
+        }
+      } else {
+        console.error("Error fetching data:", response.status);
+        return null;
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      return null;
+    }
   }
-  // Handle other cases or return a default value
 };
 
 export const createUser = async (obj) =>{
   
-  const response = await fetch("/api/users", {
+  const response = await fetch("/api/users/signup", {
     method: "POST", 
     headers: {
       "Content-Type": "application/json"
@@ -78,6 +102,8 @@ export const getAllMatchingItems = async ({category, key, value}) =>{
 
 //delete item
 export const deleteItem = async ({ key, id }) => {
+  console.log("key: ", key)
+  console.log("id: ", id)
   if (id) {
     try {
       const response = await fetch(`/api/${key}/${id}`, {
@@ -130,18 +156,49 @@ export const createBudget = async ({ name, amount, }) => {
 }
 
 //create expense
-export const createExpense = async ({
-  name, amount, budgetId
-}) => {
+export const createExpense = async (props) => {
+  console.log("props",props);
+  const {
+    name, amount, budgetId, currency
+  } = props;
+
+  let convertedAmount = false;
+  if(currency != "USD"){
+    const response = await fetch("/api/currency", {
+      method: "POST", 
+      headers: {
+        "Content-Type": "application/json",
+      },
+        body: JSON.stringify({
+        amount,
+        fromCurrency: currency,
+        toCurrency: "USD",
+       }), // body data type must match "Content-Type" header
+    });
+
+    const data = await response.json();
+  
+
+    convertedAmount = parseFloat(data.result).toFixed(2); 
+    console.log(convertedAmount, "did we get a converted amount")
+
+  }
+
+
+
+
+
   const newItem = {
     id: crypto.randomUUID(),
     name: name,
     createdAt: Date.now(),
-    amount: +amount,
+    amount: convertedAmount? convertedAmount : amount,
     budgetId: budgetId,
-    category: budgetId
+    category: budgetId,
+    currency: currency
   }
 
+  console.log("check new item amount",newItem.amount);
   // Calculate the total spent so far
   console.log(budgetId, "this is budget id")
   const budgets = await fetchData("budgets") ?? [];

@@ -1,4 +1,6 @@
 import express from 'express';
+
+//controller functions
 import { getBudgets, createBudget, getBudgetById, deleteBudget } from '../controllers/budgetControllers.js';
 
 const budgetRouter = express.Router();
