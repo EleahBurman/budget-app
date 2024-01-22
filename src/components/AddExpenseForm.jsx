@@ -91,7 +91,7 @@ const AddExpenseForm = ({ budgets }) => {
               inputMode="decimal"
               name="newExpenseAmount"
               id="newExpenseAmount"
-              placeholder="$25"
+              placeholder="25"
               required
             />
           </div>
@@ -106,9 +106,7 @@ const AddExpenseForm = ({ budgets }) => {
             onChange={(e)=>setSelectCurrency(e.target.value)}
           >
             {
-              Object.entries(currencyList).map((c,k) => <option key={k} value={c[0]}>{c[1]} ({c[0]})</option>)           
-              //this is not an array --- have to change to iterate through an object -- possibly use lodash or if js function i can find - after i get the list -- on save then save it
-              
+              Object.entries(currencyList).map((c,k) => <option key={k} value={c[0]}>{c[1]} ({c[0]})</option>)
             }
             
           </select>
@@ -124,8 +122,10 @@ const AddExpenseForm = ({ budgets }) => {
             value={category}
             id="newExpenseCategory"
           />
-         
-          <label htmlFor="newExpenseBudget">Budget Category</label>
+          <label 
+            htmlFor="newExpenseBudget"
+          >Budget Category
+          </label>
           <select
             name="newExpenseBudget"
             id="newExpenseBudget"

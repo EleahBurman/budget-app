@@ -19,7 +19,7 @@ import {  useOutletContext } from "react-router-dom"
 import { useEffect } from "react";
 //loaders
 export async function dashboardLoader(){
- 
+
   const userName = await fetchData("userName");
   const budgets = await fetchData("budgets");
   const expenses = await fetchData("expenses")
@@ -66,7 +66,8 @@ export async function dashboardAction({request}){
         category: values.newExpenseCategory,
         currency: values.newExpenseCurrency
       })
-      return toast.success(`Expense ${values.newExpense} created!`)
+      console.log(values, "what values do we have here in dashboard")
+      return toast.success(`Added ${values.newExpense} to budget!`)
     } catch(e){
         throw new Error("There was a problem creating your expense.");
     }

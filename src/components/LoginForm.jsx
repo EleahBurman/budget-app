@@ -84,7 +84,7 @@ const LoginForm = () => {
       <label className="singup-label" >Email</label>
       <input type="text" className="email-input" onChange={(e)=>{setEmail(e.target.value)}} value={email} ref={focusRef}></input>
       <label className="singup-label">Password</label>
-      <input type="text" className="password-input" onChange={(e)=>{setPassword(e.target.value)}} value={password}></input>
+      <input type="password" className="password-input" onChange={(e)=>{setPassword(e.target.value)}} value={password}></input>
       <button 
         type="submit"
         className="btn btn--dark"

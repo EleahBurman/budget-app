@@ -60,9 +60,6 @@ export const fetchData = async (key) => {
         const response = await fetch("/api/users/current");
       if (response.ok) {
         const data = await response.json();
-
-       
-        console.log(data, "what data are we getting back")
         return {
           _id: data.id,
           name: data.username,
