@@ -42,7 +42,9 @@ export async function budgetAction({ request }) {
       await createExpense({
         name: values.newExpense,
         amount: values.newExpenseAmount,
-        budgetId: values.newExpenseBudget
+        budgetId: values.newExpenseBudget,
+        category: values.newExpenseCategory,
+        currency: values.newExpenseCurrency
       });
 
     

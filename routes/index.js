@@ -3,6 +3,7 @@ import express from 'express'
 import budgetRouter from "./budgetRoutes.js";
 import expenseRouter from "./expenseRoutes.js";
 import userRouter from "./userRoutes.js";
+import currencyRouter from "./currencyRoutes.js"
 import { decodeCookie } from '../middleware/decodeCookie.js';
 
 const router = express.Router();
@@ -15,5 +16,7 @@ router.use('/budgets', decodeCookie, budgetRouter);
 
 // # if req url begins with '/api/users'
 router.use('/users', userRouter);
+
+router.use('/currency', currencyRouter);
 
 export default router
