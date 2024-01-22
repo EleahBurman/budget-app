@@ -66,9 +66,9 @@ const SignUpForm = () => {
       <label className="singup-label" >Email</label>
       <input type="text" className="email-input" onChange={(e)=>{setEmail(e.target.value)}} value={email}></input>
       <label className="singup-label">Password</label>
-      <input type="text" className="password-input" onChange={(e)=>{setPassword(e.target.value)}} value={password}></input>
+      <input type="password" className="password-input" onChange={(e)=>{setPassword(e.target.value)}} value={password}></input>
       <label className="singup-label">Confirm Password</label>
-      <input type="text" className="confirm-password-input" onChange={(e)=>{setPasswordConfirmation(e.target.value)}} value={passwordConfirmation}></input>
+      <input type="password" className="confirm-password-input" onChange={(e)=>{setPasswordConfirmation(e.target.value)}} value={passwordConfirmation}></input>
       <button 
         type="submit"
         className="btn btn--dark"
