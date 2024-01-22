@@ -15,7 +15,7 @@ import { fileURLToPath } from 'url';
 // import routes
 import router from './routes/index.js';
 
-const PORT = 4000;
+const PORT = process.env.PORT || 4000;
 
 // create the express app
 const app = express();
