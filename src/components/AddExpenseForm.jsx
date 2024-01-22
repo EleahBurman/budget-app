@@ -7,7 +7,30 @@ import { useFetcher } from "react-router-dom"
 //library imports
 import { PlusCircleIcon } from "@heroicons/react/24/solid"
 
+
+
+
 const AddExpenseForm = ({ budgets }) => {
+  //const {currencyList} = useLoaderData();
+  const [currencyList, setCurrencyList] = useState([]);
+  const [selectCurrency, setSelectCurrency] = useState("USD");
+
+
+  //use use effect or loader to get currency list into expense form - make sure it trickles down as far as props are concerned
+  const getCurrencyList = async () => {
+    const result = await fetch('/api/currency');
+    const data = await result.json();
+    console.log(data);
+    setCurrencyList(data.currencies
+      );
+  }
+
+  useEffect(()=>{
+      getCurrencyList();
+
+
+  },[])
+
   const fetcher = useFetcher()
   const isSubmitting = fetcher.state === "submitting";
   const formRef = useRef()
@@ -73,6 +96,23 @@ const AddExpenseForm = ({ budgets }) => {
             />
           </div>
         </div>
+        <div className="grid-xs">
+
+        <label htmlFor="newExpenseCurrency">Currency</label>
+          <select 
+            name="newExpenseCurrency" 
+            id="newExpenseCurrency" 
+            value={selectCurrency} 
+            onChange={(e)=>setSelectCurrency(e.target.value)}
+          >
+            {
+              Object.entries(currencyList).map((c,k) => <option key={k} value={c[0]}>{c[1]} ({c[0]})</option>)           
+              //this is not an array --- have to change to iterate through an object -- possibly use lodash or if js function i can find - after i get the list -- on save then save it
+              
+            }
+            
+          </select>
+        </div>
         <div className="grid-xs" hidden={budgets.length === 1}>
           <label 
             htmlFor="newExpenseCategory" 
@@ -84,6 +124,7 @@ const AddExpenseForm = ({ budgets }) => {
             value={category}
             id="newExpenseCategory"
           />
+         
           <label htmlFor="newExpenseBudget">Budget Category</label>
           <select
             name="newExpenseBudget"

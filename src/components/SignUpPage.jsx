@@ -1,12 +1,16 @@
 // library
-import { toast } from "react-toastify";
-
+// import { toast } from "react-toastify";
+import { useState } from "react";
 
 //helpers
-import { createUser } from "../helpers";
+// import { createUser } from "../helpers";
 
 //form components
 import SignUpForm from "../components/SignUpForm";
+import LoginForm from "../components/LoginForm";
+
+import { Link } from "react-router-dom";
+
 
 // loader
 // export async function signupLoader(){
@@ -39,7 +43,7 @@ import SignUpForm from "../components/SignUpForm";
 // }
 
 export async function signupAction(userData){
-  fetch('http://localhost:4000/api/user/signup', {
+  fetch('/api/users/signup', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -49,11 +53,43 @@ export async function signupAction(userData){
 }
 
 const SignUpPage = () => {
+  const [showLogin, setShowLogin] = useState(false)
+
   return (
-    <div>
-      <SignUpForm signupAction={signupAction}/>
-    </div>
-  )
+    <>
+      {showLogin ? (
+        <>
+          <LoginForm />
+          <p style={{ marginTop: "1rem", fontSize: "19.2px" }}>Not a member? 
+         </p>
+         <Link
+            
+            onClick={() => setShowLogin(false)}
+            
+            style={{  color: "blue", fontSize: "19.2px" }}
+          >
+            Sign Up
+          </Link>
+          
+        </>
+      ) : (
+        <>
+          <SignUpForm signupAction={signupAction} />
+          <p className="signup-label" style={{ marginTop: "1rem", fontSize: "19.2px" }}>Already a member? 
+          </p>
+          <Link
+            
+            onClick={() => setShowLogin(true)}
+            
+            style={{ color: "blue", fontSize: "19.2px" }}
+          >
+            Login
+          </Link>
+          
+        </>
+      )}
+    </>
+  );
 }
 
 export default SignUpPage

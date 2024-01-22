@@ -1,5 +1,5 @@
 // rrd imports
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useOutletContext } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 // library
@@ -42,7 +42,9 @@ export async function budgetAction({ request }) {
       await createExpense({
         name: values.newExpense,
         amount: values.newExpenseAmount,
-        budgetId: values.newExpenseBudget
+        budgetId: values.newExpenseBudget,
+        category: values.newExpenseCategory,
+        currency: values.newExpenseCurrency
       });
 
     
@@ -69,6 +71,11 @@ export async function budgetAction({ request }) {
 const BudgetPage = () => {
   const { budget } = useLoaderData();
   const [loading, setLoading] = useState(true);
+
+  const {user, setUser} = useOutletContext();
+  //remove localstorage.setItem('user') and navigate to login page
+  //use this isntead setUser(.....)
+
   const [dots, setDots] = useState('.');
 
 
