@@ -1,5 +1,5 @@
 //react imports
-import { useEffect, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 
 //rrd imports
 import { useFetcher } from "react-router-dom"
@@ -9,6 +9,25 @@ import { CurrencyDollarIcon } from "@heroicons/react/24/solid"
 
 
 const AddBudgetForm = () => {
+  //const {currencyList} = useLoaderData();
+  const [currencyList, setCurrencyList] = useState([]);
+  const [selectCurrency, setSelectCurrency] = useState("USD");
+
+
+  //use use effect or loader to get currency list into expense form - make sure it trickles down as far as props are concerned
+  const getCurrencyList = async () => {
+    const result = await fetch('/api/currency');
+    const data = await result.json();
+    console.log(data);
+    setCurrencyList(data.currencies
+      );
+  }
+
+  useEffect(()=>{
+      getCurrencyList();
+
+
+  },[])
   const fetcher = useFetcher();
   const isSubmitting = fetcher.state === "submitting"
 
@@ -58,6 +77,20 @@ const AddBudgetForm = () => {
             inputMode="decimal"
             required
           />
+        </div>
+        <div className="grid-xs">
+          <label htmlFor="newBudgetCurrency">Currency</label>
+          <select 
+            name="newBudgetCurrency" 
+            id="newBudgetCurrency" 
+            value={selectCurrency} 
+            onChange={(e)=>setSelectCurrency(e.target.value)}
+          >
+            {
+              Object.entries(currencyList).map((c,k) => <option key={k} value={c[0]}>{c[1]} ({c[0]})</option>)
+            }
+            
+          </select>
         </div>
         <input 
           type="hidden"
