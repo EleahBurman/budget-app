@@ -50,6 +50,7 @@ export async function dashboardAction({request}){
       await createBudget({
         name: values.newBudget,
         amount: values.newBudgetAmount,
+        currency: values.newBudgetCurrency
       })
       return toast.success("Budget created!")
     } catch(e){
