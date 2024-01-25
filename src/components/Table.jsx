@@ -54,7 +54,7 @@ const Table = ({ expenses, showBudget = true }) => {
                 {i === "Date" || i === "Name" || i === "Amount (USD)" ? (
                   <div>
                     {i}
-                    <select value={sortOrder} onChange={handleSortChange}>
+                    <select className="centered-text" value={sortOrder} onChange={handleSortChange}>
                       {i === "Date" && (
                         <>
                           <option value="newest">Newest</option>

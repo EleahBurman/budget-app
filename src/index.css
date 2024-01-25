@@ -323,6 +323,10 @@ nav a {
   font-weight: bold;
 }
 
+.centered-text {
+  text-align: center;
+}
+
 @media screen and (max-width: 525px) {
   nav a span {
     display: none;
