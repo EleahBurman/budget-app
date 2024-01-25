@@ -7,15 +7,28 @@ const Table = ({ expenses, showBudget = true, sortOrder, onSortChange }) => {
     onSortChange(newSortOrder);
   };
 
-   // Sort expenses based on the selected order
+  // Sort expenses based on the selected order
   const sortedExpenses = [...expenses].sort((a, b) => {
-    const dateA = new Date(a.createdAt).toLocaleDateString();
-    const dateB = new Date(b.createdAt).toLocaleDateString();
+    if (sortOrder === "newest" || sortOrder === "oldest") {
+      // Sort by date
+      const dateA = new Date(a.createdAt).toLocaleDateString();
+      const dateB = new Date(b.createdAt).toLocaleDateString();
 
-    if (sortOrder === "newest") {
-      return dateB.localeCompare(dateA);
-    } else {
-      return dateA.localeCompare(dateB);
+      if (sortOrder === "newest") {
+        return dateB.localeCompare(dateA);
+      } else {
+        return dateA.localeCompare(dateB);
+      }
+    } else if (sortOrder === "az" || sortOrder === "za") {
+      // Sort by name
+      const nameA = a.name.toLowerCase();
+      const nameB = b.name.toLowerCase();
+
+      if (sortOrder === "az") {
+        return nameA.localeCompare(nameB);
+      } else {
+        return nameB.localeCompare(nameA);
+      }
     }
   });
 
@@ -28,12 +41,22 @@ const Table = ({ expenses, showBudget = true, sortOrder, onSortChange }) => {
           <tr>
             {["Name", "Amount (USD)", "Date", showBudget ? "Budget" : "", ""].map((i, index) => (
               <th key={index}>
-                {i === "Date" ? (
+                {i === "Date" || i === "Name" ? (
                   <div>
                     {i}
                     <select value={sortOrder} onChange={handleSortChange}>
-                      <option value="newest">Newest</option>
-                      <option value="oldest">Oldest</option>
+                      {i === "Date" && (
+                        <>
+                          <option value="newest">Newest</option>
+                          <option value="oldest">Oldest</option>
+                        </>
+                      )}
+                      {i === "Name" && (
+                        <>
+                          <option value="az">A-Z</option>
+                          <option value="za">Z-A</option>
+                        </>
+                      )}
                     </select>
                   </div>
                 ) : (
