@@ -42,24 +42,28 @@ const Table = ({ expenses, showBudget = true }) => {
                     <select className="centered-text" value={sortOrder} onChange={handleSortChange}>
                       {i === "Date" && (
                         <>
+                          <option value="none">---</option>
                           <option value="newest">Newest</option>
                           <option value="oldest">Oldest</option>
                         </>
                       )}
                       {i === "Name" && (
                         <>
+                          <option value="none">---</option>
                           <option value="az">A-Z</option>
                           <option value="za">Z-A</option>
                         </>
                       )}
                       {i === "Amount (USD)" && (
                         <>
+                          <option value="none">---</option>
                           <option value="low_high">Low to High</option>
                           <option value="high_low">High to Low</option>
                         </>
                       )}
                       {i === "Budget" && (
                         <>
+                          <option value="none">---</option>
                           <option value="alpha">A-Z</option>
                           <option value="anti_alpha">Z-A</option>
                         </>
