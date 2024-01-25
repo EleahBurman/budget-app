@@ -1,3 +1,4 @@
+// Table.jsx
 import { useState } from "react";
 import ExpenseItem from "../components/ExpenseItem";
 
@@ -9,39 +10,23 @@ const Table = ({ expenses, showBudget = true }) => {
     setSortOrder(newSortOrder);
   };
 
-  // Sort expenses based on the selected order
   const sortedExpenses = [...expenses].sort((a, b) => {
     if (sortOrder === "newest" || sortOrder === "oldest") {
-      // Sort by date
       const dateA = new Date(a.createdAt).toLocaleDateString();
       const dateB = new Date(b.createdAt).toLocaleDateString();
 
-      if (sortOrder === "newest") {
-        return dateB.localeCompare(dateA);
-      } else {
-        return dateA.localeCompare(dateB);
-      }
+      return sortOrder === "newest" ? dateB.localeCompare(dateA) : dateA.localeCompare(dateB);
     } else if (sortOrder === "az" || sortOrder === "za") {
-      // Sort by name
       const nameA = a.name.toLowerCase();
       const nameB = b.name.toLowerCase();
 
-      if (sortOrder === "az") {
-        return nameA.localeCompare(nameB);
-      } else {
-        return nameB.localeCompare(nameA);
-      }
+      return sortOrder === "az" ? nameA.localeCompare(nameB) : nameB.localeCompare(nameA);
     } else if (sortOrder === "low_high" || sortOrder === "high_low") {
-      // Sort by amount
       const amountA = a.amount;
       const amountB = b.amount;
 
-      if (sortOrder === "low_high") {
-        return amountA - amountB;
-      } else {
-        return amountB - amountA;
-      }
-    }
+      return sortOrder === "low_high" ? amountA - amountB : amountB - amountA;
+    } 
   });
 
   return (
@@ -51,7 +36,7 @@ const Table = ({ expenses, showBudget = true }) => {
           <tr>
             {["Name", "Amount (USD)", "Date", showBudget ? "Budget" : "", ""].map((i, index) => (
               <th key={index}>
-                {i === "Date" || i === "Name" || i === "Amount (USD)" ? (
+                {i === "Date" || i === "Name" || i === "Amount (USD)" || i === "Budget" ? (
                   <div>
                     {i}
                     <select className="centered-text" value={sortOrder} onChange={handleSortChange}>
@@ -73,6 +58,12 @@ const Table = ({ expenses, showBudget = true }) => {
                           <option value="high_low">High to Low</option>
                         </>
                       )}
+                      {i === "Budget" && (
+                        <>
+                          <option value="alpha">A-Z</option>
+                          <option value="anti_alpha">Z-A</option>
+                        </>
+                      )}
                     </select>
                   </div>
                 ) : (
@@ -85,7 +76,7 @@ const Table = ({ expenses, showBudget = true }) => {
         <tbody>
           {sortedExpenses.map((expense) => (
             <tr key={expense._id}>
-              <ExpenseItem expense={expense} showBudget={showBudget} />
+              <ExpenseItem expense={expense} showBudget={showBudget} sortOrder={sortOrder} />
             </tr>
           ))}
         </tbody>

@@ -1,17 +1,9 @@
-//rrd imports
 import { Link, useFetcher } from "react-router-dom";
-
-//library import
 import { TrashIcon } from "@heroicons/react/24/solid";
-
-//helper imports
-import { 
-  formatCurrency, 
-  formatDateToLocaleString, getAllMatchingItems } from "../helpers";
+import { formatCurrency, formatDateToLocaleString, getAllMatchingItems } from "../helpers";
 import { useState, useEffect } from "react";
 
-
-const ExpenseItem = ({ expense, showBudget }) => {
+const ExpenseItem = ({ expense, showBudget, sortOrder }) => {
   const fetcher = useFetcher();
   const [budget, setBudget] = useState([]);
 
@@ -39,6 +31,21 @@ const ExpenseItem = ({ expense, showBudget }) => {
     return null;
   }
 
+  // Simplified sorting logic for the "Budget" column using ternary operator
+  const budgetName = budget.name
+  let sortedBudget;
+  
+  if (sortOrder === "alpha") {
+    // Use the sort function for alphabetical order
+    sortedBudget = budgetName.split(' ').sort((a, b) => a.localeCompare(b)).join(' ');
+  } else if (sortOrder === "anti_alpha") {
+    // Use the sort function for reverse alphabetical order
+    sortedBudget = budgetName.split(' ').sort((a, b) => b.localeCompare(a)).join(' ');
+  } else {
+    // Default to alphabetical order if sortOrder is not recognized
+    sortedBudget = budgetName.split(' ').sort((a, b) => a.localeCompare(b)).join(' ');
+  }
+
   return (
     <>
       <td>{expense.name}</td>
@@ -52,7 +59,7 @@ const ExpenseItem = ({ expense, showBudget }) => {
               "--accent": budget.color,
             }}
           >
-            {budget.name}
+            {sortedBudget}
           </Link>
         </td>
       )}
