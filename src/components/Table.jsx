@@ -1,10 +1,13 @@
+// Table.jsx
 import { useState } from "react";
 import ExpenseItem from "../components/ExpenseItem";
 
-const Table = ({ expenses, showBudget = true, sortOrder, onSortChange }) => {
+const Table = ({ expenses, showBudget = true }) => {
+  const [sortOrder, setSortOrder] = useState("newest");
+
   const handleSortChange = (e) => {
     const newSortOrder = e.target.value;
-    onSortChange(newSortOrder);
+    setSortOrder(newSortOrder);
   };
 
   // Sort expenses based on the selected order

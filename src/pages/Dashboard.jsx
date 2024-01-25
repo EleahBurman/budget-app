@@ -1,3 +1,4 @@
+// Dashboard.jsx
 import { Link, useLoaderData } from "react-router-dom";
 import { toast } from "react-toastify";
 import { createBudget, createExpense, deleteItem, fetchData, waait } from "../helpers";
@@ -7,7 +8,7 @@ import AddExpenseForm from "../components/AddExpenseForm";
 import BudgetItem from "../components/BudgetItem";
 import Table from "../components/Table";
 import { createUser } from "../helpers";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export async function dashboardLoader() {
   const userName = await fetchData("userName");
