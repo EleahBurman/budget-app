@@ -1,4 +1,3 @@
-// Table.jsx
 import { useState } from "react";
 import ExpenseItem from "../components/ExpenseItem";
 
@@ -32,10 +31,18 @@ const Table = ({ expenses, showBudget = true }) => {
       } else {
         return nameB.localeCompare(nameA);
       }
+    } else if (sortOrder === "low_high" || sortOrder === "high_low") {
+      // Sort by amount
+      const amountA = a.amount;
+      const amountB = b.amount;
+
+      if (sortOrder === "low_high") {
+        return amountA - amountB;
+      } else {
+        return amountB - amountA;
+      }
     }
   });
-
-  console.log("Sorted Expenses:", sortedExpenses);
 
   return (
     <div className="table">
@@ -44,7 +51,7 @@ const Table = ({ expenses, showBudget = true }) => {
           <tr>
             {["Name", "Amount (USD)", "Date", showBudget ? "Budget" : "", ""].map((i, index) => (
               <th key={index}>
-                {i === "Date" || i === "Name" ? (
+                {i === "Date" || i === "Name" || i === "Amount (USD)" ? (
                   <div>
                     {i}
                     <select value={sortOrder} onChange={handleSortChange}>
@@ -58,6 +65,12 @@ const Table = ({ expenses, showBudget = true }) => {
                         <>
                           <option value="az">A-Z</option>
                           <option value="za">Z-A</option>
+                        </>
+                      )}
+                      {i === "Amount (USD)" && (
+                        <>
+                          <option value="low_high">Low to High</option>
+                          <option value="high_low">High to Low</option>
                         </>
                       )}
                     </select>
