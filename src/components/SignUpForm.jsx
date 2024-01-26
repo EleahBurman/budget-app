@@ -4,6 +4,10 @@ import { useEffect, useState, useRef } from "react"
 //rrd imports
 import { useNavigate } from "react-router-dom"
 
+//library imports
+import PasswordStrengthBar from 'react-password-strength-bar';
+
+
 const SignUpForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const formRef = useRef()
@@ -26,7 +30,6 @@ const SignUpForm = () => {
     setIsSubmitting(true);
     // setTimeout(async () => {
 
-   
 
       const response = await fetch ('/api/users/signup', {
         method: 'POST',
@@ -68,7 +71,11 @@ const SignUpForm = () => {
       <label className="singup-label">Password</label>
       <input type="password" className="password-input" onChange={(e)=>{setPassword(e.target.value)}} value={password}></input>
       <label className="singup-label">Confirm Password</label>
-      <input type="password" className="confirm-password-input" onChange={(e)=>{setPasswordConfirmation(e.target.value)}} value={passwordConfirmation}></input>
+      <input autoComplete="off" type="password" className="confirm-password-input" onChange={(e)=>{setPasswordConfirmation(e.target.value)}} value={passwordConfirmation}></input>
+
+      <label className="singup-label">Password Strength</label>
+      <PasswordStrengthBar password={password} style={{marginTop: "20px"}}/>
+
       <button 
         type="submit"
         className="btn btn--dark"

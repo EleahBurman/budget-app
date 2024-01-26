@@ -61,8 +61,8 @@ const SignUpPage = () => {
         <>
           <LoginForm />
           <p style={{ marginTop: "1rem", fontSize: "19.2px" }}>Not a member? 
-         </p>
-         <Link
+          </p>
+          <Link
             
             onClick={() => setShowLogin(false)}
             
