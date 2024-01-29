@@ -78,7 +78,7 @@ const SignUpForm = () => {
       <span className="input-requirements"><ExclamationCircleIcon width={15} />Minimum 5 characters, at least one uppercase, one lowercase, and one number</span>
       <br />
       <label className="singup-label">Confirm Password</label>
-      <input autoComplete="off" type="password" className="confirm-password-input" onChange={(e) => { setPasswordConfirmation(e.target.value) }} value={passwordConfirmation}></input>
+      <input autoComplete="off" type={showPassword ? 'text' : 'password'} className="confirm-password-input" onChange={(e) => { setPasswordConfirmation(e.target.value) }} value={passwordConfirmation}></input>
       <span className="input-requirements"><ExclamationCircleIcon width={15} />Match password</span>
       <br />
 
