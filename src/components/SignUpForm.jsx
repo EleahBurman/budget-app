@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 //library imports
 import PasswordStrengthBar from 'react-password-strength-bar';
-import { ExclamationCircleIcon } from "@heroicons/react/24/outline";
+import { ExclamationCircleIcon, EyeIcon, EyeSlashIcon} from "@heroicons/react/24/outline";
 
 const SignUpForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -65,24 +65,63 @@ const SignUpForm = () => {
       onSubmit={handleSubmit}
       ref={formRef}
     >
-      <label className="singup-label">Username</label>
-      <input type="text" className="username-input" onChange={(e) => { setUsername(e.target.value) }} value={username} ref={focusRef}></input>
+      <label className="signup-label">Username</label>
+      <input 
+        type="text" 
+        className="username-input" 
+        onChange={(e) => { setUsername(e.target.value) }} value={username} ref={focusRef}
+      >
+      </input>
       <span className="input-requirements"><ExclamationCircleIcon width={15} />Minimum 5 characters, maximum 20 characters</span>
       <br />
-      <label className="singup-label" >Email</label>
-      <input type="text" className="email-input" onChange={(e) => { setEmail(e.target.value) }} value={email}></input>
+      <label className="signup-label" >Email</label>
+      <input 
+        type="text" 
+        className="email-input" 
+        onChange={(e) => { setEmail(e.target.value) }} 
+        value={email}
+        
+      >
+      </input>
       <span className="input-requirements"><ExclamationCircleIcon width={15} />Minimum 5 characters, valid email address</span>
       <br />
-      <label className="singup-label">Password</label>
-      <input type={showPassword ? 'text' : 'password'} className="password-input" onChange={(e) => { setPassword(e.target.value) }} value={password}></input>
+      <label className="signup-label">Password</label>
+      <div className="password-input-container">
+        <input 
+          autoComplete="new-password" 
+          type={showPassword ? 'text' : 'password'} 
+          className="password-input" 
+          onChange={(e) => { setPassword(e.target.value) }} 
+          value={password} 
+          style={{width: "95%", marginLeft: "5px"}}>
+        </input>
+        <button
+          type="button"
+          onClick={() => setShowPassword(!showPassword)}
+          style={{ background: "none", border: "none", cursor: "pointer", width: "auto" }}
+        >
+          &nbsp; {showPassword ? (
+            <EyeIcon width={20} />
+          ) : (
+            <EyeSlashIcon width={20} />
+          )}
+        </button>
+      </div>
       <span className="input-requirements"><ExclamationCircleIcon width={15} />Minimum 5 characters, at least one uppercase, one lowercase, and one number</span>
       <br />
-      <label className="singup-label">Confirm Password</label>
-      <input autoComplete="off" type={showPassword ? 'text' : 'password'} className="confirm-password-input" onChange={(e) => { setPasswordConfirmation(e.target.value) }} value={passwordConfirmation}></input>
+      <label className="signup-label">Confirm Password</label>
+      <input 
+        autoComplete="new-password" 
+        type={showPassword ? 'text' : 'password'} 
+        className="confirm-password-input" 
+        onChange={(e) => { setPasswordConfirmation(e.target.value) }} 
+        value={passwordConfirmation}
+      >
+      </input>
       <span className="input-requirements"><ExclamationCircleIcon width={15} />Match password</span>
       <br />
 
-      <label className="singup-label">Password Strength</label>
+      <label className="signup-label">Password Strength</label>
       <PasswordStrengthBar password={password} style={{ marginTop: "20px" }} />
       
       <label>
@@ -91,7 +130,7 @@ const SignUpForm = () => {
           type="checkbox"
           checked={showPassword}
           onChange={() => setShowPassword(!showPassword)}
-          style={{ width: "auto" }}
+          style={{ width: "auto", cursor: "pointer" }}
         />
       </label>
 
@@ -101,11 +140,9 @@ const SignUpForm = () => {
           type="checkbox"
           checked={keepLoggedIn}
           onChange={() => setKeepLoggedIn(!keepLoggedIn)}
-          style={{ width: "auto" }}
+          style={{ width: "auto", cursor: "pointer" }}
         />
       </label>
-
-
 
       <button
         type="submit"
