@@ -60,31 +60,33 @@ const SignUpPage = () => {
       {showLogin ? (
         <>
           <LoginForm />
-          <p style={{ marginTop: "1rem", fontSize: "19.2px" }}>Not a member? 
-         </p>
-         <Link
+          <p style={{ marginTop: "1rem", fontSize: "19.2px" }}>Not a member?
+          <br /><Link
             
             onClick={() => setShowLogin(false)}
             
-            style={{  color: "blue", fontSize: "19.2px" }}
+            style={{  color: "#1bbbc3", fontSize: "19.2px", fontWeight: "bold"  }}
           >
             Sign Up
           </Link>
+          </p>
+          
           
         </>
       ) : (
         <>
           <SignUpForm signupAction={signupAction} />
-          <p className="signup-label" style={{ marginTop: "1rem", fontSize: "19.2px" }}>Already a member? 
-          </p>
-          <Link
+          <p className="signup-label" style={{ marginTop: "1rem", fontSize: "19.2px" }}>Already a member?
+          <br /><Link
             
             onClick={() => setShowLogin(true)}
             
-            style={{ color: "blue", fontSize: "19.2px" }}
+            style={{ color: "#1bbbc3", fontSize: "19.2px", fontWeight: "bold"  }}
           >
             Login
-          </Link>
+          </Link> 
+          </p>
+          
           
         </>
       )}

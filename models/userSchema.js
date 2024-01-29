@@ -21,9 +21,14 @@ let userSchema = new Schema({
     required: [true, "Please enter a password"],
     minlength: 5
   },
- 
+
   refreshToken: {
     type: String,
+  },
+
+  keepLoggedIn: {
+    type: Boolean,
+    default: false,
   },
 },
   {

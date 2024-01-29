@@ -2,17 +2,20 @@
 import { useEffect, useState, useRef } from "react"
 
 //rrd imports
-import { useNavigate, useOutletContext } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
-
+//library imports
+import { EyeIcon, EyeSlashIcon} from "@heroicons/react/24/outline";
 const LoginForm = () => {
   //get rid of global state and rely on cookie
   //not using setUser
   //logout button ( why is that missing - - route that deletes cookie)
-  const [setUser] =  useOutletContext();
+  // const [setUser] =  useOutletContext();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const formRef = useRef()
   const focusRef = useRef()
+  const [keepLoggedIn, setKeepLoggedIn] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   useEffect(() => {
     if(!isSubmitting){
       formRef.current.reset()
@@ -38,6 +41,7 @@ const LoginForm = () => {
         body: JSON.stringify({
           email: email,
           password: password,
+          keepLoggedIn: keepLoggedIn,
         })
       })
   
@@ -50,7 +54,6 @@ const LoginForm = () => {
       }
   
       const body = await response.json();
-      console.log(body, "is this login body");
   
       //store token in local storage
       const accessToken = body.accessToken;
@@ -81,10 +84,55 @@ const LoginForm = () => {
       onSubmit={handleSubmit} 
       ref={formRef}>
       
-      <label className="singup-label" >Email</label>
-      <input type="text" className="email-input" onChange={(e)=>{setEmail(e.target.value)}} value={email} ref={focusRef}></input>
-      <label className="singup-label">Password</label>
-      <input type="password" className="password-input" onChange={(e)=>{setPassword(e.target.value)}} value={password}></input>
+      <label className="signup-label" >Email</label>
+      <input 
+        type="text" 
+        className="email-input" 
+        onChange={(e)=>{setEmail(e.target.value)}} 
+        value={email} 
+        ref={focusRef}
+        style={{width: "90%"}}></input>
+      <label className="signup-label">Password</label>
+      <div className="password-input-container">
+        <input 
+          autoComplete="new-password" 
+          type={showPassword ? 'text' : 'password'} 
+          className="password-input" 
+          onChange={(e) => { setPassword(e.target.value) }} 
+          value={password} 
+          style={{width: "90%"}}>
+        </input>
+        <button
+          type="button"
+          onClick={() => setShowPassword(!showPassword)}
+          style={{ background: "none", border: "none", cursor: "pointer", width: "auto" }}
+        >
+          &nbsp; {showPassword ? (
+            <EyeIcon width={20} />
+          ) : (
+            <EyeSlashIcon width={20} />
+          )}
+        </button>
+      </div>
+      <label>
+        Show Password
+        &nbsp; <input
+          type="checkbox"
+          checked={showPassword}
+          onChange={() => setShowPassword(!showPassword)}
+          style={{ width: "auto" }}
+        />
+      </label>
+
+      <label>
+        &nbsp; Remember Me
+        &nbsp; <input
+        type="checkbox"
+        checked={keepLoggedIn}
+        onChange={() => setKeepLoggedIn(!keepLoggedIn)}
+        style={{ width: "auto"}}
+        />
+      </label>
       <button 
         type="submit"
         className="btn btn--dark"

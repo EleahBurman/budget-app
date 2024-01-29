@@ -18,71 +18,113 @@ export const getUsers = async (req, res) => {
 //@route POST /api/users/register
 //@access Public
 
-export const signUpUser =  async (req, res) => {
-  console.log("This is req body: ", req.body);
+/**
+ * @param {string} value: passwordValue
+ */
+const checkPasswordValidity = (value) => {
+  const isNonWhiteSpace = /^\S*$/;
+  const isContainsUppercase = /^(?=.*[A-Z]).*$/;
+  const isContainsLowercase = /^(?=.*[a-z]).*$/;
+  const isContainsNumber = /^(?=.*[0-9]).*$/;
+  const isContainsSymbol = /^(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?/~₹-]).*$/;
+  const isValidLength = /^.{5,}$/; // Adjusted minimum length to 5 characters
 
+  const errors = [];
 
-  const {username, email, password, passwordConfirmation} = req.body;
+  if (!isNonWhiteSpace.test(value)) {
+    errors.push("Password must not contain Whitespaces.");
+  }
+
+  if (!isContainsUppercase.test(value)) {
+    errors.push("Password must have at least one Uppercase Character.");
+  }
+
+  if (!isContainsLowercase.test(value)) {
+    errors.push("Password must have at least one Lowercase Character.");
+  }
+
+  if (!isContainsNumber.test(value)) {
+    errors.push("Password must contain at least one Digit.");
+  }
+
+  if (!isContainsSymbol.test(value)) {
+    errors.push("Password must contain at least one Special Symbol.");
+  }
+
+  if (!isValidLength.test(value)) {
+    errors.push("Password must be at least 5 Characters Long.");
+  }
+
+  return errors.length === 0 ? true : errors;
+}
+
+export const signUpUser = async (req, res) => {
+  const { username, email, password, passwordConfirmation } = req.body;
+
   try {
-
-
+    // Check if passwords match
     if (password !== passwordConfirmation) {
-      res.status(400).json({message: 'Passwords do not match'});
+      return res.status(400).json({ message: 'Passwords do not match' });
     }
 
+    // Check if all fields are filled
     if (!username || !email || !password || !passwordConfirmation) {
-      res.status(400).json({message: 'Please fill in all fields'});
+      return res.status(400).json({ message: 'Please fill in all fields' });
     }
 
-    const userAvailable = await User.findOne({email});
-    console.log("userAvailable", userAvailable)
+    // Validate the password before hashing
+    const validationResult = checkPasswordValidity(password);
+
+    if (validationResult !== true) {
+      return res.status(400).json({ errors: validationResult });
+    }
+
+    // Check if user already exists
+    const userAvailable = await User.findOne({ email });
+
     if (!userAvailable) {
+      // Hash the password
       const hashedPassword = await bcrypt.hash(password, 10);
-      console.log("hash success", hashedPassword);
+
+      // Create the user
       const user = await User.create({
         username,
         email,
         password: hashedPassword
       });
-      console.log(`User created ${user}`);
-      if (user) {
-        const refreshToken = await jsonwebtoken.sign(
-            {
-              user: {
-                username: user.username,
-                email: user.email,
-                id: user.id
-              },
-            }, process.env.ACCESS_TOKEN_SECRET, );
 
-        res.cookie('refreshToken', refreshToken)
+      // Generate and set the refreshToken
+      const refreshTokenExpiresIn = req.body.keepLoggedIn ? '7d' : '1h';
+      const refreshToken = await jsonwebtoken.sign(
+        {
+          user: {
+            username: user.username,
+            email: user.email,
+            id: user.id
+          },
+        },
+        process.env.ACCESS_TOKEN_SECRET,
+        { expiresIn: refreshTokenExpiresIn }
+      );
 
-        console.log("sign up made cookie")
-        res.status(201).json({
-          _id: user.id,
-          email: user.email,
-          username: user.username,
-          password: user.password,
-          confirmationPassword: user.confirmationPassword,
-        });
-      } else {
-        res.status(400).json({message: 'Invalid user data'});
-      }
+      // Set the refreshToken in the cookie
+      res.cookie('refreshToken', refreshToken);
 
+      return res.status(201).json({
+        _id: user.id,
+        email: user.email,
+        username: user.username,
+      });
     } else {
-      res.status(400).json({message: 'User already exists'});
+      return res.status(400).json({ message: 'User already exists' });
     }
 
-
-  } catch (err){
+  } catch (err) {
     console.log(err);
-    res.status(500).json({
+    return res.status(500).json({
       message: err.message
     });
   }
-
-
-
 };
 
 //@desc Login a user
