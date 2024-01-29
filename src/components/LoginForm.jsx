@@ -4,7 +4,8 @@ import { useEffect, useState, useRef } from "react"
 //rrd imports
 import { useNavigate } from "react-router-dom"
 
-
+//library imports
+import { EyeIcon, EyeSlashIcon} from "@heroicons/react/24/outline";
 const LoginForm = () => {
   //get rid of global state and rely on cookie
   //not using setUser
@@ -53,7 +54,6 @@ const LoginForm = () => {
       }
   
       const body = await response.json();
-      console.log(body, "is this login body");
   
       //store token in local storage
       const accessToken = body.accessToken;
@@ -84,11 +84,36 @@ const LoginForm = () => {
       onSubmit={handleSubmit} 
       ref={formRef}>
       
-      <label className="singup-label" >Email</label>
-      <input type="text" className="email-input" onChange={(e)=>{setEmail(e.target.value)}} value={email} ref={focusRef}></input>
-      <label className="singup-label">Password</label>
-      <input type={showPassword ? 'text' : 'password'} className="password-input" onChange={(e) => { setPassword(e.target.value) }} value={password}></input>
-
+      <label className="signup-label" >Email</label>
+      <input 
+        type="text" 
+        className="email-input" 
+        onChange={(e)=>{setEmail(e.target.value)}} 
+        value={email} 
+        ref={focusRef}
+        style={{width: "90%"}}></input>
+      <label className="signup-label">Password</label>
+      <div className="password-input-container">
+        <input 
+          autoComplete="new-password" 
+          type={showPassword ? 'text' : 'password'} 
+          className="password-input" 
+          onChange={(e) => { setPassword(e.target.value) }} 
+          value={password} 
+          style={{width: "90%"}}>
+        </input>
+        <button
+          type="button"
+          onClick={() => setShowPassword(!showPassword)}
+          style={{ background: "none", border: "none", cursor: "pointer", width: "auto" }}
+        >
+          &nbsp; {showPassword ? (
+            <EyeIcon width={20} />
+          ) : (
+            <EyeSlashIcon width={20} />
+          )}
+        </button>
+      </div>
       <label>
         Show Password
         &nbsp; <input

@@ -93,7 +93,7 @@ const SignUpForm = () => {
           className="password-input" 
           onChange={(e) => { setPassword(e.target.value) }} 
           value={password} 
-          style={{width: "95%", marginLeft: "5px"}}>
+          style={{width: "95%" }}>
         </input>
         <button
           type="button"
