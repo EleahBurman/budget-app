@@ -88,13 +88,15 @@ const LoginForm = () => {
       <label className="singup-label">Password</label>
       <input type="password" className="password-input" onChange={(e)=>{setPassword(e.target.value)}} value={password}></input>
       <label>
-        Keep me logged in
-        <input
+        Remember Me
+      </label>
+      <br />
+      <input
           type="checkbox"
           checked={keepLoggedIn}
           onChange={() => setKeepLoggedIn(!keepLoggedIn)}
+          style={{ width: "auto"}}
         />
-      </label>
       <button 
         type="submit"
         className="btn btn--dark"

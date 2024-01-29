@@ -90,13 +90,15 @@ const SignUpForm = () => {
       <PasswordStrengthBar password={password} style={{marginTop: "20px"}}/>
 
       <label>
-        Keep me logged in
-        <input
-          type="checkbox"
-          checked={keepLoggedIn}
-          onChange={() => setKeepLoggedIn(!keepLoggedIn)}
-        />
+        Remember Me
       </label>
+      < br/>
+      <input
+        type="checkbox"
+        checked={keepLoggedIn}
+        onChange={() => setKeepLoggedIn(!keepLoggedIn)}
+        style={{ width: "auto"}}
+      />
 
       <button 
         type="submit"
