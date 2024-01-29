@@ -14,6 +14,7 @@ const LoginForm = () => {
   const formRef = useRef()
   const focusRef = useRef()
   const [keepLoggedIn, setKeepLoggedIn] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   useEffect(() => {
     if(!isSubmitting){
       formRef.current.reset()
@@ -86,9 +87,20 @@ const LoginForm = () => {
       <label className="singup-label" >Email</label>
       <input type="text" className="email-input" onChange={(e)=>{setEmail(e.target.value)}} value={email} ref={focusRef}></input>
       <label className="singup-label">Password</label>
-      <input type="password" className="password-input" onChange={(e)=>{setPassword(e.target.value)}} value={password}></input>
+      <input type={showPassword ? 'text' : 'password'} className="password-input" onChange={(e) => { setPassword(e.target.value) }} value={password}></input>
+
       <label>
-        Remember Me
+        Show Password
+        &nbsp; <input
+          type="checkbox"
+          checked={showPassword}
+          onChange={() => setShowPassword(!showPassword)}
+          style={{ width: "auto" }}
+        />
+      </label>
+
+      <label>
+        &nbsp; Remember Me
         &nbsp; <input
         type="checkbox"
         checked={keepLoggedIn}
