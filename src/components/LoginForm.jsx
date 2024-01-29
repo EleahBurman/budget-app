@@ -89,14 +89,13 @@ const LoginForm = () => {
       <input type="password" className="password-input" onChange={(e)=>{setPassword(e.target.value)}} value={password}></input>
       <label>
         Remember Me
-      </label>
-      <br />
-      <input
-          type="checkbox"
-          checked={keepLoggedIn}
-          onChange={() => setKeepLoggedIn(!keepLoggedIn)}
-          style={{ width: "auto"}}
+        &nbsp; <input
+        type="checkbox"
+        checked={keepLoggedIn}
+        onChange={() => setKeepLoggedIn(!keepLoggedIn)}
+        style={{ width: "auto"}}
         />
+      </label>
       <button 
         type="submit"
         className="btn btn--dark"

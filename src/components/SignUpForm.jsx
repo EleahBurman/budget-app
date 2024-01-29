@@ -91,14 +91,14 @@ const SignUpForm = () => {
 
       <label>
         Remember Me
-      </label>
-      < br/>
-      <input
+        &nbsp; <input
         type="checkbox"
         checked={keepLoggedIn}
         onChange={() => setKeepLoggedIn(!keepLoggedIn)}
         style={{ width: "auto"}}
-      />
+        />
+      </label>
+
 
       <button 
         type="submit"
