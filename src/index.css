@@ -113,6 +113,12 @@ p {
   color: hsl(var(--muted));
 }
 
+.input-requirements{
+  color: #ef4736;
+  font-size: 15px;
+  opacity: 80%;
+}
+
 /* links and buttons */
 
 :where(a, .btn) {

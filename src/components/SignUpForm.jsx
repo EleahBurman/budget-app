@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom"
 
 //library imports
 import PasswordStrengthBar from 'react-password-strength-bar';
+import { ExclamationCircleIcon } from "@heroicons/react/24/outline";
 
 
 const SignUpForm = () => {
@@ -66,12 +67,20 @@ const SignUpForm = () => {
       ref={formRef}>
       <label className="singup-label">Username</label>
       <input type="text" className="username-input" onChange={(e)=>{setUsername(e.target.value)}} value={username} ref={focusRef}></input>
+      <span className="input-requirements"><ExclamationCircleIcon width={15} />Minimum 5 characters, maximum 20 characters</span>
+      <br />
       <label className="singup-label" >Email</label>
       <input type="text" className="email-input" onChange={(e)=>{setEmail(e.target.value)}} value={email}></input>
+      <span className="input-requirements"><ExclamationCircleIcon width={15} />Minimum 5 characters, valid email address</span>
+      <br />
       <label className="singup-label">Password</label>
       <input type="password" className="password-input" onChange={(e)=>{setPassword(e.target.value)}} value={password}></input>
+      <span className="input-requirements"><ExclamationCircleIcon width={15} />Minimum 5 characters, at least one uppercase, one lowercase, and one number</span>
+      <br />
       <label className="singup-label">Confirm Password</label>
       <input autoComplete="off" type="password" className="confirm-password-input" onChange={(e)=>{setPasswordConfirmation(e.target.value)}} value={passwordConfirmation}></input>
+      <span className="input-requirements"><ExclamationCircleIcon width={15} />Match password</span>
+      <br />
 
       <label className="singup-label">Password Strength</label>
       <PasswordStrengthBar password={password} style={{marginTop: "20px"}}/>
