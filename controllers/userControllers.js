@@ -94,6 +94,7 @@ export const signUpUser = async (req, res) => {
       });
 
       // Generate and set the refreshToken
+      const refreshTokenExpiresIn = req.body.keepLoggedIn ? '7d' : '1h';
       const refreshToken = await jsonwebtoken.sign(
         {
           user: {
@@ -103,6 +104,7 @@ export const signUpUser = async (req, res) => {
           },
         },
         process.env.ACCESS_TOKEN_SECRET,
+        { expiresIn: refreshTokenExpiresIn }
       );
 
       // Set the refreshToken in the cookie

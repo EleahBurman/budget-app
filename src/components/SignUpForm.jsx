@@ -13,6 +13,7 @@ const SignUpForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const formRef = useRef()
   const focusRef = useRef()
+  const [keepLoggedIn, setKeepLoggedIn] = useState(false);
   useEffect(() => {
     if(!isSubmitting){
       formRef.current.reset()
@@ -41,7 +42,8 @@ const SignUpForm = () => {
           username: username,
           email: email,
           password: password,
-          passwordConfirmation: passwordConfirmation
+          passwordConfirmation: passwordConfirmation,
+          keepLoggedIn: keepLoggedIn,
         })
       })
 
@@ -59,6 +61,7 @@ const SignUpForm = () => {
       //pass the form to the main page and make it so user first sees signup form if not loggedin (going to use current)
     
     // }, 1500)
+    console.log("Keep me logged in:", keepLoggedIn);
   }
 
   return (
@@ -82,8 +85,18 @@ const SignUpForm = () => {
       <span className="input-requirements"><ExclamationCircleIcon width={15} />Match password</span>
       <br />
 
+
       <label className="singup-label">Password Strength</label>
       <PasswordStrengthBar password={password} style={{marginTop: "20px"}}/>
+
+      <label>
+        Keep me logged in
+        <input
+          type="checkbox"
+          checked={keepLoggedIn}
+          onChange={() => setKeepLoggedIn(!keepLoggedIn)}
+        />
+      </label>
 
       <button 
         type="submit"

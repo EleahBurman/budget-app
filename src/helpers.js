@@ -64,6 +64,7 @@ export const fetchData = async (key) => {
           _id: data.id,
           name: data.username,
           email: data.email,
+          keepLoggedIn: data.keepLoggedIn,
         }
       } else {
         console.error("Error fetching data:", response.status);

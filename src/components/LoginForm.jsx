@@ -2,17 +2,18 @@
 import { useEffect, useState, useRef } from "react"
 
 //rrd imports
-import { useNavigate, useOutletContext } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
 
 const LoginForm = () => {
   //get rid of global state and rely on cookie
   //not using setUser
   //logout button ( why is that missing - - route that deletes cookie)
-  const [setUser] =  useOutletContext();
+  // const [setUser] =  useOutletContext();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const formRef = useRef()
   const focusRef = useRef()
+  const [keepLoggedIn, setKeepLoggedIn] = useState(false);
   useEffect(() => {
     if(!isSubmitting){
       formRef.current.reset()
@@ -38,6 +39,7 @@ const LoginForm = () => {
         body: JSON.stringify({
           email: email,
           password: password,
+          keepLoggedIn: keepLoggedIn,
         })
       })
   
@@ -85,6 +87,14 @@ const LoginForm = () => {
       <input type="text" className="email-input" onChange={(e)=>{setEmail(e.target.value)}} value={email} ref={focusRef}></input>
       <label className="singup-label">Password</label>
       <input type="password" className="password-input" onChange={(e)=>{setPassword(e.target.value)}} value={password}></input>
+      <label>
+        Keep me logged in
+        <input
+          type="checkbox"
+          checked={keepLoggedIn}
+          onChange={() => setKeepLoggedIn(!keepLoggedIn)}
+        />
+      </label>
       <button 
         type="submit"
         className="btn btn--dark"

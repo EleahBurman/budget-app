@@ -25,6 +25,11 @@ let userSchema = new Schema({
   refreshToken: {
     type: String,
   },
+
+  keepLoggedIn: {
+    type: Boolean,
+    default: false,
+  },
 },
   {
     timestamps: true,
