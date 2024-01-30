@@ -1,0 +1,6 @@
+Need to Work On
+1 - Log out - something with the reduce function is not working
+2 - Budgets and Expenses (and Recent Expenses) - have the original currency amount and currency listed and then amount in USD
+3 - Keep Logged In functionality - The dashboard is throwing an error
+4 - Add pie charts for both budgets on main page and expenses on budget page
+5 - Make requirements dynamic so when each requirement is fulfilled on login page a check mark appears and that the input requirements only show up when click on input

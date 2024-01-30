@@ -21,7 +21,7 @@ export const decodeCookie = async (req, res, next) => {
 
   } else {
     res.json({
-      message: "access denied"
+      message: "not logged in"
     })
   }
 

@@ -15,7 +15,6 @@ import BudgetItem from "../components/BudgetItem";
 import Table from "../components/Table";
 //helpers
 import { createUser } from "../helpers";
-import {  useOutletContext } from "react-router-dom"
 import { useEffect } from "react";
 //loaders
 export async function dashboardLoader(){
@@ -92,16 +91,13 @@ const Dashboard = () => {
 
   const { userName, budgets } = useLoaderData()
 
-  console.log("budgets check:", budgets);
-
-  useEffect(()=>{
-      console.log("dashboard", userName)
-  }, [])
-
   //combines all expenses from all the budgets
-  const expenses = budgets.reduce((acc,cur)=> {
-    return [...acc,...cur.expenses]
-  },[])
+  let expenses = [];
+  if(budgets && budgets != budgets.message == "not logged in"){
+    expenses = budgets.reduce((acc,cur)=> {
+      return [...acc,...cur.expenses]
+    },[])
+  }
 
 
   return (
