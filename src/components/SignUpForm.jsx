@@ -64,6 +64,7 @@ const SignUpForm = () => {
       <input
         type="text"
         className="username-input"
+        placeholder="Enter your username"
         onChange={(e) => { setUsername(e.target.value) }} value={username} ref={focusRef}
       />
       <span className="input-requirements"><ExclamationCircleIcon width={15} />Minimum 5 characters, maximum 20 characters</span>
@@ -72,6 +73,7 @@ const SignUpForm = () => {
       <input
         type="text"
         className="email-input"
+        placeholder="Enter your email"
         onChange={(e) => { setEmail(e.target.value) }}
         value={email}
       />
@@ -83,6 +85,7 @@ const SignUpForm = () => {
           autoComplete="new-password"
           type={showPassword ? 'text' : 'password'}
           className="password-input"
+          placeholder="Enter your password"
           onChange={(e) => { setPassword(e.target.value) }}
           value={password}
           style={{width: "100%"}}
@@ -105,6 +108,7 @@ const SignUpForm = () => {
       <input
         autoComplete="new-password"
         type={showPassword ? 'text' : 'password'}
+        placeholder="Confirm your password"
         className="confirm-password-input"
         onChange={(e) => { setPasswordConfirmation(e.target.value) }}
         value={passwordConfirmation}

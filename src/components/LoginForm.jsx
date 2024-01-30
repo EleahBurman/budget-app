@@ -87,7 +87,8 @@ const LoginForm = () => {
       <label className="signup-label" >Email</label>
       <input 
         type="text" 
-        className="email-input" 
+        className="email-input"
+        placeholder="Enter your email"
         onChange={(e)=>{setEmail(e.target.value)}} 
         value={email} 
         ref={focusRef}
@@ -98,6 +99,7 @@ const LoginForm = () => {
           autoComplete="new-password"
           type={showPassword ? 'text' : 'password'}
           className="password-input"
+          placeholder="Enter your password"
           onChange={(e) => { setPassword(e.target.value) }}
           value={password}
           style={{width: "100%"}}
