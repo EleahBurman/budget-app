@@ -84,7 +84,7 @@ const LoginForm = () => {
       onSubmit={handleSubmit} 
       ref={formRef}>
       
-      <label className="signup-label" >Email</label>
+      <label className="signup-label">Email</label>
       <input 
         type="text" 
         className="email-input"
@@ -92,8 +92,11 @@ const LoginForm = () => {
         onChange={(e)=>{setEmail(e.target.value)}} 
         value={email} 
         ref={focusRef}
+        aria-label="Email"
         style={{width: "100%"}}></input>
-      <label className="signup-label">Password</label>
+        
+      <label 
+        className="signup-label">Password</label>
       <div className="password-input-container" style={{ position: "relative", width: "100%" }}>
         <input
           autoComplete="new-password"
@@ -102,12 +105,14 @@ const LoginForm = () => {
           placeholder="Enter your password"
           onChange={(e) => { setPassword(e.target.value) }}
           value={password}
+          aria-label="Password"
           style={{width: "100%"}}
         />
         <button
           type="button"
           onClick={() => setShowPassword(!showPassword)}
           style={{ background: "none", border: "none", cursor: "pointer", position: "absolute", right: "5px", top: "25%"}}
+          aria-label={showPassword ? "Hide Password" : "Show Password"}
         >
           {showPassword ? (
             <EyeIcon width={20} />

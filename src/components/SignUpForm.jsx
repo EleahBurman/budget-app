@@ -66,6 +66,7 @@ const SignUpForm = () => {
         className="username-input"
         placeholder="Enter your username"
         onChange={(e) => { setUsername(e.target.value) }} value={username} ref={focusRef}
+        aria-label="Username"
       />
       <span className="input-requirements"><ExclamationCircleIcon width={15} />Minimum 5 characters, maximum 20 characters</span>
       <br />
@@ -76,6 +77,7 @@ const SignUpForm = () => {
         placeholder="Enter your email"
         onChange={(e) => { setEmail(e.target.value) }}
         value={email}
+        aria-label="Email"
       />
       <span className="input-requirements"><ExclamationCircleIcon width={15} />Minimum 5 characters, valid email address</span>
       <br />
@@ -89,11 +91,13 @@ const SignUpForm = () => {
           onChange={(e) => { setPassword(e.target.value) }}
           value={password}
           style={{width: "100%"}}
+          aria-label="Password"
         />
         <button
           type="button"
           onClick={() => setShowPassword(!showPassword)}
           style={{ background: "none", border: "none", cursor: "pointer", position: "absolute", right: "5px", top: "25%"}}
+          aria-label={showPassword ? "Hide Password" : "Show Password"}
         >
           {showPassword ? (
             <EyeIcon width={20} />
@@ -112,6 +116,7 @@ const SignUpForm = () => {
         className="confirm-password-input"
         onChange={(e) => { setPasswordConfirmation(e.target.value) }}
         value={passwordConfirmation}
+        aria-label="Confirm Password"
       />
       <span className="input-requirements"><ExclamationCircleIcon width={15} />Match password</span>
       <br />
