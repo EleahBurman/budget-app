@@ -332,6 +332,25 @@ nav a {
 .password-input{
   width: 100%;
 }
+
+.signup-label:hover::after {
+  content: attr(data-tooltip); /* Display the tooltip content */
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  padding: 0.5rem;
+  background-color: #333;
+  color: #fff;
+  z-index: 1;
+  display: none; /* Initially hidden */
+}
+
+/* Show the tooltip on hover */
+.signup-label:hover::after {
+  display: block;
+}
+
 @media screen and (max-width: 525px) {
   nav a span {
     display: none;

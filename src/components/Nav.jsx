@@ -6,7 +6,6 @@ import { TrashIcon } from '@heroicons/react/24/solid'
 //asets
 import threefriends from "../assets/three-friends.svg"
 
-import { deleteItem } from "../helpers"
 import { useEffect, useState } from "react"
 
 
@@ -81,21 +80,6 @@ const Nav = ({ user}) => {
       
       {loggedIn && 
         <div className="flex-sm">
-          {/*<Form*/}
-          {/*  method="post"*/}
-          {/*  action="logout"*/}
-          {/*  onSubmit={handleLogout}*/}
-          {/*>*/}
-          {/*  <button*/}
-          {/*    type="submit"*/}
-          {/*    className="btn"*/}
-          {/*  >*/}
-          {/*    Logout*/}
-          {/*  </button>*/}
-          {/*</Form>*/}
-          
-          
-          
           <button
               type="submit"
               className="btn"

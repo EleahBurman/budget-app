@@ -2,6 +2,8 @@ import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import PasswordStrengthBar from 'react-password-strength-bar';
 import { ExclamationCircleIcon, EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
+import { Tooltip } from 'react-tooltip'
+
 
 const SignUpForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -60,7 +62,12 @@ const SignUpForm = () => {
       onSubmit={handleSubmit}
       ref={formRef}
     >
-      <label className="signup-label">Username</label>
+      <Tooltip id="username-tooltip"/>
+      <label 
+        className="signup-label" 
+        data-tooltip-id="username-tooltip" 
+        data-tooltip-content="Enter your username"
+        data-tooltip-place="top-start">Username</label>
       <input
         type="text"
         className="username-input"
@@ -68,9 +75,16 @@ const SignUpForm = () => {
         onChange={(e) => { setUsername(e.target.value) }} value={username} ref={focusRef}
         aria-label="Username"
       />
+      
       <span className="input-requirements"><ExclamationCircleIcon width={15} />Minimum 5 characters, maximum 20 characters</span>
       <br />
-      <label className="signup-label">Email</label>
+      <Tooltip id="email-tooltip" anchorSelect="#email-label"/>
+      <label 
+        className="signup-label" 
+        data-tooltip-id="email-tooltip"
+        id="email-label"
+        data-tooltip-content="Enter your email"
+        data-tooltip-place="top-start">Email</label>
       <input
         type="text"
         className="email-input"
@@ -81,7 +95,13 @@ const SignUpForm = () => {
       />
       <span className="input-requirements"><ExclamationCircleIcon width={15} />Minimum 5 characters, valid email address</span>
       <br />
-      <label className="signup-label">Password</label>
+      <Tooltip id="password-tooltip" anchorSelect="#password-label"/>
+      <label 
+        className="signup-label"
+        id="password-label"
+        data-tooltip-id="password-tooltip"
+        data-tooltip-content="Enter your password"
+        data-tooltip-place="top-start">Password</label>
       <div className="password-input-container" style={{ position: "relative", width: "100%" }}>
         <input
           autoComplete="new-password"
@@ -108,7 +128,13 @@ const SignUpForm = () => {
       </div>
       <span className="input-requirements"><ExclamationCircleIcon width={15} />Minimum 5 characters, at least one uppercase, one lowercase, and one number</span>
       <br />
-      <label className="signup-label">Confirm Password</label>
+      <Tooltip id="confirmpassword-tooltip" anchorSelect="#confirm-password-label"/>
+      <label 
+        className="signup-label"
+        id="confirm-password-label"
+        data-tooltip-id="confirmpassword-tooltip"
+        data-tooltip-content="Confirm your password"
+        data-tooltip-place="top-start">Confirm Password</label>
       <input
         autoComplete="new-password"
         type={showPassword ? 'text' : 'password'}
@@ -120,8 +146,13 @@ const SignUpForm = () => {
       />
       <span className="input-requirements"><ExclamationCircleIcon width={15} />Match password</span>
       <br />
-
-      <label className="signup-label">Password Strength</label>
+      <Tooltip id="passwordstrength-tooltip" anchorSelect="#password-strength-label"/>
+      <label 
+        className="signup-label"
+        id="password-strength-label"
+        data-tooltip-id="passwordstrength-tooltip"
+        data-tooltip-content="Password Strength"
+        data-tooltip-place="top">Password Strength</label>
       <PasswordStrengthBar password={password} style={{ marginTop: "20px" }} />
 
       <label>
