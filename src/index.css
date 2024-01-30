@@ -329,6 +329,9 @@ nav a {
   font-weight: bold;
 }
 
+.password-input{
+  width: 100%;
+}
 @media screen and (max-width: 525px) {
   nav a span {
     display: none;

@@ -1,12 +1,7 @@
-//react imports
 import { useEffect, useState, useRef } from "react";
-
-//rrd imports
 import { useNavigate } from "react-router-dom";
-
-//library imports
 import PasswordStrengthBar from 'react-password-strength-bar';
-import { ExclamationCircleIcon, EyeIcon, EyeSlashIcon} from "@heroicons/react/24/outline";
+import { ExclamationCircleIcon, EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 
 const SignUpForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -66,41 +61,38 @@ const SignUpForm = () => {
       ref={formRef}
     >
       <label className="signup-label">Username</label>
-      <input 
-        type="text" 
-        className="username-input" 
+      <input
+        type="text"
+        className="username-input"
         onChange={(e) => { setUsername(e.target.value) }} value={username} ref={focusRef}
-      >
-      </input>
+      />
       <span className="input-requirements"><ExclamationCircleIcon width={15} />Minimum 5 characters, maximum 20 characters</span>
       <br />
-      <label className="signup-label" >Email</label>
-      <input 
-        type="text" 
-        className="email-input" 
-        onChange={(e) => { setEmail(e.target.value) }} 
+      <label className="signup-label">Email</label>
+      <input
+        type="text"
+        className="email-input"
+        onChange={(e) => { setEmail(e.target.value) }}
         value={email}
-        
-      >
-      </input>
+      />
       <span className="input-requirements"><ExclamationCircleIcon width={15} />Minimum 5 characters, valid email address</span>
       <br />
       <label className="signup-label">Password</label>
-      <div className="password-input-container">
-        <input 
-          autoComplete="new-password" 
-          type={showPassword ? 'text' : 'password'} 
-          className="password-input" 
-          onChange={(e) => { setPassword(e.target.value) }} 
-          value={password} 
-          style={{width: "95%" }}>
-        </input>
+      <div className="password-input-container" style={{ position: "relative", width: "100%" }}>
+        <input
+          autoComplete="new-password"
+          type={showPassword ? 'text' : 'password'}
+          className="password-input"
+          onChange={(e) => { setPassword(e.target.value) }}
+          value={password}
+          style={{width: "100%"}}
+        />
         <button
           type="button"
           onClick={() => setShowPassword(!showPassword)}
-          style={{ background: "none", border: "none", cursor: "pointer", width: "auto" }}
+          style={{ background: "none", border: "none", cursor: "pointer", position: "absolute", right: "5px", top: "25%"}}
         >
-          &nbsp; {showPassword ? (
+          {showPassword ? (
             <EyeIcon width={20} />
           ) : (
             <EyeSlashIcon width={20} />
@@ -110,20 +102,19 @@ const SignUpForm = () => {
       <span className="input-requirements"><ExclamationCircleIcon width={15} />Minimum 5 characters, at least one uppercase, one lowercase, and one number</span>
       <br />
       <label className="signup-label">Confirm Password</label>
-      <input 
-        autoComplete="new-password" 
-        type={showPassword ? 'text' : 'password'} 
-        className="confirm-password-input" 
-        onChange={(e) => { setPasswordConfirmation(e.target.value) }} 
+      <input
+        autoComplete="new-password"
+        type={showPassword ? 'text' : 'password'}
+        className="confirm-password-input"
+        onChange={(e) => { setPasswordConfirmation(e.target.value) }}
         value={passwordConfirmation}
-      >
-      </input>
+      />
       <span className="input-requirements"><ExclamationCircleIcon width={15} />Match password</span>
       <br />
 
       <label className="signup-label">Password Strength</label>
       <PasswordStrengthBar password={password} style={{ marginTop: "20px" }} />
-      
+
       <label>
         Show Password
         &nbsp; <input

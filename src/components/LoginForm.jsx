@@ -91,23 +91,23 @@ const LoginForm = () => {
         onChange={(e)=>{setEmail(e.target.value)}} 
         value={email} 
         ref={focusRef}
-        style={{width: "90%"}}></input>
+        style={{width: "100%"}}></input>
       <label className="signup-label">Password</label>
-      <div className="password-input-container">
-        <input 
-          autoComplete="new-password" 
-          type={showPassword ? 'text' : 'password'} 
-          className="password-input" 
-          onChange={(e) => { setPassword(e.target.value) }} 
-          value={password} 
-          style={{width: "90%"}}>
-        </input>
+      <div className="password-input-container" style={{ position: "relative", width: "100%" }}>
+        <input
+          autoComplete="new-password"
+          type={showPassword ? 'text' : 'password'}
+          className="password-input"
+          onChange={(e) => { setPassword(e.target.value) }}
+          value={password}
+          style={{width: "100%"}}
+        />
         <button
           type="button"
           onClick={() => setShowPassword(!showPassword)}
-          style={{ background: "none", border: "none", cursor: "pointer", width: "auto" }}
+          style={{ background: "none", border: "none", cursor: "pointer", position: "absolute", right: "5px", top: "25%"}}
         >
-          &nbsp; {showPassword ? (
+          {showPassword ? (
             <EyeIcon width={20} />
           ) : (
             <EyeSlashIcon width={20} />
