@@ -15,7 +15,7 @@ import BudgetItem from "../components/BudgetItem";
 import Table from "../components/Table";
 //helpers
 import { createUser } from "../helpers";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 //loaders
 export async function dashboardLoader(){
 
@@ -89,17 +89,31 @@ export async function dashboardAction({request}){
 
 const Dashboard = () => {
 
-  const { userName, budgets } = useLoaderData()
+  const { userName, budgets } = useLoaderData();
+  //const [expenses, setExpenses] = useState([]);
 
   //combines all expenses from all the budgets
   let expenses = [];
-  if(budgets && budgets != budgets.message == "not logged in"){
-    expenses = budgets.reduce((acc,cur)=> {
+  if(budgets &&  budgets.message != "not logged in"){
+    const tempExpenses = budgets.reduce((acc,cur)=> {
       return [...acc,...cur.expenses]
     },[])
+    console.log(tempExpenses);
+    expenses = tempExpenses ;
   }
 
+  // useEffect(()=>{
+  
+  //   if(budgets && budgets != budgets.message == "not logged in"){
+  //     const tempExpenses = budgets.reduce((acc,cur)=> {
+  //       return [...acc,...cur.expenses]
+  //     },[])
+  //     setExpenses([...tempExpenses]);
+  //   }
 
+  // }, [budgets]);
+
+  console.log("why isn't expenses showing?", expenses, budgets)
   return (
     <div>
       {userName?.name ? (

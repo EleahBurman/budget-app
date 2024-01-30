@@ -35,7 +35,8 @@ const AddExpenseForm = ({ budgets }) => {
   const isSubmitting = fetcher.state === "submitting";
   const formRef = useRef()
   const focusRef = useRef()
-  const [category, setCategory] = useState("")
+  //this grabs the first category
+  const [category, setCategory] = useState(budgets[0].name);
 
   useEffect(()=>{
     if(!isSubmitting){
@@ -56,7 +57,7 @@ const AddExpenseForm = ({ budgets }) => {
   return (
     <div className="form-wrapper">
       <h2 className="h3">Add New <span className="accent">
-          {budgets.length === 1 && `${budgets.map((budg) => budg.name)}`}
+          {category}
         </span>{" "}
           Expense
       </h2>
