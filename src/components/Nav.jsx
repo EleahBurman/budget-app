@@ -7,12 +7,13 @@ import { TrashIcon } from '@heroicons/react/24/solid'
 import threefriends from "../assets/three-friends.svg"
 
 import { deleteItem } from "../helpers"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 
 
 
 const Nav = ({ user}) => {
   const navigate = useNavigate();
+  const [loggedIn, setLoggedIn] = useState(false)
 
 
 
@@ -22,6 +23,15 @@ const Nav = ({ user}) => {
       navigate("/users/signup")
     }
   },[])
+
+  useEffect(()=>{
+    if(user.email){
+      setLoggedIn(true)
+    } else {
+      setLoggedIn(false)
+    }
+
+  },[user])
 
   const handleLogout = async () => {
     //event.preventDefault();
@@ -69,7 +79,7 @@ const Nav = ({ user}) => {
         <span>Budget Buddy</span>
       </NavLink>
       
-      {user?.email && 
+      {loggedIn && 
         <div className="flex-sm">
           {/*<Form*/}
           {/*  method="post"*/}
