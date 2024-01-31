@@ -121,7 +121,7 @@ const SignUpForm = () => {
           )}
         </button>
       </div>
-      <span className="input-requirements"><ExclamationCircleIcon width={15} />Minimum 5 characters, at least one uppercase, one lowercase, and one number</span>
+      <span className="input-requirements" id="password-requirements"><ExclamationCircleIcon width={15} />Minimum 5 characters, at least one uppercase, one lowercase, and one number</span>
       <br />
       <Tooltip id="confirm-password-tooltip" anchorSelect="#confirm-password-label"/>
       <label
@@ -138,7 +138,7 @@ const SignUpForm = () => {
         value={passwordConfirmation}
         aria-label="Confirm Password"
       />
-      <span className="input-requirements"><ExclamationCircleIcon width={15} />Match password</span>
+      <span className="input-requirements" id="confirm-password-requirements"><ExclamationCircleIcon width={15} />Match password</span>
       <br />
       <Tooltip id="password-strength-tooltip" anchorSelect="#password-strength-label"/>
       <label
@@ -151,7 +151,7 @@ const SignUpForm = () => {
       
 
       <label>
-        Remember Me
+        Remember Me?
         &nbsp; <input
           type="checkbox"
           checked={keepLoggedIn}

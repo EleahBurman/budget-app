@@ -25,14 +25,15 @@ const SignUpPage = () => {
       {showLogin ? (
         <>
           <LoginForm />
-          <p style={{ marginTop: "1rem", fontSize: "19.2px" }}>Not a member?
+          <p style={{ marginTop: "1rem", fontSize: "19.2px" }}>Not a Member?
           <br /><Link
             
             onClick={() => setShowLogin(false)}
             
-            style={{  color: "#1bbbc3", fontSize: "19.2px", fontWeight: "bold"  }}
+            style={{  color: "#1bbbc3", fontSize: "19.2px", fontWeight: "bold"  }
+            }
           >
-            Sign Up
+            Sign-Up
           </Link>
           </p>
           
