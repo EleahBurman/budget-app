@@ -351,6 +351,10 @@ nav a {
   display: block;
 }
 
+.tooltip {
+  background-color: #fff; /* Set background color to white or the desired color */
+}
+
 @media screen and (max-width: 525px) {
   nav a span {
     display: none;

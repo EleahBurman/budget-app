@@ -6,11 +6,10 @@ import { useNavigate } from "react-router-dom"
 
 //library imports
 import { EyeIcon, EyeSlashIcon} from "@heroicons/react/24/outline";
+
+import { Tooltip } from 'react-tooltip'
+
 const LoginForm = () => {
-  //get rid of global state and rely on cookie
-  //not using setUser
-  //logout button ( why is that missing - - route that deletes cookie)
-  // const [setUser] =  useOutletContext();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const formRef = useRef()
   const focusRef = useRef()
@@ -83,8 +82,12 @@ const LoginForm = () => {
     <form 
       onSubmit={handleSubmit} 
       ref={formRef}>
-      
-      <label className="signup-label">Email</label>
+      <Tooltip id="email-tooltip" anchorSelect="#email-label"/>
+      <label 
+        id="email-label"
+        data-tooltip-id="email-tooltip"
+        data-tooltip-content="Enter your email"
+        data-tooltip-place="top-start">Email</label>
       <input 
         type="text" 
         className="email-input"
@@ -94,9 +97,13 @@ const LoginForm = () => {
         ref={focusRef}
         aria-label="Email"
         style={{width: "100%"}}></input>
-        
+      
+      <Tooltip id="password-tooltip" anchorSelect="#password-label"/>
       <label 
-        className="signup-label">Password</label>
+        id="password-label"
+        data-tooltip-id="password-tooltip"
+        data-tooltip-content="Enter your password"
+        data-tooltip-place="top-start">Password</label>
       <div className="password-input-container" style={{ position: "relative", width: "100%" }}>
         <input
           autoComplete="new-password"
