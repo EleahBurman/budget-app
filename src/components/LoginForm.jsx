@@ -141,7 +141,7 @@ const LoginForm = () => {
               <span>Submitting...</span> :
               (
                 <>
-                  <span>Sign Up</span>
+                  <span>Login</span>
                 </>
               )
           }
