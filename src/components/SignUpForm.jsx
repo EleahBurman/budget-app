@@ -1,9 +1,18 @@
+//react imports
 import { useEffect, useState, useRef } from "react";
+
+//rrd imports
 import { useNavigate } from "react-router-dom";
+
+//utility import
 import { Tooltip } from 'react-tooltip';
 import PasswordStrengthBar from 'react-password-strength-bar';
+
+//component import
 import { ExclamationCircleIcon, EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 
+//style import
+import { toast } from "react-toastify";
 
 const SignUpForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -43,10 +52,25 @@ const SignUpForm = () => {
     });
 
     if (!response.ok) {
-      const body = await response.text();
-      console.error(body);
+      try {
+        // Using response.json() to parse the error message as JSON
+        const body = await response.json();
+  
+        console.error(body);
+  
+        if (body && body.message) {
+          toast.error("An error occurred during signup. Please check the requirements and try again.");
+        } else {
+          toast.error("An error occurred during signup. Please try again.");
+        }
+      } catch (error) {
+        console.error(error);
+        toast.error("An error occurred. Please try again.");
+      }
+  
       return;
     }
+
     navigate('/');
 
     setIsSubmitting(false);
