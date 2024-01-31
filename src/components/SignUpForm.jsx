@@ -148,18 +148,10 @@ const SignUpForm = () => {
         data-tooltip-place="top-start">Password Strength</label>
       <PasswordStrengthBar password={password} style={{ marginTop: "20px" }} />
 
-      <label>
-        Show Password
-        &nbsp; <input
-          type="checkbox"
-          checked={showPassword}
-          onChange={() => setShowPassword(!showPassword)}
-          style={{ width: "auto", cursor: "pointer" }}
-        />
-      </label>
+      
 
       <label>
-        &nbsp; Remember Me
+        Remember Me
         &nbsp; <input
           type="checkbox"
           checked={keepLoggedIn}

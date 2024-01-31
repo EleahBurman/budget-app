@@ -128,18 +128,9 @@ const LoginForm = () => {
           )}
         </button>
       </div>
-      <label>
-        Show Password
-        &nbsp; <input
-          type="checkbox"
-          checked={showPassword}
-          onChange={() => setShowPassword(!showPassword)}
-          style={{ width: "auto" }}
-        />
-      </label>
 
       <label>
-        &nbsp; Remember Me
+        Remember Me
         &nbsp; <input
         type="checkbox"
         checked={keepLoggedIn}
