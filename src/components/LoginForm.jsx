@@ -129,31 +129,35 @@ const LoginForm = () => {
         </button>
       </div>
 
-      <label>
-        Remember Me?
-        &nbsp; <input
-        type="checkbox"
-        checked={keepLoggedIn}
-        onChange={() => setKeepLoggedIn(!keepLoggedIn)}
-        style={{ width: "auto"}}
-        />
-      </label>
-      <button 
-        type="submit"
-        className="btn btn--dark"
-        style={{marginTop: "1rem"}}
-        disabled={isSubmitting}
-      >
-        {
-          isSubmitting ?
-          <span>Submitting...</span>:
-          (
-            <>
-              <span>Login</span>
-            </>
-          )
-        }
-      </button>
+      <div className="button-and-remember" style={{display: "flex" }}>
+        <button
+          type="submit"
+          className="btn btn--dark"
+          style={{ marginTop: "1rem" }}
+          disabled={isSubmitting}
+        >
+          {
+            isSubmitting ?
+              <span>Submitting...</span> :
+              (
+                <>
+                  <span>Sign Up</span>
+                </>
+              )
+          }
+        </button>
+        <label style={{alignSelf: "flex-start" }}>
+          &nbsp; 
+          <input
+              type="checkbox"
+              checked={keepLoggedIn}
+              onChange={() => setKeepLoggedIn(!keepLoggedIn)}
+              style={{ width: "auto", cursor: "pointer", marginTop: "20%" }}
+            />
+          &nbsp; 
+          Remember Me?
+        </label>
+      </div>
     </form>
   )
 }
