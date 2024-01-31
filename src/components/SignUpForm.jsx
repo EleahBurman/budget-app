@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { Tooltip } from 'react-tooltip';
 import PasswordStrengthBar from 'react-password-strength-bar';
 
-//component import
+//library import
 import { ExclamationCircleIcon, EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 
 //style import

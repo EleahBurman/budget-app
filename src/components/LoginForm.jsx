@@ -7,7 +7,11 @@ import { useNavigate } from "react-router-dom"
 //library imports
 import { EyeIcon, EyeSlashIcon} from "@heroicons/react/24/outline";
 
+//utility import
 import { Tooltip } from 'react-tooltip'
+
+//style import
+import { toast } from "react-toastify";
 
 const LoginForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -45,10 +49,23 @@ const LoginForm = () => {
       })
   
       setIsSubmitting(false);
-      if(!response.ok){
-        
-        const body = await response.text();
-        console.error(body);
+      if (!response.ok) {
+        try {
+          // Using response.json() to parse the error message as JSON
+          const body = await response.json();
+    
+          console.error(body);
+    
+          if (body && body.message) {
+            toast.error("An error occurred during login. Please check your username and password");
+          } else {
+            toast.error("An error occurred during login. Please try again.");
+          }
+        } catch (error) {
+          console.error(error);
+          toast.error("An error occurred. Please try again.");
+        }
+    
         return;
       }
   
