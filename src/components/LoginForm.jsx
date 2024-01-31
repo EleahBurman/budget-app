@@ -147,6 +147,7 @@ const LoginForm = () => {
           }
         </button>
         <label style={{alignSelf: "flex-start" }}>
+          &nbsp;
           &nbsp; 
           <input
               type="checkbox"
