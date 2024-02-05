@@ -8,13 +8,15 @@ export const getExpenses = async (req, res) => {
   res.json(expenses);
 };
 
+//make sure to record currency
 export const createExpense = async (req, res) => {
-  const {name, amount, budgetId} = req.body;
+  const {name, amount, budgetId, currency} = req.body;
   try {
     const expense = await Expense.create({
       name,
-      amount,
-      category: budgetId
+      amount, //from amount
+      category: budgetId,
+      currency
     });
 
     Budget.findByIdAndUpdate(budgetId, {
