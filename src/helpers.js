@@ -160,37 +160,13 @@ export const createExpense = async (props) => {
     name, amount, budgetId, currency
   } = props;
 
-  let convertedAmount = false;
-  if(currency != "USD"){
-    const response = await fetch("/api/currency", {
-      method: "POST", 
-      headers: {
-        "Content-Type": "application/json",
-      },
-        body: JSON.stringify({
-        amount,
-        fromCurrency: currency,
-        toCurrency: "USD",
-       }), // body data type must match "Content-Type" header
-    });
-
-    const data = await response.json();
-  
-
-    convertedAmount = parseFloat(data.result).toFixed(2); 
-    console.log(convertedAmount, "did we get a converted amount")
-
-  }
-
-
-
 
 
   const newItem = {
     id: crypto.randomUUID(),
     name: name,
     createdAt: Date.now(),
-    amount: convertedAmount? convertedAmount : amount,
+    amount:  amount,
     budgetId: budgetId,
     category: budgetId,
     currency: currency
