@@ -129,7 +129,13 @@ const BudgetPage = () => {
         <h2>
           <span className="accent">{budget.name}</span> Expenses
         </h2>
-        <Table expenses={budget.expenses} showBudget={false} />
+        <Table 
+          expenses={budget.expenses
+            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+            .slice(0, 8)
+          } 
+          showBudget={false} 
+        />
       </div>
       ) : (
         <div
