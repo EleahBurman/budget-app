@@ -74,12 +74,13 @@ export const deleteBudget = async (req, res) => {
     console.log("no expenses to delete");
   }
   console.log("are we deleting anything in here", budgetId);
-  Budget.deleteOne({_id:budgetId})
-  .then( (response) => {
-    console.log(response, "whats the response");
-    res.end();
+  Budget.findByIdAndRemove(budgetId)
+  .then( (deletedBudget) => {
+    console.log(deletedBudget, "whats the deleted budget");
+    res.json(deletedBudget);
   })
   .catch((err) => {
     console.log(err);
+    res.status(500).send('There was a problem deleting the budget.');
   });
 };
