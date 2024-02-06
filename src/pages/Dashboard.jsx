@@ -90,7 +90,6 @@ export async function dashboardAction({request}){
 const Dashboard = () => {
 
   const { userName, budgets } = useLoaderData();
-  //const [expenses, setExpenses] = useState([]);
 
   //combines all expenses from all the budgets
   let expenses = [];

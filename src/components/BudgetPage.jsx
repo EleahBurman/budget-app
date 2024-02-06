@@ -1,24 +1,22 @@
 // rrd imports
-import { useLoaderData, useOutletContext } from "react-router-dom";
+import { useLoaderData } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 // library
 import { toast } from "react-toastify";
-
 import LoadingSpin from '../assets/loading-spin.svg' // Adjust the path to match your file structure
 
 // components
 import AddExpenseForm from "../components/AddExpenseForm";
 import BudgetItem from "../components/BudgetItem";
 import Table from "../components/Table";
+import ExpensePieChart from "../components/ExpensePieChart"; 
 
 // helpers
 import { createExpense, deleteItem } from "../helpers";
 
 // loader
 export async function budgetLoader({ params }) {
-
-
 
   const response = await fetch(`/api/budgets/${params.id}`);
   const budget = await response.json();
@@ -72,7 +70,6 @@ const BudgetPage = () => {
   const { budget } = useLoaderData();
   const [loading, setLoading] = useState(true);
 
-  const {user, setUser} = useOutletContext();
   //remove localstorage.setItem('user') and navigate to login page
   //use this isntead setUser(.....)
 
@@ -125,10 +122,12 @@ const BudgetPage = () => {
       </h1>
       <div className="flex-lg">
         <BudgetItem budget={budget} showDelete={true}/>
-        <AddExpenseForm budgets={[budget]} />
+        <AddExpenseForm budgets={[budget]}/>
+        <ExpensePieChart expenses={budget.expenses} width={50}/>
       </div>
       {budget.expenses && budget.expenses.length > 0 ? (
-      <div className="grid-md">
+        <div className="grid-md">
+
         <h2>
           <span className="accent">{budget.name}</span> Expenses
         </h2>
