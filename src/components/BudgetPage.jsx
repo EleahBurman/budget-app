@@ -10,7 +10,6 @@ import LoadingSpin from '../assets/loading-spin.svg' // Adjust the path to match
 import AddExpenseForm from "../components/AddExpenseForm";
 import BudgetItem from "../components/BudgetItem";
 import Table from "../components/Table";
-import ExpensePieChart from "../components/ExpensePieChart"; 
 
 // helpers
 import { createExpense, deleteItem } from "../helpers";
@@ -121,9 +120,8 @@ const BudgetPage = () => {
         <span className="accent">{budget.name}</span> Overview
       </h1>
       <div className="flex-lg">
-        <BudgetItem budget={budget} showDelete={true}/>
+        <BudgetItem budget={budget} expenses={budget.expenses} showDelete={true}/>
         <AddExpenseForm budgets={[budget]}/>
-        <ExpensePieChart expenses={budget.expenses} width={50}/>
       </div>
       {budget.expenses && budget.expenses.length > 0 ? (
         <div className="grid-md">

@@ -135,7 +135,7 @@ const Dashboard = () => {
               {
                 budgets.map((budget) => {
 
-                  return <BudgetItem key={budget._id} budget={budget} />
+                  return <BudgetItem key={budget._id} budget={budget} expenses={budget.expenses} showChart={true}/> 
 
                 })
               }

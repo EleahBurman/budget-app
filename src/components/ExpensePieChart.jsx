@@ -10,7 +10,7 @@ class ExpensePieChart extends React.Component {
       series: [],
       options: {
         chart: {
-          width: 380,
+          width: 200,
           type: 'donut',
         },
         plotOptions: {
@@ -27,11 +27,8 @@ class ExpensePieChart extends React.Component {
         },
         legend: {
           formatter: function(val, opts) {
-            return opts.w.config.labels[opts.seriesIndex] + " - " + opts.w.globals.series[opts.seriesIndex]
+            return opts.w.config.labels[opts.seriesIndex]
           }
-        },
-        title: {
-          text: 'Expense Distribution'
         },
         responsive: [{
           breakpoint: 480,
@@ -41,7 +38,7 @@ class ExpensePieChart extends React.Component {
             },
             legend: {
               position: 'bottom'
-            }
+            },
           }
         }],
         labels: [], // Add this line

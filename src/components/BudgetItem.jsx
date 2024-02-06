@@ -1,6 +1,8 @@
 //rrd imports
 import {Form, Link} from "react-router-dom"
 
+//component import
+import ExpensePieChart from "../components/ExpensePieChart";
 
 //library imports
 import { BanknotesIcon, TrashIcon } from "@heroicons/react/24/outline";
@@ -8,7 +10,7 @@ import { BanknotesIcon, TrashIcon } from "@heroicons/react/24/outline";
 //helper functions
 import { formatCurrency, formatPercentages } from "../helpers";
 
-const BudgetItem = ({budget, showDelete}) => {
+const BudgetItem = ({budget, expenses, showDelete, showChart}) => {
   const {_id, name, amount, totalSpent} = budget;
 
 
@@ -49,6 +51,7 @@ const BudgetItem = ({budget, showDelete}) => {
                 <TrashIcon width={20} />
               </button>
             </Form>
+            <ExpensePieChart expenses={expenses} />
           </div>
         ) : (
           <div className="flex-sm">
@@ -59,6 +62,7 @@ const BudgetItem = ({budget, showDelete}) => {
               <span>View Details</span>
               <BanknotesIcon width={20} />
             </Link>
+            {showChart && <ExpensePieChart expenses={expenses} />}
           </div>
         )
       }
