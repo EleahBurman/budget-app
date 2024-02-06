@@ -46,7 +46,7 @@ export async function budgetAction({ request }) {
 
       console.log(values, "what values are here in budget page")
 
-      return toast.success(`Added ${values.newExpense} to budget!`);
+      return toast.success(`Added ${values.newExpense} to ${values.newExpenseCategory}!`);
     } catch (e) {
       throw new Error("There was a problem creating your expense.");
     }

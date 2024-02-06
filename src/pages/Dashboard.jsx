@@ -66,7 +66,7 @@ export async function dashboardAction({request}){
         currency: values.newExpenseCurrency
       })
       console.log(values, "what values do we have here in dashboard")
-      return toast.success(`Added ${values.newExpense} to budget!`)
+      return toast.success(`Added ${values.newExpense} to ${values.newExpenseCategory}!`)
     } catch(e){
         throw new Error("There was a problem creating your expense.");
     }

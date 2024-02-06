@@ -66,6 +66,42 @@ const AddExpenseForm = ({ budgets }) => {
         className="grid-sm"
         ref={formRef}
       >
+        <div className="grid-xs" hidden={budgets.length === 1}>
+          <label 
+            htmlFor="newExpenseCategory" 
+            type="hidden"
+          />
+          <input 
+            type="hidden"
+            name="newExpenseCategory"
+            value={category}
+            id="newExpenseCategory"
+          />
+          <label 
+            htmlFor="newExpenseBudget"
+          >Budget Category
+          </label>
+          <select
+            name="newExpenseBudget"
+            id="newExpenseBudget"
+            onChange={setCategoryName}
+            required
+          >{
+            budgets
+              .sort((a,b) => a.createdAt - b.createdAt)
+              .map((budget) =>{
+                return(
+                  <option 
+                    key={budget._id} 
+                    value={budget._id}
+                    
+                  >
+                    {budget.name}
+                  </option>
+                )
+              })
+          }</select>
+        </div>
         <div className="expense-inputs">
           <div className="grid-xs">
             <label htmlFor="newExpense">
@@ -112,42 +148,7 @@ const AddExpenseForm = ({ budgets }) => {
             
           </select>
         </div>
-        <div className="grid-xs" hidden={budgets.length === 1}>
-          <label 
-            htmlFor="newExpenseCategory" 
-            type="hidden"
-          />
-          <input 
-            type="hidden"
-            name="newExpenseCategory"
-            value={category}
-            id="newExpenseCategory"
-          />
-          <label 
-            htmlFor="newExpenseBudget"
-          >Budget Category
-          </label>
-          <select
-            name="newExpenseBudget"
-            id="newExpenseBudget"
-            onChange={setCategoryName}
-            required
-          >{
-            budgets
-              .sort((a,b) => a.createdAt - b.createdAt)
-              .map((budget) =>{
-                return(
-                  <option 
-                    key={budget._id} 
-                    value={budget._id}
-                    
-                  >
-                    {budget.name}
-                  </option>
-                )
-              })
-          }</select>
-        </div>
+        
         <input 
           type="hidden" 
           name="_action"
