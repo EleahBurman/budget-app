@@ -145,7 +145,7 @@ const Dashboard = () => {
                 <h2>Recent Expenses</h2>
                 <Table
                   expenses={expenses
-                    .sort((a, b) => b.createdAt - a.createdAt)
+                    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
                     .slice(0, 8)
                   }
                 />
