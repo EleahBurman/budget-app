@@ -74,11 +74,11 @@ export async function dashboardAction({request}){
   if(_action === "deleteExpense"){
     try{
       //create an expense
-      deleteItem({
+      const deletedExpense = await deleteItem({
         key: "expenses",
         id: values.expenseId,
       })
-      return toast.success("Expense deleted!")
+      return toast.success(` ${deletedExpense.name} deleted!`)
     } catch(e){
       throw new Error("There was a problem deleting your expense.")
     }

@@ -44,8 +44,12 @@ export const getExpenseById = async (req, res) => {
 
 export const deleteExpense = async (req, res) => {
   const expenseId = req.params.expenseId;
-  Expense.deleteOne({_id:expenseId})
-  .then( () => {
-    res.end();
-  });
+  Expense.findByIdAndRemove(expenseId)
+    .then(deletedExpense => {
+      res.json(deletedExpense);
+    })
+    .catch(err => {
+      console.error(`Error deleting expense with ID ${expenseId}:`, err);
+      res.status(500).send('There was a problem deleting the expense.');
+    });
 };

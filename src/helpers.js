@@ -110,8 +110,10 @@ export const deleteItem = async ({ key, id }) => {
 
       console.log(response, "are we reaching the delete")
 
+      const responseBody = await response.json();
+
       if (response.ok) {
-        return true;
+        return responseBody;
       } else {
         console.error(`Error deleting item (${key}) with ID ${id}:`, response.status);
         return false;
