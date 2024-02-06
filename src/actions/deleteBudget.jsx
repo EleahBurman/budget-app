@@ -7,7 +7,7 @@ import { deleteItem } from "../helpers"
 //rrd imports
 import { redirect } from "react-router-dom";
 
-export async function deleteBudget({params, budget}){
+export async function deleteBudget({params}){
   console.log(params, "whats our params")
   try{
     const deletedBudget = await deleteItem({
