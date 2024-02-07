@@ -28,7 +28,9 @@ const SignUpForm = () => {
   }, [isSubmitting]);
 
   const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
+  const [emailPrefix, setEmailPrefix] = useState("");
+  const [emailSuffix, setEmailSuffix] = useState("@gmail.com");
+  const [email, setEmail] = useState("")
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
   const navigate = useNavigate();
@@ -78,6 +80,14 @@ const SignUpForm = () => {
     console.log("Keep me logged in:", keepLoggedIn);
   };
 
+  useEffect(() => {
+    const email = emailPrefix + emailSuffix;
+    setEmail(email);
+    console.log("did this work to combine email", email)
+    console.log(("this is prefix", emailPrefix))
+    console.log(("this is suffix", emailSuffix))
+  }, [emailPrefix, emailSuffix]);
+
   return (
     <form
       onSubmit={handleSubmit}
@@ -105,13 +115,32 @@ const SignUpForm = () => {
         data-tooltip-id="email-tooltip"
         data-tooltip-content="Enter your email"
         data-tooltip-place="top-end">Email</label>
+      <div style={{ display: 'flex', gap: '10px' }}>
+        <input
+          type="text"
+          className="email-input"
+          placeholder="Enter your email"
+          onChange={(e) => setEmailPrefix(e.target.value)}
+          value={emailPrefix}
+          aria-label="Email"
+        />
+        <select
+          value={emailSuffix}
+          onChange={(e) => {
+            setEmailSuffix(e.target.value);
+            console.log("is this select changing", e.target.value);
+          }}
+        >
+          <option value="@gmail.com">@gmail.com</option>
+          <option value="@aol.com">@aol.com</option>
+          <option value="@msn.com">@msn.com</option>
+          <option value="@yahoo.com">@yahoo.com</option>
+        </select>
+      </div>
       <input
-        type="text"
-        className="email-input"
-        placeholder="Enter your email"
-        onChange={(e) => { setEmail(e.target.value) }}
+        type="hidden"
         value={email}
-        aria-label="Email"
+        name="email"
       />
       <span className="input-requirements"><ExclamationCircleIcon width={15} />Minimum 5 characters, valid email address</span>
       <br />
@@ -171,9 +200,6 @@ const SignUpForm = () => {
         data-tooltip-content="Password strength based on requirements"
         data-tooltip-place="top-start">Password Strength</label>
       <PasswordStrengthBar password={password} style={{ marginTop: "20px" }} />
-
-      
-
       
       <div className="button-and-remember" style={{display: "flex" }}>
         <button
