@@ -63,7 +63,7 @@ const ExpensePieChart = ({ expenses: expensesProp }) => {
 
   return (
     <div id="chart">
-      <ReactApexChart options={options} series={series} type="donut" width={380} />
+      <ReactApexChart options={options} series={series} type="donut" width={380} style={{marginLeft: '10%'}}/>
     </div>
   );
 };
