@@ -30,6 +30,8 @@ const SignUpForm = () => {
   const [username, setUsername] = useState('');
   const [emailPrefix, setEmailPrefix] = useState("");
   const [emailSuffix, setEmailSuffix] = useState("@gmail.com");
+  const [customSuffix, setCustomSuffix] = useState("");
+  const [isOtherSelected, setIsOtherSelected] = useState(false);
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
@@ -83,6 +85,23 @@ const SignUpForm = () => {
     setEmail(email);
   }, [emailPrefix, emailSuffix]);
 
+  const handleSuffixChange = (e) => {
+    const value = e.target.value;
+    setEmailSuffix(value);
+
+    if (value === "other") {
+      setIsOtherSelected(true);
+    } else {
+      setIsOtherSelected(false);
+    }
+  };
+
+  const handleCustomSuffixChange = (e) => {
+    const value = e.target.value;
+    setCustomSuffix(value);
+    setEmailSuffix(value);
+  };
+
   return (
     <form
       onSubmit={handleSubmit}
@@ -111,25 +130,32 @@ const SignUpForm = () => {
         data-tooltip-content="Enter your email"
         data-tooltip-place="top-end">Email</label>
       <div style={{ display: 'flex', gap: '10px' }}>
+      <input
+        type="text"
+        placeholder="Enter your email"
+        onChange={(e) => setEmailPrefix(e.target.value)}
+        value={emailPrefix}
+        aria-label="Email"
+      />
+      {isOtherSelected ? (
         <input
           type="text"
-          className="email-input"
-          placeholder="Enter your email"
-          onChange={(e) => setEmailPrefix(e.target.value)}
-          value={emailPrefix}
-          aria-label="Email"
+          placeholder="Enter your email domain"
+          onChange={handleCustomSuffixChange}
+          value={customSuffix}
         />
+      ) : (
         <select
           value={emailSuffix}
-          onChange={(e) => {
-            setEmailSuffix(e.target.value);
-          }}
+          onChange={handleSuffixChange}
         >
           <option value="@gmail.com">@gmail.com</option>
           <option value="@aol.com">@aol.com</option>
           <option value="@msn.com">@msn.com</option>
           <option value="@yahoo.com">@yahoo.com</option>
+          <option value="other">Other</option>
         </select>
+      )}
       </div>
       <input
         type="hidden"
