@@ -76,16 +76,11 @@ const SignUpForm = () => {
     navigate('/');
 
     setIsSubmitting(false);
-
-    console.log("Keep me logged in:", keepLoggedIn);
   };
 
   useEffect(() => {
     const email = emailPrefix + emailSuffix;
     setEmail(email);
-    console.log("did this work to combine email", email)
-    console.log(("this is prefix", emailPrefix))
-    console.log(("this is suffix", emailSuffix))
   }, [emailPrefix, emailSuffix]);
 
   return (
@@ -128,7 +123,6 @@ const SignUpForm = () => {
           value={emailSuffix}
           onChange={(e) => {
             setEmailSuffix(e.target.value);
-            console.log("is this select changing", e.target.value);
           }}
         >
           <option value="@gmail.com">@gmail.com</option>
