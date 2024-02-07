@@ -15,7 +15,7 @@ import BudgetItem from "../components/BudgetItem";
 import Table from "../components/Table";
 //helpers
 import { createUser } from "../helpers";
-import { useEffect, useState } from "react";
+
 //loaders
 export async function dashboardLoader(){
 

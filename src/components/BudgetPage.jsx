@@ -52,15 +52,16 @@ export async function budgetAction({ request }) {
     }
   }
 
-  if (_action === "deleteExpense") {
-    try {
-      deleteItem({
+  if(_action === "deleteExpense"){
+    try{
+      //create an expense
+      const deletedExpense = await deleteItem({
         key: "expenses",
         id: values.expenseId,
-      });
-      return toast.success("Expense deleted!");
-    } catch (e) {
-      throw new Error("There was a problem deleting your expense.");
+      })
+      return toast.success(` ${deletedExpense.name} deleted!`)
+    } catch(e){
+      throw new Error("There was a problem deleting your expense.")
     }
   }
 }
