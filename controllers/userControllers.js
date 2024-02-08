@@ -90,13 +90,12 @@ export const signUpUser = async (req, res) => {
       errors.push(...validationResult);
     }
 
-    // Check if user already exists
-    const userAvailable = await User.findOne({ email });
+    const userCount = await User.countDocuments({ email });
 
-    if (userAvailable) {
+    if (userCount > 0) {
       errors.push('User already exists');
     }
-
+    
     if (errors.length > 0) {
       return res.status(400).json({ message: errors.join(' & ') });
     }
