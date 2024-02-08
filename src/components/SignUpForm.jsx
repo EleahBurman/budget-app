@@ -60,16 +60,18 @@ const SignUpForm = () => {
         // Using response.json() to parse the error message as JSON
         const body = await response.json();
   
-        console.error(body);
+        console.error(body, body.message);
   
-        if (body && body.message) {
-          toast.error("An error occurred during signup. Please check the requirements and try again.");
-        } else {
+        if (body.message) {
+          toast.error(`${body.message} An error occurred during signup.`);
+        } else if(body.errors){
+          toast.error(`${body.errors} An error occurred during signup. Please try again.`);
+        } else{
           toast.error("An error occurred during signup. Please try again.");
         }
       } catch (error) {
         console.error(error);
-        toast.error("An error occurred. Please try again.");
+        toast.error(`${error} An error occurred occurred during signup. Please try again. `);
       }
   
       return;
