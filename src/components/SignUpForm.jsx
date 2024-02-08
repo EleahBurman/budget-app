@@ -9,7 +9,7 @@ import { Tooltip } from 'react-tooltip';
 import PasswordStrengthBar from 'react-password-strength-bar';
 
 //library import
-import { ExclamationCircleIcon, EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 
 //style import
 import { toast } from "react-toastify";
@@ -113,7 +113,7 @@ const SignUpForm = () => {
       <label
         id="username-label"
         data-tooltip-id="username-tooltip" 
-        data-tooltip-content="Enter your username"
+        data-tooltip-content="Minimum 5 characters, maximum 20 characters, and unique username"
         data-tooltip-place="top-end">Username</label>
       <input
         type="text"
@@ -122,14 +122,11 @@ const SignUpForm = () => {
         onChange={(e) => { setUsername(e.target.value) }} value={username} ref={focusRef}
         aria-label="Username"
       />
-      
-      <span className="input-requirements"><ExclamationCircleIcon width={15} />Minimum 5 characters, maximum 20 characters</span>
-      <br />
       <Tooltip id="email-tooltip" anchorSelect="#email-label" effect="solid"/>
       <label
         id="email-label"
         data-tooltip-id="email-tooltip"
-        data-tooltip-content="Enter your email"
+        data-tooltip-content="Minimum 5 characters, valid email address, and unique email address"
         data-tooltip-place="top-end">Email</label>
       <div style={{ display: 'flex', gap: '10px' }}>
       <input
@@ -164,14 +161,12 @@ const SignUpForm = () => {
         value={email}
         name="email"
       />
-      <span className="input-requirements"><ExclamationCircleIcon width={15} />Minimum 5 characters, valid email address</span>
-      <br />
       <Tooltip id="password-tooltip" anchorSelect="#password-label" effect="solid"/>
       <label
         id="password-label"
         data-tooltip-id="password-tooltip"
-        data-tooltip-content="Enter your password"
-        data-tooltip-place="top-start">Password</label>
+        data-tooltip-content="Minimum 5 characters, at least one uppercase, one lowercase, one number, and one symbol"
+        data-tooltip-place="top-end">Password</label>
       <div className="password-input-container" style={{ position: "relative", width: "100%" }}>
         <input
           autoComplete="new-password"
@@ -196,14 +191,12 @@ const SignUpForm = () => {
           )}
         </button>
       </div>
-      <span className="input-requirements" id="password-requirements"><ExclamationCircleIcon width={15} />Minimum 5 characters, at least one uppercase, one lowercase, and one number</span>
-      <br />
       <Tooltip id="confirm-password-tooltip" anchorSelect="#confirm-password-label"/>
       <label
         id="confirm-password-label"
         data-tooltip-id="confirm-password-tooltip"
-        data-tooltip-content="Confirm your password"
-        data-tooltip-place="top-start">Confirm Password</label>
+        data-tooltip-content="Match your password"
+        data-tooltip-place="top-end">Confirm</label>
       <input
         autoComplete="new-password"
         type={showPassword ? 'text' : 'password'}
@@ -213,14 +206,12 @@ const SignUpForm = () => {
         value={passwordConfirmation}
         aria-label="Confirm Password"
       />
-      <span className="input-requirements" id="confirm-password-requirements"><ExclamationCircleIcon width={15} />Match password</span>
-      <br />
       <Tooltip id="password-strength-tooltip" anchorSelect="#password-strength-label"/>
       <label
         id="password-strength-label"
         data-tooltip-id="password-strength-tooltip"
         data-tooltip-content="Password strength based on requirements"
-        data-tooltip-place="top-start">Password Strength</label>
+        data-tooltip-place="top-end">Strength</label>
       <PasswordStrengthBar password={password} style={{ marginTop: "20px" }} />
       
       <div className="button-and-remember" style={{display: "flex" }}>
@@ -240,16 +231,18 @@ const SignUpForm = () => {
               )
           }
         </button>
-        <label style={{alignSelf: "flex-start" }}>
-          &nbsp;
-          &nbsp; 
+        &nbsp;
+        &nbsp;
+        <label 
+          style={{alignSelf: "flex-start" }}
+          id="remember-me-label">
           <input
               type="checkbox"
               checked={keepLoggedIn}
               onChange={() => setKeepLoggedIn(!keepLoggedIn)}
               style={{ width: "auto", cursor: "pointer", marginTop: "20%" }}
-            />
-          &nbsp; 
+            /> 
+          &nbsp;
           Remember Me?
         </label>
       </div>
