@@ -63,9 +63,9 @@ const SignUpForm = () => {
         console.error(body, body.message);
   
         if (body.message) {
-          toast.error(`${body.message} An error occurred during signup.`);
+          toast.error(`${body.message}`);
         } else if(body.errors){
-          toast.error(`${body.errors} An error occurred during signup. Please try again.`);
+          toast.error(`${body.errors}`);
         } else{
           toast.error("An error occurred during signup. Please try again.");
         }

@@ -26,33 +26,33 @@ const checkPasswordValidity = (value) => {
   const isContainsUppercase = /^(?=.*[A-Z]).*$/;
   const isContainsLowercase = /^(?=.*[a-z]).*$/;
   const isContainsNumber = /^(?=.*[0-9]).*$/;
-  const isContainsSymbol = /^(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?/~₹-]).*$/;
+  const isContainsSymbol = /^(?=.*[!@#$%^&*()_+=?.,:;[\]{}|~]).*$/;
   const isValidLength = /^.{5,}$/; // Adjusted minimum length to 5 characters
 
   const errors = [];
 
   if (!isNonWhiteSpace.test(value)) {
-    errors.push("Password must not contain Whitespaces.");
+    errors.push("Password must not contain whitespaces");
   }
 
   if (!isContainsUppercase.test(value)) {
-    errors.push("Password must have at least one Uppercase Character.");
+    errors.push("Password must have at least one uppercase character");
   }
 
   if (!isContainsLowercase.test(value)) {
-    errors.push("Password must have at least one Lowercase Character.");
+    errors.push("Password must have at least one lowercase character");
   }
 
   if (!isContainsNumber.test(value)) {
-    errors.push("Password must contain at least one Digit.");
+    errors.push("Password must contain at least one digit");
   }
 
   if (!isContainsSymbol.test(value)) {
-    errors.push("Password must contain at least one Special Symbol.");
+    errors.push("Password must contain at least one special symbol");
   }
 
   if (!isValidLength.test(value)) {
-    errors.push("Password must be at least 5 Characters Long.");
+    errors.push("Password must be at least 5 characters long");
   }
 
   return errors.length === 0 ? true : errors;
@@ -60,64 +60,79 @@ const checkPasswordValidity = (value) => {
 
 export const signUpUser = async (req, res) => {
   const { username, email, password, passwordConfirmation } = req.body;
+  let errors = [];
 
   try {
     // Check if passwords match
     if (password !== passwordConfirmation) {
-      return res.status(400).json({ message: 'Passwords do not match' });
+      errors.push('Passwords do not match');
     }
 
     // Check if all fields are filled
     if (!username || !email || !password || !passwordConfirmation) {
-      return res.status(400).json({ message: 'Please fill in all fields' });
+      errors.push('Please fill in all fields');
+    }
+
+    // Check username length
+    if (username.length < 5 || username.length > 20) {
+      errors.push('Username must be between 5 and 20 characters');
+    }
+
+    // Check email length and format
+    if (email.length < 5 || !email.includes('@')) {
+      errors.push('Email must be atleast 5 characters and include an @ symbol');
     }
 
     // Validate the password before hashing
     const validationResult = checkPasswordValidity(password);
 
     if (validationResult !== true) {
-      return res.status(400).json({ errors: validationResult });
+      errors.push(...validationResult);
     }
 
     // Check if user already exists
     const userAvailable = await User.findOne({ email });
 
-    if (!userAvailable) {
-      // Hash the password
-      const hashedPassword = await bcrypt.hash(password, 10);
-
-      // Create the user
-      const user = await User.create({
-        username,
-        email,
-        password: hashedPassword
-      });
-
-      // Generate and set the refreshToken
-      const refreshTokenExpiresIn = req.body.keepLoggedIn ? '7d' : '1h';
-      const refreshToken = await jsonwebtoken.sign(
-        {
-          user: {
-            username: user.username,
-            email: user.email,
-            id: user.id
-          },
-        },
-        process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: refreshTokenExpiresIn }
-      );
-
-      // Set the refreshToken in the cookie
-      res.cookie('refreshToken', refreshToken);
-
-      return res.status(201).json({
-        _id: user.id,
-        email: user.email,
-        username: user.username,
-      });
-    } else {
-      return res.status(400).json({ message: 'User already exists' });
+    if (userAvailable) {
+      errors.push('User already exists');
     }
+
+    if (errors.length > 0) {
+      return res.status(400).json({ message: errors.join(' & ') });
+    }
+
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create the user
+    const user = await User.create({
+      username,
+      email,
+      password: hashedPassword
+    });
+
+    // Generate and set the refreshToken
+    const refreshTokenExpiresIn = req.body.keepLoggedIn ? '7d' : '1h';
+    const refreshToken = await jsonwebtoken.sign(
+      {
+        user: {
+          username: user.username,
+          email: user.email,
+          id: user.id
+        },
+      },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: refreshTokenExpiresIn }
+    );
+
+    // Set the refreshToken in the cookie
+    res.cookie('refreshToken', refreshToken);
+
+    return res.status(201).json({
+      _id: user.id,
+      email: user.email,
+      username: user.username,
+    });
 
   } catch (err) {
     console.log(err);
