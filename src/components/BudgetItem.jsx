@@ -118,10 +118,48 @@ const BudgetItem = ({budget, expenses, showDelete, showChart}) => {
               to={`/budget/${_id}`}
               className="btn"
               >
-              <span>View Details</span>
+              <span
+                style={{marginRight: "10px"}}>View Details</span>
               <BanknotesIcon width={20} />
             </Link>
+
+            <button
+              type="submit"
+              className="btn"
+              onClick={() => setShowDeleteModal(true)}
+            >
+              <span
+                style={{marginRight:"10px"}}>Delete Budget</span>
+              <TrashIcon width={20} />
+            </button>
+          
+            <Modal
+              isOpen={showDeleteModal}
+              onRequestClose={() => setShowDeleteModal(false)}
+              style={customStyles}
+              contentLabel="Delete Budget Item Modal"
+            >
+              <h2 style={{fontSize: "30px", color: "#1bbbc3"}}>Confirm Delete Budget</h2>
+              <p style={{marginBottom: "10px" }}>Are you sure you want to permanently delete <span style={{fontWeight: "bold", color: "#1bbbc3"}}>{budget.name}</span>?</p>
+              <Form
+                onSubmit={handleDelete}
+                method="post"
+                action="delete">
+                <div className="button-container">
+                  <button type="submit" className="btn btn--dark"  style={{marginRight: "10px"}}>
+                    Delete 
+                    <TrashIcon width={20} />
+                  </button>
+                  <button type="button" className="btn btn--dark" onClick={() => setShowDeleteModal(false)}>
+                  Cancel
+                  </button>
+                </div>
+              </Form>
+            </Modal>
+
             {showChart && <ExpensePieChart expenses={expenses} />}
+
+
           </div>
         )
       }

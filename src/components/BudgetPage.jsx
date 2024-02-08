@@ -79,7 +79,7 @@ const BudgetPage = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 3000); // Change this to the number of milliseconds you want
+    }, 2000); // Change this to the number of milliseconds you want
 
     return () => clearTimeout(timer); // This will clear the timer if the component unmounts before the timer finishes
   }, []);
