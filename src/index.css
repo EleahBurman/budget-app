@@ -351,6 +351,12 @@ nav a {
   display: block;
 }
 
+.button-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
 .tooltip {
   background-color: #fff; /* Set background color to white or the desired color */
 }
