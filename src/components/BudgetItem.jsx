@@ -11,25 +11,10 @@ import ExpensePieChart from "../components/ExpensePieChart";
 import { BanknotesIcon, TrashIcon } from "@heroicons/react/24/outline";
 
 //helper functions
-import { formatCurrency, formatPercentages } from "../helpers";
+import { formatCurrency, formatPercentages, customStyles } from "../helpers";
 import { toast } from "react-toastify";
 import Modal from 'react-modal';
 
-const customStyles = {
-  content : {
-    top                   : '50%',
-    left                  : '50%',
-    right                 : 'auto',
-    bottom                : 'auto',
-    marginRight           : '-50%',
-    transform             : 'translate(-50%, -50%)',
-    backgroundColor       : 'white',
-    color                 : 'black',
-    borderRadius          : '10px',
-    border                : '1px solid #1bbbc3',
-    boxShadow             : '0 0 8px 0 #1bbbc3',
-  }
-};
 
 const BudgetItem = ({budget, expenses, showDelete, showChart}) => {
   const navigate = useNavigate();

@@ -1,25 +1,17 @@
+//react imports
 import { useState, useEffect } from "react";
+//rrd imports
 import { Form, NavLink, useNavigate } from "react-router-dom";
+//hero icons imports
 import { TrashIcon } from '@heroicons/react/24/solid';
+//toastify imports
 import { toast } from "react-toastify";
+//modal imports
 import Modal from 'react-modal';
+//svg imports
 import threefriends from "../assets/three-friends.svg";
-
-const customStyles = {
-  content : {
-    top                   : '50%',
-    left                  : '50%',
-    right                 : 'auto',
-    bottom                : 'auto',
-    marginRight           : '-50%',
-    transform             : 'translate(-50%, -50%)',
-    backgroundColor       : 'white',
-    color                 : 'black',
-    borderRadius          : '10px',
-    border                : '1px solid #1bbbc3',
-    boxShadow             : '0 0 8px 0 #1bbbc3',
-  }
-};
+//helpers imports
+import { customStyles } from "../helpers";
 
 const Nav = ({ user }) => {
   const navigate = useNavigate();
