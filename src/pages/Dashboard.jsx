@@ -101,18 +101,6 @@ const Dashboard = () => {
     expenses = tempExpenses ;
   }
 
-  // useEffect(()=>{
-  
-  //   if(budgets && budgets != budgets.message == "not logged in"){
-  //     const tempExpenses = budgets.reduce((acc,cur)=> {
-  //       return [...acc,...cur.expenses]
-  //     },[])
-  //     setExpenses([...tempExpenses]);
-  //   }
-
-  // }, [budgets]);
-
-  console.log("why isn't expenses showing?", expenses, budgets)
   return (
     <div>
       {userName?.name ? (

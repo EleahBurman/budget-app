@@ -46,16 +46,6 @@ export const fetchData = async (key) => {
       return null;
     }
   } else if (key === "userName") {
-    //figure out this route and why it is not working 
-    //const response = await fetch(`/api/users/${name}`)
-    //const data = await response.json();
-    //The route should give data that looks like this
-    // return {_id: 222, name: "Eleah"}
-    // if(!localStorage.getItem("accessToken")){
-    //   return;
-    // }
-
-    console.log("getting current user")
     try {
         const response = await fetch("/api/users/current");
       if (response.ok) {

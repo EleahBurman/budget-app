@@ -2,7 +2,7 @@
 import { Form, NavLink, useNavigate} from "react-router-dom"
 //library
 import { TrashIcon } from '@heroicons/react/24/solid'
-
+import { toast } from "react-toastify";
 //asets
 import threefriends from "../assets/three-friends.svg"
 
@@ -15,9 +15,7 @@ const Nav = ({ user}) => {
   const [loggedIn, setLoggedIn] = useState(false)
 
 
-
   useEffect(()=>{
-    console.log("redirect check", user)
     if(!user.email){
       navigate("/users/signup")
     }
@@ -33,30 +31,28 @@ const Nav = ({ user}) => {
   },[user])
 
   const handleLogout = async () => {
-    //event.preventDefault();
-    if(confirm("Logout User?")) {
-      //setIsLoggedIn(false);
 
+    if(confirm("Logout User?")) {
       localStorage.removeItem('accessToken');
       const result = await fetch("/api/users/logout");
-      console.log("handle logout",result);
-
-
-      navigate('/');
+      if (result.ok){
+        navigate('/');
+        toast.success(`Logged out ${user.name} successfully`)
+      } else {
+        console.error("Error logging out")
+        toast.error("Error logging out")
+      }
     }
   };
 
   const handleDelete = async (event) => {
     event.preventDefault();
-
-    console.log("nav user", user)
     if(confirm("Are you sure you want to permanently delete this user?")) {
 
       const result = await fetch(`api/users/${user._id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          // 'Content-Type': 'application/x-www-form-urlencoded',
         },
       });
 
