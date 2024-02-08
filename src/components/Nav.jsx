@@ -132,7 +132,7 @@ const Nav = ({ user }) => {
           action="delete">
           <div className="button-container">
             <button type="submit" className="btn btn--dark" style={{marginRight: "10px"}}>
-              Delete User
+              Delete 
               <TrashIcon width={20} />
             </button>
             <button type="button" className="btn btn--dark" onClick={() => setShowDeleteModal(false)}>
