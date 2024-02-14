@@ -156,7 +156,7 @@ const SignUpForm = () => {
         </select>
       )}
       </div>
-      <input
+      <inputls
         type="hidden"
         value={email}
         name="email"

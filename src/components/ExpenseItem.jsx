@@ -34,11 +34,14 @@ const ExpenseItem = ({ expense, showBudget }) => {
   }
   }, [expense, expense.category]);
 
-
+  console.log("expense:",expense);
   return (
     <>
       <td>{expense.name}</td>
-      <td>{formatCurrency(expense.amount)}</td>
+      <td>{expense.fromCurrency}</td>
+      <td>{expense.fromAmount}</td>
+      <td>USD</td>
+      <td>${expense.amount}</td>
       <td>{formatDateToLocaleString(expense.createdAt)}</td>
       {
         showBudget && (
