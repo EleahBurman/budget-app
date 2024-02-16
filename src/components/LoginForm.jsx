@@ -26,6 +26,11 @@ const LoginForm = () => {
     }
   }, [isSubmitting])
 
+  const [emailPrefix, setEmailPrefix] = useState("");
+  const [emailSuffix, setEmailSuffix] = useState("@gmail.com");
+  const [customSuffix, setCustomSuffix] = useState("");
+  const [isOtherSelected, setIsOtherSelected] = useState(false);
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const navigate = useNavigate()
@@ -49,6 +54,7 @@ const LoginForm = () => {
       })
   
       setIsSubmitting(false);
+
       if (!response.ok) {
         try {
           // Using response.json() to parse the error message as JSON
@@ -95,6 +101,28 @@ const LoginForm = () => {
     //}, 1500);
   }
 
+  useEffect(() => {
+    const email = emailPrefix + emailSuffix;
+    setEmail(email);
+  }, [emailPrefix, emailSuffix]);
+
+  const handleSuffixChange = (e) => {
+    const value = e.target.value;
+    setEmailSuffix(value);
+
+    if (value === "other") {
+      setIsOtherSelected(true);
+    } else {
+      setIsOtherSelected(false);
+    }
+  };
+
+  const handleCustomSuffixChange = (e) => {
+    const value = e.target.value;
+    setCustomSuffix(value);
+    setEmailSuffix(value);
+  };
+
   return (
     <form 
       onSubmit={handleSubmit} 
@@ -105,15 +133,41 @@ const LoginForm = () => {
         data-tooltip-id="email-tooltip"
         data-tooltip-content="Enter your email"
         data-tooltip-place="top-start">Email</label>
-      <input 
-        type="text" 
-        className="email-input"
-        placeholder="Enter your email"
-        onChange={(e)=>{setEmail(e.target.value)}} 
-        value={email} 
-        ref={focusRef}
-        aria-label="Email"
-        style={{width: "100%"}}></input>
+      <div style={{ display: 'flex', gap: '10px' }}>
+        <input
+          type="text"
+          placeholder="Enter your email"
+          className="email-input"
+          aria-label="Email"
+          onChange={(e) => setEmailPrefix(e.target.value)}
+          value={emailPrefix}
+          ref={focusRef}
+        />
+        {isOtherSelected ? (
+          <input
+            type="text"
+            placeholder="Enter your email domain"
+            onChange={handleCustomSuffixChange}
+            value={customSuffix}
+          />
+        ) : (
+          <select
+            value={emailSuffix}
+            onChange={handleSuffixChange}
+          >
+            <option value="@gmail.com">@gmail.com</option>
+            <option value="@aol.com">@aol.com</option>
+            <option value="@msn.com">@msn.com</option>
+            <option value="@yahoo.com">@yahoo.com</option>
+            <option value="other">Other</option>
+          </select>
+        )}
+      </div>
+      <input
+        type="hidden"
+        value={email}
+        name="email"
+      />
       
       <Tooltip id="password-tooltip" anchorSelect="#password-label"/>
       <label 
