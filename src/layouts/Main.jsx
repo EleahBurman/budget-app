@@ -1,8 +1,5 @@
 //rrd imports
-import { Outlet, useLoaderData, useNavigate } from "react-router-dom";
-
-//react imports
-import { useEffect, useState } from "react";
+import { Outlet, useLoaderData } from "react-router-dom";
 
 //assets
 import wave from "../assets/wave.svg"
