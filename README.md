@@ -2,9 +2,8 @@
 
 Budget Buddy is a user-friendly platform designed to help users create personalized budgets in their preferred currency effortlessly and manage their expenses to align with their financial objectives.
 
-![Budget Buddy Screenshot 1](./public/bb-ss1.png)
-![Budget Buddy Screenshot 2](./public/bb-ss2.png)
-![Budget Buddy Screenshot 3](./public/bb-ss3.png)
+![Budget Buddy Screenshot](./public/bb-ss1.png)
+
 
 ## Features
 
